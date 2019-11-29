@@ -308,6 +308,11 @@ typedef struct {
 } hook_channel_acl_req_t;
 
 typedef struct {
+	struct chanuser *       cu;             // Write NULL if you kicked the user. You must not destroy the channel.
+	const bool              take_prefixes;  // Whether temporary prefixes should be removed
+} hook_chanuser_sync_t;
+
+typedef struct {
 	struct mychan * mc;
 	struct myuser * mu;
 } hook_channel_succession_req_t;
