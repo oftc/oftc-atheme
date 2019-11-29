@@ -16,11 +16,14 @@ static bool no_vhost_sync = false;
 static void
 do_chanuser_sync(struct chanuser *cu, bool take)
 {
+	return_if_fail(cu->chan->mychan != NULL);
+
 	if (is_internal_client(cu->user) || is_service(cu->user))
 		return;
 
 	hook_chanuser_sync_t sync_hdata = {
 		.cu = cu,
+		.flags = chanacs_user_flags(cu->chan->mychan, cu->user),
 		.take_prefixes = take,
 	};
 	hook_call_chanuser_sync(&sync_hdata);

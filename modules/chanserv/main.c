@@ -257,8 +257,9 @@ c_ci_templates(mowgli_config_file_entry_t *ce)
 static void
 chanuser_sync(hook_chanuser_sync_t *hdata)
 {
-	struct chanuser *cu  = hdata->cu;
-	bool            take = hdata->take_prefixes;
+	struct chanuser *cu    = hdata->cu;
+	bool             take  = hdata->take_prefixes;
+	unsigned int     flags = hdata->flags;
 
 	if (!cu)
 		return;
@@ -268,8 +269,6 @@ chanuser_sync(hook_chanuser_sync_t *hdata)
 	struct mychan  *mc   = chan->mychan;
 
 	return_if_fail(mc != NULL);
-
-	unsigned int flags = chanacs_user_flags(mc, u);
 
 	bool noop = mc->flags & MC_NOOP || (u->myuser != NULL &&
 			u->myuser->flags & MU_NOOP);
@@ -512,6 +511,7 @@ cs_join(hook_channel_joinpart_t *hdata)
 
 	hook_chanuser_sync_t sync_hdata = {
 		.cu = cu,
+		.flags = flags,
 		.take_prefixes = secure,
 	};
 	hook_call_chanuser_sync(&sync_hdata);

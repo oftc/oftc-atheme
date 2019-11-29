@@ -309,6 +309,7 @@ typedef struct {
 
 typedef struct {
 	struct chanuser *       cu;             // Write NULL if you kicked the user. You must not destroy the channel.
+	const unsigned int      flags;          // The user's channel access
 	const bool              take_prefixes;  // Whether temporary prefixes should be removed
 } hook_chanuser_sync_t;
 
