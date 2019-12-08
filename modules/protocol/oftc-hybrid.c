@@ -317,8 +317,8 @@ m_pong(struct sourceinfo *si, int parc, char *parv[])
 		wallops("Finished synchronizing with network.");
 #endif
 
+		sts(":%s EOB", ME);
 		me.bursting = false;
-		// Send EOB here?
 	}
 }
 
