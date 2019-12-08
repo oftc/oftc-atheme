@@ -478,7 +478,7 @@ m_certfp(struct sourceinfo *si, int parc, char *parv[])
 	if (u == NULL)
 		return;
 
-	handle_certfp(si, u, parv[2]);
+	handle_certfp(si, u, parv[1]);
 }
 
 static void
