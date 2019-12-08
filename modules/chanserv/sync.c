@@ -9,6 +9,9 @@
 
 #include <atheme.h>
 
+// Imported by modules/contrib/cs_modesync
+extern void do_channel_sync(struct mychan *, struct chanacs *);
+
 static mowgli_patricia_t **cs_set_cmdtree = NULL;
 
 static bool no_vhost_sync = false;
@@ -272,7 +275,7 @@ sync_myuser(struct myuser *mu)
 }
 
 static void
-sync_channel_acl_change(hook_channel_acl_req_t *hookdata)
+sync_channel_acl_change(struct hook_channel_acl_req *hookdata)
 {
 	struct mychan *mc;
 
