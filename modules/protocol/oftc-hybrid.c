@@ -482,9 +482,9 @@ m_certfp(struct sourceinfo *si, int parc, char *parv[])
 }
 
 static void
-nick_group(hook_user_req_t *hdata)
+nick_group(struct hook_user_req *hdata)
 {
-	user_t *u;
+	struct user *u;
 
 	u = hdata->si->su != NULL && !irccasecmp(hdata->si->su->nick, hdata->mn->nick) ? hdata->si->su : user_find_named(hdata->mn->nick);
 	if (u != NULL && should_reg_umode(u))
@@ -492,9 +492,9 @@ nick_group(hook_user_req_t *hdata)
 }
 
 static void
-nick_ungroup(hook_user_req_t *hdata)
+nick_ungroup(struct hook_user_req *hdata)
 {
-	user_t *u;
+	struct user *u;
 
 	u = hdata->si->su != NULL && !irccasecmp(hdata->si->su->nick, hdata->mn->nick) ? hdata->si->su : user_find_named(hdata->mn->nick);
 	if (u != NULL && !nicksvs.no_nick_ownership)
