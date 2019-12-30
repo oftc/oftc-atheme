@@ -603,6 +603,8 @@ sasl_mech_scramsha_step_clientproof(struct sasl_session *const restrict p,
 		goto error;
 	}
 
+	// This buffer contains sensitive information
+	out->flags |= ASASL_OUTFLAG_WIPE_BUF;
 	out->buf = response;
 	out->len = (size_t) respLen;
 
@@ -686,7 +688,8 @@ sasl_mech_scramsha_step_success(struct sasl_session *const restrict p)
 	}
 
 	(void) slog(LG_DEBUG, "%s: succeeded", MOWGLI_FUNC_NAME);
-	(void) memcpy(s->mu->pass, buf, ((size_t) ret) + 1);
+	(void) smemzero(s->mu->pass, sizeof s->mu->pass);
+	(void) memcpy(s->mu->pass, buf, (size_t) ret);
 	(void) smemzero(buf, sizeof buf);
 
 end:
@@ -746,10 +749,8 @@ sasl_mech_scramsha_finish(struct sasl_session *const restrict p)
 
 	struct sasl_scramsha_session *const s = p->mechdata;
 
-	if (s->c_msg_buf)
-		(void) smemzerofree(s->c_msg_buf, s->c_msg_len);
-
 	(void) mowgli_node_delete(&s->node, &sasl_scramsha_sessions);
+	(void) sfree(s->c_msg_buf);
 	(void) smemzerofree(s, sizeof *s);
 
 	p->mechdata = NULL;
