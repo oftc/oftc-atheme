@@ -17,6 +17,8 @@
 #include <atheme/auth.h>
 #include <atheme/authcookie.h>
 #include <atheme/base64.h>
+#include <atheme/bcrypt.h>
+#include <atheme/botserv.h>
 #include <atheme/channels.h>
 #include <atheme/commandhelp.h>
 #include <atheme/commandtree.h>
@@ -44,11 +46,13 @@
 #include <atheme/memory.h>
 #include <atheme/module.h>
 #include <atheme/object.h>
+#include <atheme/pbkdf2.h>
 #include <atheme/phandler.h>
 #include <atheme/pmodule.h>
 #include <atheme/privs.h>
 #include <atheme/random.h>
 #include <atheme/sasl.h>
+#include <atheme/scrypt.h>
 #include <atheme/serno.h>
 #include <atheme/servers.h>
 #include <atheme/services.h>

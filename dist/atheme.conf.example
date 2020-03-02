@@ -106,8 +106,9 @@ loadmodule "modules/backend/opensex";
  * The following encryption-capable crypto modules are available:
  *
  *   Argon2 (Password Hashing Competition 2015)    modules/crypto/argon2
+ *   scrypt (Tarsnap Online Backup Service)        modules/crypto/scrypt
  *   PBKDF2 (Including support for SASL SCRAM-SHA) modules/crypto/pbkdf2v2
- *   OpenBSD crypt_newhash(3) a la '$2b$...$...'   modules/crypto/crypt3-openbsd
+ *   bcrypt (EksBlowfish; from Niels Provos etc.)  modules/crypto/bcrypt
  *   SHA2-512 crypt(3) a la '$6$...'               modules/crypto/crypt3-sha2-512
  *   SHA2-256 crypt(3) a la '$5$...'               modules/crypto/crypt3-sha2-256
  *
@@ -126,10 +127,9 @@ loadmodule "modules/backend/opensex";
  * passwords, for example when upgrading from an older version of this
  * software, or migrating from something else:
  *
- *   PBKDF2 (Atheme <= 7.2 compatibility)          modules/crypto/pbkdf2
- *   Scrypt (libsodium)                            modules/crypto/sodium-scrypt
- *   RAW SHA2-512                                  modules/crypto/rawsha2-512
- *   RAW SHA2-256                                  modules/crypto/rawsha2-256
+ *   PBKDF2 v1 (Atheme <= 7.2 compatibility)       modules/crypto/pbkdf2
+ *   Raw SHA2-512                                  modules/crypto/rawsha2-512
+ *   Raw SHA2-256                                  modules/crypto/rawsha2-256
  *   Anope SHA2-256 (Anope 2.0 compatibility)      modules/crypto/anope-enc-sha256
  *   Raw SHA1 (Anope ~1.8 compatibility)           modules/crypto/rawsha1
  *   Raw MD5 (Anope ~1.8 compatibility)            modules/crypto/rawmd5
@@ -143,18 +143,10 @@ loadmodule "modules/backend/opensex";
  * preferred scheme. Like so:
  *
  * loadmodule "modules/crypto/argon2";
+ * loadmodule "modules/crypto/scrypt";
  * loadmodule "modules/crypto/pbkdf2v2";
  * loadmodule "modules/crypto/pbkdf2";
- * loadmodule "modules/crypto/sodium-scrypt";
  * loadmodule "modules/crypto/crypt3-md5";
- * loadmodule "modules/crypto/crypt3-des";
- *
- * The crypt3-* modules depend on your platform crypt(3) supporting the
- * respective algorithms. This is not guaranteed to be the case. If you used
- * modules/crypto/posix on Linux, you need crypt3-md5. If you used
- * modules/crypto/posix on OS X, you need crypt3-des. These modules issue
- * informational messages when loaded to the effect that they might break in
- * the future. They also run selftests on load to verify that they will work.
  *
  * The Argon2 module requires the argon2 reference library (./configure
  * --with-libargon2) and is *NOT* available in Atheme v7.2 or earlier. If you
@@ -165,7 +157,26 @@ loadmodule "modules/backend/opensex";
  * *NOT* available in Atheme v7.2 or earlier. This module may also require a
  * 64-bit Operating System to function correctly.
  *
- * The PBKDF2v2 module has no dependencies and is recommended.
+ * The PBKDF2v2 module has no dependencies and is recommended. If you were
+ * previously using the PBKDF2 v1 module on v7.2, you must still keep it in
+ * the configuration here; the PBKDF2 v2 module cannot verify its password
+ * hashes. However, you should also load PBKDF2 v2 (if you don't decide to use
+ * anything else), because the PBKDF2 v1 module is now verify-only.
+ *
+ * The bcrypt module will truncate passwords greater than 72 characters. It is
+ * also capable of verifying the older $2a$ digests that contain an integer
+ * wrap-around bug, as used on e.g. Anope. It is not capable of verifying the
+ * PHP-bcrypt $2x$ and $2y$ digests; but $2y$ can simply be changed to $2b$.
+ * All successfully-verified passwords not using $2b$ will be converted to it.
+ * This is an encryption-capable module, but its use is discouraged unless you
+ * need to use it for interoperability with some other piece of software.
+ *
+ * The crypt3-* modules depend on your platform crypt(3) supporting the
+ * respective algorithms. This is not guaranteed to be the case. If you used
+ * modules/crypto/posix on Linux, you need crypt3-md5. If you used
+ * modules/crypto/posix on OS X, you need crypt3-des. These modules issue
+ * informational messages when loaded to the effect that they might break in
+ * the future. They also run selftests on load to verify that they will work.
  *
  * All available modules are listed below, in the preferred load order. The
  * modules that are commented out are not available by default (please see
@@ -177,23 +188,26 @@ loadmodule "modules/backend/opensex";
  * capable modules would be a waste of CPU time every time password
  * verification for a user whose password was not encrypted by them is
  * attempted.
+ *
+ * Comments that start with -- describe the ./configure option necessary to
+ * have this module built.
  */
-#loadmodule "modules/crypto/argon2";
+#loadmodule "modules/crypto/argon2";            /* --with-argon2 */
+#loadmodule "modules/crypto/scrypt";            /* --with-sodium */
 loadmodule "modules/crypto/pbkdf2v2";
-#loadmodule "modules/crypto/crypt3-openbsd";
-#loadmodule "modules/crypto/crypt3-sha2-512";
-#loadmodule "modules/crypto/crypt3-sha2-256";
-loadmodule "modules/crypto/pbkdf2";
-#loadmodule "modules/crypto/sodium-scrypt";
-#loadmodule "modules/crypto/crypt3-md5";
-#loadmodule "modules/crypto/rawsha2-512";
-#loadmodule "modules/crypto/rawsha2-256";
-#loadmodule "modules/crypto/anope-enc-sha256";
-#loadmodule "modules/crypto/rawsha1";
-#loadmodule "modules/crypto/rawmd5";
-#loadmodule "modules/crypto/ircservices";
-#loadmodule "modules/crypto/crypt3-des";
-#loadmodule "modules/crypto/base64";
+#loadmodule "modules/crypto/bcrypt";            /* See notes above */
+loadmodule "modules/crypto/pbkdf2";             /* Verify-only, see prev. */
+#loadmodule "modules/crypto/crypt3-sha2-512";   /* Needs crypt(3) support */
+#loadmodule "modules/crypto/crypt3-sha2-256";   /* Needs crypt(3) support */
+#loadmodule "modules/crypto/crypt3-md5";        /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/rawsha2-512";       /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/rawsha2-256";       /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/anope-enc-sha256";  /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/rawsha1";           /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/rawmd5";            /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/ircservices";       /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/crypt3-des";        /* --enable-legacy-pwcrypto */
+#loadmodule "modules/crypto/base64";            /* --enable-legacy-pwcrypto */
 
 /* Authentication module.
  *
@@ -627,7 +641,7 @@ loadmodule "modules/infoserv/main";
  * ECDSA-NIST256P-CHALLENGE mechanism   modules/saslserv/ecdsa-nist256p-challenge
  * EXTERNAL mechanism (IRCv3.1+)        modules/saslserv/external
  * PLAIN mechanism                      modules/saslserv/plain
- * SCRAM-SHA-* mechanisms               modules/saslserv/scram-sha
+ * SCRAM-SHA-* mechanisms               modules/saslserv/scram
  *
  * ECDH-X25519-CHALLENGE support requires that Atheme be compiled against a
  * cryptographic library that provides X25519 ECDH support (BoringSSL,
@@ -638,7 +652,7 @@ loadmodule "modules/infoserv/main";
  * an OpenSSL with ECDSA support (not RHEL etc. unless you compile your own).
  * This will be checked while running ./configure.
  *
- * You MUST read doc/SASL-SCRAM-SHA before loading modules/saslserv/scram-sha!
+ * You MUST read doc/SASL-SCRAM before loading modules/saslserv/scram!
  */
 loadmodule "modules/saslserv/main";
 loadmodule "modules/saslserv/authcookie";
@@ -646,7 +660,7 @@ loadmodule "modules/saslserv/authcookie";
 #loadmodule "modules/saslserv/ecdsa-nist256p-challenge";
 #loadmodule "modules/saslserv/external";
 loadmodule "modules/saslserv/plain";
-#loadmodule "modules/saslserv/scram-sha";
+#loadmodule "modules/saslserv/scram";   /* READ doc/SASL-SCRAM FIRST! */
 
 /* GameServ modules.
  *
@@ -907,20 +921,23 @@ loadmodule "modules/groupserv/set_url";
  * encrypted or verified, so don't set these too large, or people can
  * hang services by trying many password attempts at once.
  *
- * A benchmark program for the Argon2 & PBKDF2 crypto code is available to
- * assist with tuning these parameters:
+ * A benchmark program for the Argon2, scrypt & PBKDF2 crypto code is
+ * available to assist with tuning these parameters:
  *
  *     - ./configure --prefix=foo ...
  *     - make
  *     - make install
- *     - ${foo}/bin/atheme-crypto-benchmark -h
+ *     - ${foo}/bin/atheme-crypto-benchmark -o
+ *
+ * If you wish to deploy SASL SCRAM support, please read 'doc/SASL-SCRAM' and
+ * pass the '-i' flag to the included cryptographic benchmarking utility too.
  *
  * If you are using the PBKDF2 module, its performance will be significantly
  * affected by your choice of cryptographic digest library. This software can
  * currently interface with 3 libraries; in decreasing order of performance:
  *
  *     - OpenSSL (libcrypto)
- *     - GNU Nettle (libnettle)
+ *     - GnuPG (libgcrypt)
  *     - ARM mbedTLS (libmbedcrypto)
  *
  * If you have one of these libraries available at configure-time, the PBKDF2
@@ -960,9 +977,10 @@ loadmodule "modules/groupserv/set_url";
  * PBKDF2 computation with a new salt will occur, but this is still no worse
  * than an invocation of NickServ's "SET PASSWORD" command. You will still
  * need to keep the old module in your loadmodule configuration above, as the
- * new module cannot verify digests produced by the old one. Also note that
- * if you wish to deploy SASL SCRAM support (see doc/SASL-SCRAM-SHA), its
- * advice regarding parameter choice takes precedence over this.
+ * new module cannot verify digests produced by the old one.
+ *
+ * If you wish to deploy SASL SCRAM support, please read 'doc/SASL-SCRAM'.
+ * Its advice regarding parameter choice takes precedence over this!
  */
 crypto {
 
@@ -1009,14 +1027,12 @@ crypto {
 	 *
 	 * You should set this as high as is reasonable for the machine you
 	 * will be running this software on. If this results in too slow a
-	 * computation time, reset the time cost below to its default value.
-	 * If it is still too slow, decrement the time cost below until it is
-	 * fast enough. If you reach the minimum time cost and it is still
-	 * too slow, decrement this value (halving the memory usage) until it
-	 * is fast enough. Alternatively, if it is still too fast after
-	 * setting this to its highest reasonable value, raise the time cost
-	 * below until it is not. A benchmark program is available alongside
-	 * this software to aid in this process.
+	 * computation time, reset the time cost below to its minimum value.
+	 * If it is still too slow, decrement this value (halving the memory
+	 * usage) until it is fast enough. Alternatively, if it is still too
+	 * fast after setting this to its highest reasonable value, raise the
+	 * time cost below until it is not. A benchmark program is available
+	 * alongside this software to aid in this process.
 	 *
 	 * WARNING: Do *NOT* set this to more than 20 (1 GiB RAM) on a 32-bit
 	 *          machine or a 32-bit Operating System!
@@ -1100,18 +1116,77 @@ crypto {
 	 */
 	#argon2_hashlen = 64;
 
+	/* (*) scrypt_memlimit
+	 *
+	 * Memory limit (as a power of 2, in KiB) to use for new passwords.
+	 *
+	 * You should set this as high as is reasonable for the machine you
+	 * will be running this software on. If this results in too slow a
+	 * computation time, reset the opslimit below to its default value.
+	 * If it is still too slow, decrement this value (halving the memory
+	 * usage) until it is fast enough. Alternatively, if it is still too
+	 * fast after setting this to its highest reasonable value, raise the
+	 * opslimit below until it is not. A benchmark program is available
+	 * alongside this software to aid in this process.
+	 *
+	 * WARNING: Do *NOT* set this to more than 20 (1 GiB RAM) on a 32-bit
+	 *          machine or a 32-bit Operating System!
+	 *
+	 * Valid values are 14 (16 MiB RAM) to 26 (64 GiB RAM) (inclusive)
+	 * The default is 14 (16 MiB RAM)
+	 */
+	#scrypt_memlimit = 14;
+
+	/* (*) scrypt_opslimit
+	 *
+	 * Amount of computation to perform for new passwords.
+	 *
+	 * The default value for this option is based on the default value of
+	 * the above option. The recommended value is (memlimit_bytes / 32).
+	 *
+	 * Valid values are 32,768 to 4,294,967,295 (inclusive)
+	 * The default is 524,288
+	 */
+	#scrypt_opslimit = 524288;
+
 	/* (*) pbkdf2v2_digest
 	 *
-	 * Valid values are "SHA1", "SHA256", "SHA512",
-	 * "SCRAM-SHA-1", "SCRAM-SHA-256" and "SCRAM-SHA-512".
+	 * Cryptographic digest algorithm to use (in HMAC mode).
 	 *
-	 * For the SCRAM variants, please read doc/SASL-SCRAM-SHA.
+	 * Valid values are "SHA1", "SHA2-256", and "SHA2-512".
+	 * Additionally, the following aliases exist, for compatibility:
 	 *
-	 * The default is "SHA512"
+	 *   "SHA-1"   -> SHA1
+	 *   "SHA256"  -> SHA2-256
+	 *   "SHA512"  -> SHA2-512
+	 *   "SHA-256" -> SHA2-256
+	 *   "SHA-512" -> SHA2-512
+	 *
+	 * Finally, you can prefix this value with "SCRAM-" to enable the
+	 * computation and storage of an RFC5802/SCRAM ServerKey & StoredKey,
+	 * instead of a raw PBKDF2 digest (SaltedPassword). Verification of
+	 * plaintext passwords against these digests can still be performed
+	 * (for e.g. NickServ IDENTIFY or SASL PLAIN), by computing a new
+	 * SCRAM ServerKey from the provided password and comparing it to the
+	 * stored ServerKey, so setting this to a SCRAM mode does NOT prevent
+	 * non-SCRAM logins. For these variants, please read doc/SASL-SCRAM.
+	 *
+	 * The default is "SHA2-512"
 	 */
-	#pbkdf2v2_digest = "SHA512";
+	#pbkdf2v2_digest = "SHA2-512";
 
 	/* (*) pbkdf2v2_rounds
+	 *
+	 * This is the PBKDF2 "iteration count". You should raise this as high
+	 * as is reasonable for the machine you will be running services on.
+	 * However, note that if you are going to deploy SASL SCRAM support,
+	 * the *client*, NOT services, performs the PBKDF2 calculation during
+	 * login, so keep in mind that many mobile clients will not perform as
+	 * well as a server, and reduce the iteration count accordingly. Also,
+	 * some clients will refuse to perform a login at all if this is set
+	 * too high. A benchmark program is included alongside this software to
+	 * aid in tuning this parameter.
+	 *
 	 * Valid values are 10,000 to 5,000,000 (inclusive)
 	 * The default is 64,000
 	 */
@@ -1124,13 +1199,17 @@ crypto {
 	 */
 	#pbkdf2v2_saltlen = 32;
 
-	/* (*) crypt3_openbsd_newhash_pref
+	/* (*) bcrypt_cost
 	 *
-	 * The "pref" parameter for OpenBSD crypt_newhash(3).
-	 * Please see <https://man.openbsd.org/crypt_checkpass.3>
-	 * The default is "bcrypt,a"
+	 * Amount of rounds to perform for new passwords (as a power of 2).
+	 * You should raise this as high as is reasonable. A benchmark
+	 * program is available alongside this software to aid in this
+	 * process.
+	 *
+	 * Valid values are 4 to 31 (inclusive)
+	 * The default is 7
 	 */
-	#crypt3_openbsd_newhash_pref = "bcrypt,a";
+	#bcrypt_cost = 7;
 
 	/* (*) crypt3_sha2_256_rounds
 	 * (*) crypt3_sha2_512_rounds

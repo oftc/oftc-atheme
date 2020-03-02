@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: ISC
  * SPDX-URL: https://spdx.org/licenses/ISC.html
  *
- * Copyright (C) 2018-2019 Aaron M. D. Jones <aaronmdjones@gmail.com>
+ * Copyright (C) 2018-2020 Aaron M. D. Jones <aaronmdjones@gmail.com>
  *
  * Atheme IRC Services digest interface.
  */
@@ -11,31 +11,20 @@
 #define ATHEME_INC_DIGEST_H 1
 
 #include <atheme/attributes.h>
+#include <atheme/digest/direct.h>
+#include <atheme/digest/types.h>
 #include <atheme/stdheaders.h>
-#include <atheme/structures.h>
 
-struct digest_vector
-{
-	const void *    ptr;
-	size_t          len;
-};
-
-#if (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_INTERNAL)
+#if (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_OPENSSL)
+#  include <atheme/digest/openssl.h>
+#elif (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_GCRYPT)
+#  include <atheme/digest/gcrypt.h>
+#elif (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_MBEDTLS)
+#  include <atheme/digest/mbedtls.h>
+#elif (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_INTERNAL)
 #  include <atheme/digest/internal.h>
 #else
-#  if (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_MBEDTLS)
-#    include <atheme/digest/mbedtls.h>
-#  else
-#    if (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_NETTLE)
-#      include <atheme/digest/nettle.h>
-#    else
-#      if (ATHEME_API_DIGEST_FRONTEND == ATHEME_API_DIGEST_FRONTEND_OPENSSL)
-#        include <atheme/digest/openssl.h>
-#      else
-#        error "No Digest API frontend was selected by the build system"
-#      endif
-#    endif
-#  endif
+#  error "No Digest API frontend was selected by the build system"
 #endif
 
 #ifndef ATHEME_INC_DIGEST_IMPL_H

@@ -1,0 +1,98 @@
+Atheme IRC Services version 7.3 and above supports SASL SCRAM logins.
+
+It is not recommended to deploy this feature unless you are running an
+IRCv3.2 network. The main reason for this is that SCRAM digest algorithm
+negotiation happens out-of-band; the server does not tell the client which
+digest algorithm was used to calculate its database credentials, so the
+client has to try each mechanism in turn until one of them succeeds. It
+can only do this if it knows which mechanisms are available, which it can
+only know based on the value of the 'sasl' capability during capability
+negotiation, and capabilities only have values in IRCv3.2 servers. This
+software does tell the client which SCRAM mechanism to use after its
+chosen mechanism fails due to a digest algorithm mismatch, but that is
+somewhat sub-optimal. Likewise, a client may not even attempt a SCRAM
+login in the first place if it does not know in advance that there are
+SCRAM mechanisms available. Please consider this.
+
+Some work needs to be performed by the prospective IRC network administrator
+to enable this. The 5 main steps to perform are:
+
+
+1) Build Atheme with GNU libidn support. This is detected automatically at
+   configure-time, but you can force it (die on error) with the ./configure
+   argument '--with-idn'.
+
+   It should say "GNU libidn support ....: Yes" at the bottom of ./configure.
+
+
+2) Decide which SCRAM mechanism you want to use:
+
+   - SCRAM-SHA-1 is provided exclusively for standard compliance.
+     You almost certainly don't want to use this mechanism!
+
+   - SCRAM-SHA-256 is suitable for most cases. This is what you should use
+     unless you have a good reason to pick another mechanism. (*)
+
+   - SCRAM-SHA-512 is not supported by most clients, but may be suitable
+     for certain use cases. (*)
+
+
+3) Configure pbkdf2v2 to generate SCRAM-style password hashes (atheme.conf):
+
+   crypto {
+       pbkdf2v2_digest = "SCRAM-SHA-256";
+       /* or "SCRAM-SHA-512" or "SCRAM-SHA-1" */
+
+       #pbkdf2v2_rounds = ...;          /* between 10000 and 65536 (**) */
+   }
+
+   This is important. The SASL SCRAM module will not register any mechanisms
+   until you do, because when you are storing regular PBKDF2 digests, a
+   compromise of the services database allows the attacker to log in as any
+   account whose password was hashed in this manner, without knowing the
+   account's passwords or having to brute-force them. In other words, it
+   allows the attacker to impersonate anyone they can get PBKDF2 digests for.
+
+
+4) Load modules/crypto/pbkdf2v2 *before* any other crypto module
+
+   This ensures that it will become the primary crypto provider
+
+
+5) Load modules/saslserv/scram
+
+
+
+ * It is highly recommended that you choose SCRAM-SHA-256. You cannot enable
+   more than one.
+
+   SCRAM-SHA-1 is only supported to comply with RFC 5802, which states that
+   supporting SHA-1 is required. However, all modern client SASL libraries
+   that support SCRAM, support SCRAM-SHA-256 (RFC 7677), and any new client
+   implementations are expected to as well. You should only choose SCRAM-SHA-1
+   if you have a large user base that wants to use SCRAM, but who cannot use
+   SCRAM-SHA-256 or SCRAM-SHA-512.
+
+   SCRAM-SHA-512 is not officially specified, and so it is not widely-
+   implemented, but RFC 5802 Section 4 indirectly allows it, and the default
+   PBKDF2v2 digest was (and remains) SHA2-512, which will allow SCRAM-SHA-512
+   logins without services having to recompute any PBKDF2 digests for users
+   who reidentify (by plain text password) or change their password. This
+   enables a seamless transition to SCRAM logins if you are still using the
+   default algorithm. If you were using the pbkdf2v2 module previously with
+   SHA2-512 digests, this might outweigh the compatibility issues for you,
+   especially if you can reasonably expect your clients to support this
+   mechanism as well (e.g. if you are also providing the client software).
+
+
+
+** Inclusive. The popular Cyrus SASL client library will refuse to perform a
+   PBKDF2 calculation with an iteration count greater than 65536, and the
+   pbkdf2v2 crypto module will refuse an iteration count lower than 10000.
+   The default is 64000, so you can continue to omit this parameter from your
+   configuration file if you are doing so already.
+
+   If you are uncertain on the number of rounds to use, please use the
+   included cryptographic benchmarking utility, and pass it the '-o' & '-i'
+   command-line arguments to perform an optimal PBKDF2 parameter discovery
+   benchmark with SASL SCRAM support.

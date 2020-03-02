@@ -18,6 +18,12 @@
 
 #include <ext/getopt_long.h>
 
+#if defined(HAVE_LIBGCRYPT) && !defined(GCRYPT_HEADER_INCL)
+#  define GCRYPT_NO_DEPRECATED 1
+#  define GCRYPT_NO_MPI_MACROS 1
+#  include <gcrypt.h>
+#endif
+
 #ifdef HAVE_LIBSODIUM
 #  include <sodium/core.h>
 #endif /* HAVE_LIBSODIUM */
@@ -59,7 +65,7 @@ void (*db_load) (const char *name) = NULL;
 static void
 print_help(void)
 {
-	printf("usage: atheme [-dhnvr] [-c conf] [-l logfile] [-p pidfile]\n\n"
+	printf("usage: atheme-services [-dhnvr] [-c conf] [-l logfile] [-p pidfile]\n\n"
 	       "-c <file>    Specify the config file\n"
 	       "-d           Start in debugging mode\n"
 	       "-h           Print this message and exit\n"
@@ -68,8 +74,6 @@ print_help(void)
 	       "-n           Don't fork into the background (log screen + log file)\n"
 	       "-p <file>    Specify the pid file (will be overwritten)\n"
 	       "-D <dir>     Specify the data directory\n"
-	       "-t           Don't run the integrated digest test suite\n"
-	       "-T           Exit after running the integrated digest test suite\n"
 	       "-v           Print version information and exit\n");
 }
 /* *INDENT-ON* */
@@ -185,6 +189,46 @@ libathemecore_early_init(void)
 	if (libathemecore_early_init_done)
 		return true;
 
+#ifdef ENABLE_NLS
+	/* Prepare gettext */
+	if (! setlocale(LC_ALL, ""))
+	{
+		(void) perror("setlocale(3)");
+		return false;
+	}
+	if (! textdomain(PACKAGE_TARNAME))
+	{
+		(void) perror("textdomain(3)");
+		return false;
+	}
+	if (! bindtextdomain(PACKAGE_TARNAME, LOCALEDIR))
+	{
+		(void) perror("bindtextdomain(3)");
+		return false;
+	}
+#endif /* ENABLE_NLS */
+
+#ifdef HAVE_LIBGCRYPT
+	if (! gcry_control(GCRYCTL_INITIALIZATION_FINISHED_P, 0))
+	{
+		if (! gcry_check_version(GCRYPT_VERSION))
+		{
+			(void) fprintf(stderr, "libgcrypt: version downgraded, or initialization failed!\n");
+			return false;
+		}
+
+		(void) gcry_control(GCRYCTL_DISABLE_SECMEM_WARN, 0);
+		(void) gcry_control(GCRYCTL_INIT_SECMEM, 1, 0);
+		(void) gcry_control(GCRYCTL_SET_VERBOSITY, 0);
+		(void) gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
+	}
+	if (gcry_control(GCRYCTL_SELFTEST, 0) != 0)
+	{
+		(void) fprintf(stderr, "libgcrypt: self-tests failed!\n");
+		return false;
+	}
+#endif /* HAVE_LIBGCRYPT */
+
 #ifdef HAVE_LIBSODIUM
 	if (sodium_init() == -1)
 	{
@@ -212,13 +256,6 @@ atheme_bootstrap(void)
 
 	/* shutdown mowgli threading support */
 	mowgli_thread_set_policy(MOWGLI_THREAD_POLICY_DISABLED);
-
-	/* Prepare gettext */
-#ifdef ENABLE_NLS
-	setlocale(LC_ALL, "");
-	bindtextdomain(PACKAGE_TARNAME, LOCALEDIR);
-	textdomain(PACKAGE_TARNAME);
-#endif
 
 	/* change to our local directory */
 	if (chdir(PREFIX) < 0)
@@ -299,8 +336,6 @@ int
 atheme_main(int argc, char *argv[])
 {
 	int daemonize_pipe[2] = { -1, -1 };
-	bool run_testsuite = true;
-	bool exit_after_testsuite = false;
 	bool have_conf = false;
 	bool have_log = false;
 	bool have_datadir = false;
@@ -322,7 +357,7 @@ atheme_main(int argc, char *argv[])
 	atheme_bootstrap();
 
 	/* do command-line options */
-	while ((r = mowgli_getopt_long(argc, argv, "c:bdhrtTl:np:D:v", long_opts, NULL)) != -1)
+	while ((r = mowgli_getopt_long(argc, argv, "c:bdhrl:np:D:v", long_opts, NULL)) != -1)
 	{
 		switch (r)
 		{
@@ -349,12 +384,6 @@ atheme_main(int argc, char *argv[])
 		  case 'n':
 			  runflags |= RF_LIVE;
 			  break;
-		  case 't':
-			  run_testsuite = false;
-			  break;
-		  case 'T':
-			  exit_after_testsuite = true;
-			  break;
 		  case 'p':
 			  pidfilename = mowgli_optarg;
 			  break;
@@ -366,15 +395,9 @@ atheme_main(int argc, char *argv[])
 			  print_version();
 			  exit(EXIT_SUCCESS);
 		  default:
-			  fprintf(stderr, "usage: atheme [-bdhnvr] [-t|-T] [-c conf] [-l logfile] [-p pidfile]\n");
+			  fprintf(stderr, "usage: atheme-services [-bdhnvr] [-c conf] [-l logfile] [-p pidfile]\n");
 			  exit(EXIT_FAILURE);
 		}
-	}
-
-	if (! run_testsuite && exit_after_testsuite)
-	{
-		fprintf(stderr, "Error: specify exactly one of -t / -T\n");
-		exit(EXIT_FAILURE);
 	}
 
 	if (!have_conf)
@@ -393,8 +416,6 @@ atheme_main(int argc, char *argv[])
 	atheme_init(argv[0], log_p);
 
 	slog(LG_INFO, "%s is starting up...", PACKAGE_STRING);
-	slog(LG_INFO, "Using Digest API frontend: %s", digest_get_frontend_info());
-	slog(LG_INFO, "Using Random API frontend: %s", random_get_frontend_info());
 
 	/* check for pid file */
 #ifndef MOWGLI_OS_WIN
@@ -415,26 +436,18 @@ atheme_main(int argc, char *argv[])
 	}
 #endif
 
-	if (run_testsuite)
+	(void) slog(LG_INFO, "Using Digest API frontend: %s", digest_get_frontend_info());
+	(void) slog(LG_INFO, "Using Random API frontend: %s", random_get_frontend_info());
+
+	(void) slog(LG_INFO, "running digest testsuite...");
+
+	if (! digest_testsuite_run())
 	{
-		(void) slog(LG_INFO, "running digest testsuite...");
-
-		if (! digest_testsuite_run())
-		{
-			(void) slog(LG_ERROR, "digest testsuite failed");
-			exit(EXIT_FAILURE);
-		}
-
-		(void) slog(LG_INFO, "digest testsuite passed");
-
-		if (exit_after_testsuite)
-		{
-			(void) slog(LG_INFO, "exiting due to -T");
-			exit(EXIT_SUCCESS);
-		}
+		(void) slog(LG_ERROR, "digest testsuite failed");
+		exit(EXIT_FAILURE);
 	}
-	else
-		(void) slog(LG_INFO, "digest testsuite skipped due to -t");
+
+	(void) slog(LG_INFO, "digest testsuite passed");
 
 	if (!(runflags & RF_LIVE))
 		daemonize(daemonize_pipe);

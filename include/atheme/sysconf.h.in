@@ -6,8 +6,8 @@
 
 #define ATHEME_API_DIGEST_FRONTEND_INTERNAL 0x00U
 #define ATHEME_API_DIGEST_FRONTEND_MBEDTLS  0x01U
-#define ATHEME_API_DIGEST_FRONTEND_NETTLE   0x02U
-#define ATHEME_API_DIGEST_FRONTEND_OPENSSL  0x03U
+#define ATHEME_API_DIGEST_FRONTEND_OPENSSL  0x02U
+#define ATHEME_API_DIGEST_FRONTEND_GCRYPT   0x03U
 
 #define ATHEME_API_RANDOM_FRONTEND_INTERNAL 0x00U
 #define ATHEME_API_RANDOM_FRONTEND_MBEDTLS  0x01U
@@ -25,11 +25,11 @@
 /* Atheme RNG API Frontend */
 #undef ATHEME_API_RANDOM_FRONTEND
 
+/* Define to 1 if --enable-compiler-sanitizers was given to ./configure */
+#undef ATHEME_ENABLE_COMPILER_SANITIZERS
+
 /* Define to 1 if --enable-contrib was given to ./configure */
 #undef ATHEME_ENABLE_CONTRIB
-
-/* Define to 1 if --enable-debugging was given to ./configure */
-#undef ATHEME_ENABLE_DEBUGGING
 
 /* Define to 1 if --disable-heap-allocator was NOT given to ./configure */
 #undef ATHEME_ENABLE_HEAP_ALLOCATOR
@@ -70,20 +70,17 @@
    the CoreFoundation framework. */
 #undef HAVE_CFPREFERENCESCOPYAPPVALUE
 
+/* Define to 1 if you have the `consttime_memequal' function. */
+#undef HAVE_CONSTTIME_MEMEQUAL
+
 /* Define to 1 if cracklib appears to be usable */
 #undef HAVE_CRACKLIB
 
 /* Define to 1 if crypt(3) appears to be usable */
 #undef HAVE_CRYPT
 
-/* Define to 1 if you have the `crypt_checkpass' function. */
-#undef HAVE_CRYPT_CHECKPASS
-
 /* Define to 1 if you have the <crypt.h> header file. */
 #undef HAVE_CRYPT_H
-
-/* Define to 1 if you have the `crypt_newhash' function. */
-#undef HAVE_CRYPT_NEWHASH
 
 /* Define to 1 if you have the <ctype.h> header file. */
 #undef HAVE_CTYPE_H
@@ -110,11 +107,20 @@
 /* Define to 1 if you have the `explicit_bzero' function. */
 #undef HAVE_EXPLICIT_BZERO
 
+/* Define to 1 if you have the `explicit_memset' function. */
+#undef HAVE_EXPLICIT_MEMSET
+
+/* Define to 1 if you have the `fileno' function. */
+#undef HAVE_FILENO
+
 /* Define to 1 if you have the `flock' function. */
 #undef HAVE_FLOCK
 
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
+
+/* Define to 1 if you have the `fsync' function. */
+#undef HAVE_FSYNC
 
 /* Define to 1 if you have the `gethostbyname' function. */
 #undef HAVE_GETHOSTBYNAME
@@ -146,6 +152,9 @@
 /* Define to 1 if libcrypto appears to be usable */
 #undef HAVE_LIBCRYPTO
 
+/* Define to 1 if libcrypto has a usable memory zeroing function */
+#undef HAVE_LIBCRYPTO_CLEANSE
+
 /* Define to 1 if libcrypto can provide SASL ECDH-X25519-CHALLENGE */
 #undef HAVE_LIBCRYPTO_ECDH_X25519
 
@@ -159,7 +168,10 @@
    function */
 #undef HAVE_LIBCRYPTO_MEMCMP
 
-/* Define to 1 if libidn appears to be usable */
+/* Define to 1 if GNU libgcrypt appears to be usable */
+#undef HAVE_LIBGCRYPT
+
+/* Define to 1 if GNU libidn appears to be usable */
 #undef HAVE_LIBIDN
 
 /* Define to 1 if you have the <libintl.h> header file. */
@@ -171,22 +183,16 @@
 /* Define to 1 if libmbedcrypto appears to be usable */
 #undef HAVE_LIBMBEDCRYPTO
 
-/* Define to 1 if libmbedcrypto has usable CTR-DRBG functions */
-#undef HAVE_LIBMBEDCRYPTO_CTR_DRBG
-
 /* Define to 1 if libmbedcrypto can provide SASL ECDH-X25519-CHALLENGE */
 #undef HAVE_LIBMBEDCRYPTO_ECDH_X25519
 
-/* Define to 1 if libmbedcrypto has usable HMAC-DRBG functions */
-#undef HAVE_LIBMBEDCRYPTO_HMAC_DRBG
-
-/* Define to 1 if libnettle appears to be usable */
+/* Define to 1 if GNU Nettle appears to be usable */
 #undef HAVE_LIBNETTLE
 
-/* Define to 1 if libnettle can provide SASL ECDH-X25519-CHALLENGE */
+/* Define to 1 if GNU Nettle can provide SASL ECDH-X25519-CHALLENGE */
 #undef HAVE_LIBNETTLE_ECDH_X25519
 
-/* Define to 1 if libnettle has a usable constant-time memory comparison
+/* Define to 1 if GNU Nettle has a usable constant-time memory comparison
    function */
 #undef HAVE_LIBNETTLE_MEMEQL
 
@@ -260,9 +266,6 @@
 /* Define to 1 if you have the <nettle/version.h> header file. */
 #undef HAVE_NETTLE_VERSION_H
 
-/* Define to 1 if you have the <openssl/opensslv.h> header file. */
-#undef HAVE_OPENSSL_OPENSSLV_H
-
 /* Define to 1 if the system has the type `ptrdiff_t'. */
 #undef HAVE_PTRDIFF_T
 
@@ -290,14 +293,8 @@
 /* Define to 1 if you have the `setlocale' function. */
 #undef HAVE_SETLOCALE
 
-/* Define to 1 if you have the `sigfillset' function. */
-#undef HAVE_SIGFILLSET
-
 /* Define to 1 if you have the <signal.h> header file. */
 #undef HAVE_SIGNAL_H
-
-/* Define to 1 if you have the `sigprocmask' function. */
-#undef HAVE_SIGPROCMASK
 
 /* Define to 1 if you have a C99 compliant `snprintf' function. */
 #undef HAVE_SNPRINTF
@@ -501,7 +498,7 @@
 #endif
 
 
-/* Vendor string for module headers */
+/* Vendor string for in-tree module headers */
 #undef VENDOR_STRING
 
 /* Version number of package */

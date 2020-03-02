@@ -24,10 +24,10 @@ POTENTIAL COMPATIBILITY BREAKAGE
   Modules section of `dist/atheme.conf.example`.
 
 - If you (still) use legacy password crypto (verify-only) modules (`anope-*`,
-  `base64`, `crypt3-des`, `crypt3-md5`, `ircservices`, `posix`, `raw*`), then
-  you MUST pass the `--enable-legacy-pwcrypto` flag to `./configure`, or these
-  modules will NOT be compiled or installed. The presence of this flag can be
-  confirmed at the bottom of the `configure` output; "Legacy Crypto Modules".
+  `base64`, `crypt3-des`, `crypt3-md5`, `ircservices`, `raw*`), then you MUST
+  pass the `--enable-legacy-pwcrypto` flag to `./configure`, or these modules
+  will NOT be compiled or installed. The presence of this flag can be confirmed
+  at the bottom of the `configure` output; "Legacy Crypto Modules".
 
 - The `modules/nickserv/cracklib` module has been renamed to
   `modules/nickserv/pwquality` because it is now capable of using `libpasswdqc`
@@ -70,7 +70,7 @@ POTENTIAL COMPATIBILITY BREAKAGE
   and Argon2id) too. If you were using this module on version 7.2, please see
   the `dist/atheme.conf.example` file for migration instructions. The names of
   the configuration options have changed! You will need libargon2 available at
-  configure-time.
+  configure-time (`--with-argon2`).
 
 Security
 --------
@@ -92,9 +92,6 @@ Security
   (where supported, e.g. in WeeChat) to achieve its purpose of preventing the
   user's account password from persisting in on-disk log files.
 
-- Services is now capable of using OpenBSD `crypt_newhash(3)` to encrypt
-  and verify passwords.
-
 - Services now has a much more rigorous random number generation interface
   and will e.g. refuse to use `arc4random(3)` unless we are actually on
   OpenBSD (which is the only platform that uses a secure algorithm for it).
@@ -104,10 +101,9 @@ Security
 
   - OpenBSD `arc4random(3)`, or
   - libsodium `randombytes(3)`, or
+  - OpenSSL `RAND_bytes(3)`, or
   - ARM mbedTLS `hmac_drbg_random(3)` with SHA2-512, or
   - ARM mbedTLS `hmac_drbg_random(3)` with SHA2-256, or
-  - ARM mbedTLS `ctr_drbg_random(3)` with AES, or
-  - OpenSSL `RAND_bytes(3)`, or
   - Internal ChaCha20-based Fallback RNG, seeded by
     - `getentropy(3)`, or
     - `getrandom(2)`, or
@@ -120,7 +116,7 @@ SASL
 - Use a parameter vector to allow an arbitrary number of S2S arguments
 - Indicate whether the client is on a plaintext connection or not.
   - This can be used by user_can_login hooks.
-- Add support for SASL SCRAM-SHA logins (see `doc/SASL-SCRAM-SHA`)
+- Add support for SASL SCRAM logins (see `doc/SASL-SCRAM`)
 - Add support for Curve25519 ECDH-based challenge-response logins
   - This is a private SASL mechanism that does not have widespread client
     support yet, but it is expected to eventually replace the older
@@ -193,6 +189,7 @@ Build System
 - Makefiles: remove PCRE `CFLAGS` and `LIBS` from programs that don't use it
 - Makefiles: separate `LDFLAGS` from `LIBS`
 - Makefiles: build source files in alphabetical order
+- Makefiles: tidy up everything and document authorship
 - `configure`: conditionally compile `libathemecore/qrcode.c`
 - `configure`: add `--with(out)-qrencode` flag to allow controlling detection
 - `configure`: Make `--enable-ssl` now `--with-openssl` to match libmowgli
@@ -205,7 +202,7 @@ Build System
 - `configure`: indicate if `--enable-warnings` was given
 - `configure`: detect support for `-Wl,-z,relro`, `-Wl,-z,now`, `-Wl,--as-needed`
 - `configure`: don't link everything against `-lcrypt`
-- `configure`: Add `--enable-debugging` flag
+- `configure`: add `--enable-compiler-sanitizers` flag for ASan, UBSan, etc.
 - Update third-party files (`ABOUT-NLS`, `autoconf/*`, `m4/*.m4`)
 - Fix building contrib modules on non-Linux machines
 - Clarify that `GIT-Access` is a file by renaming it to `GIT-Access.txt`
@@ -213,8 +210,9 @@ Build System
 Password Cryptography
 ---------------------
 - The existing crypto modules no longer need OpenSSL (or any crypto library)
-- Add support for scrypt password verifying with `modules/crypto/sodium-scrypt`
-  This requires libsodium. It is a verify-only module.
+- Add support for scrypt password encryption with `modules/crypto/scrypt`.
+  The scrypt module requires libsodium (`--with-sodium`).
+- Add support for bcrypt password encryption with `modules/crypto/bcrypt`.
 - `libathemecore/crypto.c`: log current crypto provider on mod(un/re)load
 - `libathemecore/crypto.c`: rip out plaintext fallback implementation
 - Make old modules (`ircservices`, `pbkdf2`, `rawmd5`, `rawsha1`) verify-only

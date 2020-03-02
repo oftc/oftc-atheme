@@ -56,10 +56,6 @@ sasl_mech_plain_step(struct sasl_session *const restrict p, const struct sasl_in
 	if (! sasl_core_functions->authcid_can_login(p, authcid, &mu))
 		return ASASL_MRESULT_ERROR;
 
-	if (mu->flags & MU_NOPASSWORD)
-		// Don't bad_password() the user
-		return ASASL_MRESULT_ERROR;
-
 	if (! verify_password(mu, secret))
 		return ASASL_MRESULT_FAILURE;
 
@@ -72,6 +68,7 @@ static const struct sasl_mechanism sasl_mech_plain = {
 	.mech_start     = NULL,
 	.mech_step      = &sasl_mech_plain_step,
 	.mech_finish    = NULL,
+	.password_based = true,
 };
 
 static void

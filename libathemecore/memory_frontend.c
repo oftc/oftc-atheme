@@ -16,33 +16,31 @@
 #include <atheme.h>
 #include "internal.h"
 
-#define ATHEME_MEMORY_FRONTEND_C        1
+#define ATHEME_MEMORY_FRONTEND_C    1
 
 #ifndef SIGUSR1
-#  define RAISE_EXCEPTION               abort()
+#  define RAISE_EXCEPTION           abort()
 #else /* !SIGUSR1 */
-#  define RAISE_EXCEPTION               do { raise(SIGUSR1); abort(); } while (0)
+#  define RAISE_EXCEPTION           do { raise(SIGUSR1); abort(); } while (0)
 #endif /* SIGUSR1 */
 
-#if !defined(HAVE_TIMINGSAFE_BCMP) && !defined(HAVE_TIMINGSAFE_MEMCMP)
-#  ifdef HAVE_LIBSODIUM_MEMCMP
+#if !defined(HAVE_TIMINGSAFE_BCMP) && !defined(HAVE_TIMINGSAFE_MEMCMP) && !defined(HAVE_CONSTTIME_MEMEQUAL)
+#  if defined(HAVE_LIBSODIUM_MEMCMP)
 #    include <sodium/utils.h>
-#  else /* HAVE_LIBSODIUM_MEMCMP */
-#    ifdef HAVE_LIBCRYPTO_MEMCMP
-#      include <openssl/crypto.h>
-#    else /* HAVE_LIBCRYPTO_MEMCMP */
-#      ifdef HAVE_LIBNETTLE_MEMEQL
-#        include <nettle/memops.h>
-#      else /* HAVE_LIBNETTLE_MEMEQL */
-#        warning "No third-party cryptographically-secure constant-time memory comparison function is available"
-#      endif /* !HAVE_LIBNETTLE_MEMEQL */
-#    endif /* !HAVE_LIBCRYPTO_MEMCMP */
-#  endif /* !HAVE_LIBSODIUM_MEMCMP */
-#endif /* !HAVE_TIMINGSAFE_BCMP && !HAVE_TIMINGSAFE_MEMCMP */
+#  elif defined(HAVE_LIBCRYPTO_MEMCMP)
+#    include <openssl/crypto.h>
+#  elif defined(HAVE_LIBNETTLE_MEMEQL)
+#    include <nettle/memops.h>
+#  endif
+#endif /* !HAVE_TIMINGSAFE_BCMP && !HAVE_TIMINGSAFE_MEMCMP && !HAVE_CONSTTIME_MEMEQUAL */
 
-#ifdef HAVE_LIBSODIUM_MEMZERO
-#  include <sodium/utils.h>
-#endif /* HAVE_LIBSODIUM_MEMZERO */
+#if !defined(HAVE_MEMSET_S) && !defined(HAVE_EXPLICIT_BZERO) && !defined(HAVE_EXPLICIT_MEMSET)
+#  if defined(HAVE_LIBSODIUM_MEMZERO)
+#    include <sodium/utils.h>
+#  elif defined(HAVE_LIBCRYPTO_CLEANSE)
+#    include <openssl/crypto.h>
+#  endif
+#endif /* !HAVE_MEMSET_S && !HAVE_EXPLICIT_BZERO && !HAVE_EXPLICIT_MEMSET */
 
 #ifdef ATHEME_ENABLE_SODIUM_MALLOC
 #  include "memory_fe_sodium.c"
@@ -71,21 +69,36 @@ sreallocarray(void *const restrict ptr, const size_t num, const size_t len)
 int ATHEME_FATTR_WUR
 smemcmp(const void *const ptr1, const void *const ptr2, const size_t len)
 {
-#ifdef HAVE_TIMINGSAFE_BCMP
+#if defined(HAVE_TIMINGSAFE_BCMP)
+
+	// Oracle Solaris v11.4+, FreeBSD v12.0+, OpenBSD v4.9+, Mac OS v10.12.1+, possibly others
 	return timingsafe_bcmp(ptr1, ptr2, len);
-#else /* HAVE_TIMINGSAFE_BCMP */
-#  ifdef HAVE_TIMINGSAFE_MEMCMP
+
+#elif defined(HAVE_TIMINGSAFE_MEMCMP)
+
+	// Oracle Solaris v11.4+, FreeBSD v12.0+, OpenBSD v5.6+, possibly others
 	return timingsafe_memcmp(ptr1, ptr2, len);
-#  else /* HAVE_TIMINGSAFE_MEMCMP */
-#    ifdef HAVE_LIBSODIUM_MEMCMP
+
+#elif defined(HAVE_CONSTTIME_MEMEQUAL)
+
+	// NetBSD v7.0+, possibly others
+	return !consttime_memequal(ptr1, ptr2, len);
+
+#elif defined(HAVE_LIBSODIUM_MEMCMP)
+
 	return sodium_memcmp(ptr1, ptr2, len);
-#    else /* HAVE_LIBSODIUM_MEMCMP */
-#      ifdef HAVE_LIBCRYPTO_MEMCMP
+
+#elif defined(HAVE_LIBCRYPTO_MEMCMP)
+
 	return CRYPTO_memcmp(ptr1, ptr2, len);
-#      else /* HAVE_LIBCRYPTO_MEMCMP */
-#        ifdef HAVE_LIBNETTLE_MEMEQL
+
+#elif defined(HAVE_LIBNETTLE_MEMEQL)
+
 	return !nettle_memeql_sec(ptr1, ptr2, len);
-#        else /* HAVE_LIBNETTLE_MEMEQL */
+
+#else
+
+#  warning "No secure library constant-time memory comparison function is available"
 
 	/* WARNING:
 	 *   This is highly liable to be optimised out with
@@ -100,11 +113,7 @@ smemcmp(const void *const ptr1, const void *const ptr2, const size_t len)
 
 	return result;
 
-#        endif /* !HAVE_LIBNETTLE_MEMEQL */
-#      endif /* !HAVE_LIBCRYPTO_MEMCMP */
-#    endif /* !HAVE_LIBSODIUM_MEMCMP */
-#  endif /* !HAVE_TIMINGSAFE_MEMCMP */
-#endif /* !HAVE_TIMINGSAFE_BCMP */
+#endif
 }
 
 void
@@ -113,26 +122,35 @@ smemzero(void *const restrict ptr, const size_t len)
 	if (! (ptr && len))
 		return;
 
-#ifdef HAVE_MEMSET_S
+#if defined(HAVE_MEMSET_S)
 
+	// ISO/IEC 9899:2011 (ISO C11) Annex K 3.7.4.1
 	if (memset_s(ptr, len, 0x00, len) != 0)
 		RAISE_EXCEPTION;
 
-#else /* HAVE_MEMSET_S */
-#  ifdef HAVE_EXPLICIT_BZERO
+#elif defined(HAVE_EXPLICIT_BZERO)
 
+	// FreeBSD v11.0+, OpenBSD v5.5+, DragonFlyBSD v5.5+, GNU libc6 v2.25+, musl v1.1.19+, possibly others
 	(void) explicit_bzero(ptr, len);
 
-#  else /* HAVE_EXPLICIT_BZERO */
-#    ifdef HAVE_LIBSODIUM_MEMZERO
+#elif defined(HAVE_EXPLICIT_MEMSET)
+
+	// NetBSD v7.0+, possibly others
+	(void) explicit_memset(ptr, 0x00, len);
+
+#elif defined(HAVE_LIBSODIUM_MEMZERO)
 
 	(void) sodium_memzero(ptr, len);
 
-#    else /* HAVE_LIBSODIUM_MEMZERO */
+#elif defined(HAVE_LIBCRYPTO_CLEANSE)
 
-	/* We don't have memset_s(3) [ISO 9899:2011], explicit_bzero(3) [OpenBSD], or sodium_memzero(3) [libsodium].
-	 *
-	 * Indirect memset(3) through a volatile function pointer should hopefully prevent dead-store elimination
+	(void) OPENSSL_cleanse(ptr, len);
+
+#else
+
+#  warning "No secure library memory erasing function is available"
+
+	/* Indirect memset(3) through a volatile function pointer should hopefully prevent dead-store elimination
 	 * removing the call. This may not work if Atheme IRC Services is built with Link Time Optimisation, because
 	 * the compiler may be able to prove (for a given definition of proof) that the pointer always points to
 	 * memset(3); LTO lets the compiler analyse every compilation unit, not just this one. Alas, the C standard
@@ -150,9 +168,7 @@ smemzero(void *const restrict ptr, const size_t len)
 
 	(void) volatile_memset(ptr, 0x00, len);
 
-#    endif /* !HAVE_LIBSODIUM_MEMZERO */
-#  endif /* !HAVE_EXPLICIT_BZERO */
-#endif /* !HAVE_MEMSET_S */
+#endif
 }
 
 void * ATHEME_FATTR_MALLOC

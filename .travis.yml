@@ -11,6 +11,8 @@ addons:
     packages:
       - libgettextpo-dev
       - libargon2-0-dev
+      - libgcrypt20-dev
+      - libpasswdqc-dev
       - libqrencode-dev
       - libcrack2-dev
       - libsodium-dev
@@ -21,7 +23,9 @@ addons:
       - libssl-dev
       - nettle-dev
       - clang-8
+      - gettext
       - gcc-8
+      - lld-8
 
 compiler:
   - clang-8

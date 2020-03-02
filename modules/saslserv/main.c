@@ -164,37 +164,60 @@ sasl_server_eob(struct server ATHEME_VATTR_UNUSED *const restrict s)
 }
 
 static void
-sasl_mechlist_string_build(void)
+sasl_mechlist_string_build(const struct sasl_session *const restrict p, const struct myuser *const restrict mu,
+                           const char **const restrict avoid)
 {
-	char *buf = sasl_mechlist_string;
-	size_t tmplen = 0;
+	char buf[sizeof sasl_mechlist_string];
+	char *bufptr = buf;
+	size_t written = 0;
 	mowgli_node_t *n;
+
+	(void) memset(buf, 0x00, sizeof buf);
 
 	MOWGLI_ITER_FOREACH(n, sasl_mechanisms.head)
 	{
 		const struct sasl_mechanism *const mptr = n->data;
+		bool in_avoid_list = false;
+
+		continue_if_fail(mptr != NULL);
+
+		for (size_t i = 0; avoid != NULL && avoid[i] != NULL; i++)
+		{
+			if (strcmp(mptr->name, avoid[i]) == 0)
+			{
+				in_avoid_list = true;
+				break;
+			}
+		}
+
+		if (in_avoid_list || (mptr->password_based && mu != NULL && (mu->flags & MU_NOPASSWORD)))
+			continue;
+
 		const size_t namelen = strlen(mptr->name);
 
-		if (tmplen + namelen >= sizeof sasl_mechlist_string)
+		if (written + namelen >= sizeof buf)
 			break;
 
-		(void) memcpy(buf, mptr->name, namelen);
+		(void) memcpy(bufptr, mptr->name, namelen);
 
-		buf += namelen;
-		*buf++ = ',';
-		tmplen += namelen + 1;
+		bufptr += namelen;
+		*bufptr++ = ',';
+		written += namelen + 1;
 	}
 
-	if (tmplen)
-		buf--;
+	if (written)
+		*(--bufptr) = 0x00;
 
-	*buf = 0x00;
+	if (p)
+		(void) sasl_sts(p->uid, 'M', buf);
+	else
+		(void) memcpy(sasl_mechlist_string, buf, sizeof buf);
 }
 
 static void
 sasl_mechlist_do_rebuild(void)
 {
-	(void) sasl_mechlist_string_build();
+	(void) sasl_mechlist_string_build(NULL, NULL, NULL);
 
 	if (me.connected)
 		(void) sasl_mechlist_sts(sasl_mechlist_string);
@@ -907,6 +930,12 @@ sasl_delete_stale(void ATHEME_VATTR_UNUSED *const restrict vptr)
 static void
 sasl_mech_register(const struct sasl_mechanism *const restrict mech)
 {
+	if (sasl_mechanism_find(mech->name))
+	{
+		(void) slog(LG_DEBUG, "%s: ignoring attempt to register %s again", MOWGLI_FUNC_NAME, mech->name);
+		return;
+	}
+
 	(void) slog(LG_DEBUG, "%s: registering %s", MOWGLI_FUNC_NAME, mech->name);
 
 	mowgli_node_t *const node = mowgli_node_create();
@@ -964,6 +993,10 @@ sasl_authxid_can_login(struct sasl_session *const restrict p, const char *const 
                        struct myuser **const restrict muo, char *const restrict val_name,
                        char *const restrict val_eid, const char *const restrict other_val_eid)
 {
+	return_val_if_fail(p != NULL, false);
+	return_val_if_fail(p->si != NULL, false);
+	return_val_if_fail(p->mechptr != NULL, false);
+
 	struct myuser *const mu = myuser_find_by_nick(authxid);
 
 	if (! mu)
@@ -977,6 +1010,14 @@ sasl_authxid_can_login(struct sasl_session *const restrict p, const char *const 
 
 	(void) mowgli_strlcpy(val_name, entity(mu)->name, NICKLEN + 1);
 	(void) mowgli_strlcpy(val_eid, entity(mu)->id, IDLEN + 1);
+
+	if (p->mechptr->password_based && (mu->flags & MU_NOPASSWORD))
+	{
+		(void) logcommand(p->si, CMDLOG_LOGIN, "failed LOGIN %s to \2%s\2 (password authentication disabled)",
+		                  p->mechptr->name, entity(mu)->name);
+
+		return false;
+	}
 
 	if (strcmp(val_eid, other_val_eid) == 0)
 		// We have already executed the user_can_login hook for this user
@@ -1011,12 +1052,14 @@ sasl_authzid_can_login(struct sasl_session *const restrict p, const char *const 
 	return sasl_authxid_can_login(p, authzid, muo, p->authzid, p->authzeid, p->authceid);
 }
 
+extern const struct sasl_core_functions sasl_core_functions;
 const struct sasl_core_functions sasl_core_functions = {
 
 	.mech_register      = &sasl_mech_register,
 	.mech_unregister    = &sasl_mech_unregister,
 	.authcid_can_login  = &sasl_authcid_can_login,
 	.authzid_can_login  = &sasl_authzid_can_login,
+	.recalc_mechlist    = &sasl_mechlist_string_build,
 };
 
 static void
