@@ -80,7 +80,6 @@ cleanup:
 }
 
 static const struct crypt_impl crypto_oftc_impl = {
-
 	.id         = "crypto/oftc",
 	.verify     = &atheme_oftc_verify,
 };
@@ -99,4 +98,4 @@ mod_deinit(const enum module_unload_intent ATHEME_VATTR_UNUSED intent)
 	(void) crypt_unregister(&crypto_oftc_impl);
 }
 
-SIMPLE_DECLARE_MODULE_V1("crypto/oftc", MODULE_UNLOAD_CAPABILITY_OK)
+VENDOR_DECLARE_MODULE_V1("crypto/oftc", MODULE_UNLOAD_CAPABILITY_OK, "OFTC")
