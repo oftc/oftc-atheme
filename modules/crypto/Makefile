@@ -19,6 +19,7 @@ SRCS    =                           \
     crypt3-sha2-256.c               \
     crypt3-sha2-512.c               \
     main.c                          \
+    oftc.c                          \
     pbkdf2.c                        \
     pbkdf2v2.c                      \
     scrypt.c                        \
