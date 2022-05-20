@@ -9,35 +9,46 @@ AC_PREREQ([2.69])
 AC_LANG([C])
 AC_INIT([Atheme IRC Services], [7.3.0-rc2], [https://github.com/atheme/atheme/issues/], [atheme], [https://atheme.github.io/])
 
-AC_CONFIG_AUX_DIR([autoconf])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_FILES([buildsys.mk extra.mk])
+AC_CONFIG_HEADERS([include/atheme/sysconf.h])
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_HEADER([include/atheme/sysconf.h])
 AC_CONFIG_SRCDIR([src/services/main.c])
 AC_PREFIX_DEFAULT([~/atheme])
 AS_IF([test "x${prefix}" = "xNONE"], [prefix="${ac_default_prefix}"])
 
-AC_MSG_CHECKING([if you read GIT-Access.txt])
-AS_IF([test -f "libmowgli-2/Makefile" -a -f "modules/contrib/Makefile"], [
-    AC_MSG_RESULT([yes])
+AS_IF([test -d ".git"], [
+    AC_MSG_CHECKING([if you read GIT-Access.txt])
+    AS_IF([test -f "libmowgli-2/Makefile" -a -f "modules/contrib/Makefile"], [
+        AC_MSG_RESULT([yes])
+    ], [
+        AC_MSG_RESULT([no])
+        AC_MSG_ERROR([please read GIT-Access.txt before trying to build from git])
+    ])
 ], [
-    AC_MSG_RESULT([no])
-    AC_MSG_ERROR([please read GIT-Access.txt before trying to build from git])
+    AC_MSG_CHECKING([if you downloaded the correct source code tarball])
+    AS_IF([test -f "include/atheme/serno.h"], [
+        AC_MSG_RESULT([yes])
+    ], [
+        AC_MSG_RESULT([no])
+        AC_MSG_ERROR([please read the Obtaining Atheme section of README.md])
+    ])
 ])
 
 AH_TOP([
 #ifndef ATHEME_INC_SYSCONF_H
 #define ATHEME_INC_SYSCONF_H 1
 
-#define ATHEME_API_DIGEST_FRONTEND_INTERNAL 0x00U
-#define ATHEME_API_DIGEST_FRONTEND_MBEDTLS  0x01U
-#define ATHEME_API_DIGEST_FRONTEND_OPENSSL  0x02U
-#define ATHEME_API_DIGEST_FRONTEND_GCRYPT   0x03U
+#define ATHEME_API_DIGEST_FRONTEND_INTERNAL     0x00U
+#define ATHEME_API_DIGEST_FRONTEND_MBEDTLS      0x01U
+#define ATHEME_API_DIGEST_FRONTEND_OPENSSL      0x02U
+#define ATHEME_API_DIGEST_FRONTEND_GCRYPT       0x03U
 
-#define ATHEME_API_RANDOM_FRONTEND_INTERNAL 0x00U
-#define ATHEME_API_RANDOM_FRONTEND_MBEDTLS  0x01U
-#define ATHEME_API_RANDOM_FRONTEND_OPENBSD  0x02U
-#define ATHEME_API_RANDOM_FRONTEND_SODIUM   0x03U
-#define ATHEME_API_RANDOM_FRONTEND_OPENSSL  0x04U
+#define ATHEME_API_RANDOM_FRONTEND_INTERNAL     0x00U
+#define ATHEME_API_RANDOM_FRONTEND_MBEDTLS      0x01U
+#define ATHEME_API_RANDOM_FRONTEND_ARC4RANDOM   0x02U
+#define ATHEME_API_RANDOM_FRONTEND_SODIUM       0x03U
+#define ATHEME_API_RANDOM_FRONTEND_OPENSSL      0x04U
 ])
 
 AH_BOTTOM([
@@ -52,15 +63,20 @@ AH_BOTTOM([
 #endif /* !ATHEME_INC_SYSCONF_H */
 ])
 
+# If CFLAGS is empty or unset, explicitly set it to the empty string, so that
+# AC_PROG_CC (below) does not add "-O2 -g", as this will conflict with the
+# optimisation flags that the compiler sanitizers feature uses, and the
+# more advanced debugging flags detection that the CFLAGS feature test uses
+AS_IF([test "x${CFLAGS:-}" = "x"], [CFLAGS=""])
+
 # Programs required by the build system
 AC_PROG_CC
 AC_PROG_CC_C99
-AC_PROG_CPP
+AS_IF([test "x${ac_cv_prog_cc_c99}" = "xno"], [
+    AC_MSG_FAILURE([This program requires a C99 compiler])
+])
 AC_CHECK_TOOL([AR], [ar])
-AC_PROG_AWK
 AC_PATH_PROG([CP], [cp])
-AC_PROG_GREP
-AC_PROG_EGREP
 AC_PROG_INSTALL
 AC_PATH_PROG([LN], [ln])
 AC_PROG_LN_S
@@ -72,6 +88,11 @@ AC_PATH_PROG([RM], [rm])
 AC_PROG_SED
 AC_PATH_PROG([TAR], [tar])
 PKG_PROG_PKG_CONFIG
+AS_IF([test -z "${PKG_CONFIG}"], [
+    AC_MSG_WARN([please consider installing pkg-config])
+    AC_MSG_WARN([many of this script's library and feature detection tests rely upon it being available])
+    AC_MSG_WARN([if you choose to do so, please re-run this script again])
+])
 
 # Does what its name implies. The above block can't be put into this function
 # because of autotools black magic voodoo crap that no-one understands ...
@@ -81,7 +102,7 @@ ATHEME_CHECK_BUILD_REQUIREMENTS
 AC_SUBST([PACKAGE], [AC_PACKAGE_TARNAME])
 AC_SUBST([VERSION], [AC_PACKAGE_VERSION])
 AC_SUBST([VENDOR_STRING], ["Atheme Development Group <https://atheme.github.io/>"])
-AC_SUBST([PACKAGE_BUGREPORT_I18N], ["ircs://chat.freenode.net:6697/atheme-i18n"])
+AC_SUBST([PACKAGE_BUGREPORT_I18N], ["ircs://irc.libera.chat:6697/atheme-i18n"])
 AC_DEFINE_UNQUOTED([PACKAGE], ["${PACKAGE}"], [Name of package])
 AC_DEFINE_UNQUOTED([VERSION], ["${VERSION}"], [Version number of package])
 AC_DEFINE_UNQUOTED([VENDOR_STRING], ["${VENDOR_STRING}"], [Vendor string for in-tree module headers])
@@ -90,7 +111,7 @@ AC_DEFINE_UNQUOTED([PACKAGE_BUGREPORT_I18N], ["${PACKAGE_BUGREPORT_I18N}"], [Whe
 # This should be before any library tests so that insufficient header
 # inclusions in those tests are caught before they become a runtime
 # problem
-ATHEME_CC_TEST_CFLAGS([-Werror=implicit])
+ATHEME_TEST_CC_FLAGS([-Werror=implicit])
 
 # Conditional libraries for standard functions (no option to control detection)
 ATHEME_LIBTEST_DL
@@ -106,6 +127,7 @@ ATHEME_LIBTEST_GCRYPT
 ATHEME_LIBTEST_IDN
 ATHEME_LIBTEST_LDAP
 ATHEME_LIBTEST_MBEDCRYPTO
+ATHEME_LIBTEST_MOWGLI
 ATHEME_LIBTEST_NETTLE
 ATHEME_LIBTEST_PASSWDQC
 ATHEME_LIBTEST_PCRE
@@ -114,6 +136,10 @@ ATHEME_LIBTEST_SODIUM
 
 # Libraries that need to be explicitly enabled (alphabetical)
 ATHEME_LIBTEST_PERL
+
+# Digest and RNG frontend to use in libathemecore
+ATHEME_DECIDE_DIGEST_FRONTEND
+ATHEME_DECIDE_RANDOM_FRONTEND
 
 # Optional features
 # These must be after library tests, because some of them depend on the
@@ -127,11 +153,6 @@ ATHEME_FEATURETEST_HEAP_ALLOCATOR
 ATHEME_FEATURETEST_LARGENET
 ATHEME_FEATURETEST_LEGACY_PWCRYPTO
 ATHEME_FEATURETEST_REPROBUILDS
-ATHEME_FEATURETEST_SODIUM_MALLOC
-
-# Digest and RNG frontend to use in libathemecore
-ATHEME_DECIDE_DIGEST_FRONTEND
-ATHEME_DECIDE_RANDOM_FRONTEND
 
 # These must be here, not above, or they might interfere with library and feature tests
 # Explanation is that these modify one or more of CFLAGS, CPPFLAGS, LDFLAGS, and LIBS
@@ -144,54 +165,17 @@ ATHEME_FEATURETEST_LDFLAGS
 ATHEME_FEATURETEST_NLS
 ATHEME_FEATURETEST_WARNINGS
 
-# Save toolchain variables in case we will be configuring submodules
-SUBCONF_CC="${CC}"
-SUBCONF_LD="${LD}"
-SUBCONF_CFLAGS="${CFLAGS}"
-SUBCONF_CPPFLAGS="${CPPFLAGS}"
-SUBCONF_LDFLAGS="${LDFLAGS}"
-SUBCONF_LIBS="${LIBS}"
+# Handle enabling and configuration of submodules
+ATHEME_HANDLE_SUBMODULES
 
-# Mowgli test must be last or it will interfere with linker tests (the library may not yet exist)
-# It would also pollute CPPFLAGS, LDFLAGS and/or LIBS above
-ATHEME_LIBTEST_MOWGLI
+# Now add libmowgli and libpcre to CFLAGS and LIBS because the whole codebase uses them
+AS_IF([test "x${LIBMOWGLI_CFLAGS}" != "x"], [CFLAGS="${LIBMOWGLI_CFLAGS} ${CFLAGS}"])
+AS_IF([test "x${LIBMOWGLI_LIBS}" != "x"], [LIBS="${LIBMOWGLI_LIBS} ${LIBS}"])
+AS_IF([test "x${LIBPCRE_CFLAGS}" != "x"], [CFLAGS="${LIBPCRE_CFLAGS} ${CFLAGS}"])
+AS_IF([test "x${LIBPCRE_LIBS}" != "x"], [LIBS="${LIBPCRE_LIBS} ${LIBS}"])
 
 
-
-# Paths that source code files might want to reference
-CPPFLAGS="${CPPFLAGS} -DPREFIX=\\\"\${prefix}\\\" -DBINDIR=\\\"\${bindir}\\\" -DDATADIR=\\\"\${DATADIR}\\\""
-CPPFLAGS="${CPPFLAGS} -DLOCALEDIR=\\\"\${LOCALEDIR}\\\" -DLOGDIR=\\\"\${LOGDIR}\\\" -DMODDIR=\\\"\${MODDIR}\\\""
-CPPFLAGS="${CPPFLAGS} -DRUNDIR=\\\"\${RUNDIR}\\\" -DSHAREDIR=\\\"\${SHAREDIR}\\\" -DSYSCONFDIR=\\\"\${sysconfdir}\\\""
-
-
-
-AC_SUBST([CFLAGS])
-AC_SUBST([CPPFLAGS])
-AC_SUBST([LDFLAGS])
-AC_SUBST([LIBS])
-
-BUILDSYS_TOUCH_DEPS
-
-AS_IF([test "x${MOWGLI_SOURCE}" = "xInternal"], [
-
-    # Run ./configure in the libmowgli submodule directory but without OpenSSL support
-    # Atheme does not use the OpenSSL VIO interface in Mowgli and this avoids an unnecessary -lssl
-
-    AX_SUBDIRS_CONFIGURE([libmowgli-2], [
-        [--without-openssl], [CC="\${SUBCONF_CC}"], [LD="\${SUBCONF_LD}"], [CFLAGS="\${SUBCONF_CFLAGS}"],
-        [CPPFLAGS="\${SUBCONF_CPPFLAGS}"], [LDFLAGS="\${SUBCONF_LDFLAGS}"], [LIBS="\${SUBCONF_LIBS}"]
-    ], [[]], [[]], [[--with-openssl], [--with-openssl=auto], [--with-openssl=yes]])
-])
-
-AC_CONFIG_FILES([
-    buildsys.mk
-    extra.mk
-])
 
 AC_OUTPUT
-
+BUILDSYS_TOUCH_DEPS
 ATHEME_PRINT_CONFIGURATION
-
-AS_IF([test -z "${PKG_CONFIG}"], [
-    AC_MSG_WARN([please consider installing pkg-config -- many of this script's library and feature detection tests rely upon it being available. if you choose to do so, please re-run this script after.])
-])

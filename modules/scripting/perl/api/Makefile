@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2013 Stephen Bennett <spb@exherbo.org>
 # Copyright (C) 2011 Jilles Tjoelker <jilles@stack.nl>
 # Copyright (C) 2011 William Pitcock <nenolod@dereferenced.org>
-# Copyright (C) 2018-2020 Aaron M. D. Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2020 Aaron M. D. Jones <me@aaronmdjones.net>
 
 include ../../../../extra.mk
 
@@ -17,9 +17,6 @@ include ../../../../buildsys.mk
 
 # Disable warnings on the Perl code; Perl's system headers are *garbage*
 CFLAGS   += -w
-
-LDFLAGS  += ${PLUGIN_LDFLAGS}
-CFLAGS   += ${PLUGIN_CFLAGS}
 
 CPPFLAGS += -I../../../../include -I.
 LDFLAGS  += -L../../../../libathemecore

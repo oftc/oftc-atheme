@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Atheme IRC Services 7.3.0-rc2\n"
-"Report-Msgid-Bugs-To: <ircs://chat.freenode.net:6697/atheme-i18n>\n"
-"POT-Creation-Date: 2020-01-23 03:45+0000\n"
+"Report-Msgid-Bugs-To: <ircs://irc.libera.chat:6697/atheme-i18n>\n"
+"POT-Creation-Date: 2022-04-16 12:33+0000\n"
 "PO-Revision-Date: 2011-10-28 21:19+0000\n"
 "Last-Translator: nenolod <nenolod@dereferenced.org>\n"
 "Language-Team: \n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "%s %s template has founder flag, not allowing XOP command."
 msgstr "%s %s шаблон имеет флаг владельца канала, запрещены xOP команды."
 
-#: modules/chanserv/moderate.c:325
+#: modules/chanserv/moderate.c:327
 #, fuzzy, c-format
 msgid "%s (%s) [%s (%s ago)]"
 msgstr "Посл. раз использован  : %s (%s назад)"
@@ -38,7 +38,7 @@ msgstr "Посл. раз использован  : %s (%s назад)"
 msgid "%s allows for simple channel operator management."
 msgstr ""
 
-#: modules/alis/main.c:406
+#: modules/alis/main.c:427
 #, c-format
 msgid ""
 "%s allows searching for channels with more\n"
@@ -94,7 +94,7 @@ msgstr ""
 "другу короткие мемо-сообщения (от английского \"memo\" - записка, памятка), "
 "которые могу храниться достаточно длительный период времени."
 
-#: modules/infoserv/main.c:51
+#: modules/infoserv/main.c:58
 #, c-format
 msgid "%s allows users to view informational messages."
 msgstr ""
@@ -139,7 +139,7 @@ msgstr ""
 msgid "%s already has the given vhost set."
 msgstr ""
 
-#: modules/nickserv/return.c:39
+#: modules/nickserv/return.c:40
 #, c-format
 msgid "%s belongs to a services operator; it cannot be returned."
 msgstr "%s принадлежит оператору сервисов и не может быть возвращен."
@@ -167,6 +167,11 @@ msgstr ""
 msgid "%s can already bypass access list limits."
 msgstr ""
 
+#: modules/nickserv/loginnolimit.c:46
+#, fuzzy, c-format
+msgid "%s can already bypass login limits."
+msgstr "Канал %s уже закрыт."
+
 #: modules/groupserv/regnolimit.c:35 modules/nickserv/regnolimit.c:46
 #, c-format
 msgid "%s can already bypass registration limits."
@@ -184,6 +189,11 @@ msgstr ""
 msgid "%s can now bypass access list limits."
 msgstr ""
 
+#: modules/nickserv/loginnolimit.c:54
+#, fuzzy, c-format
+msgid "%s can now bypass login limits."
+msgstr "Канал %s не может быть закрыт."
+
 #: modules/groupserv/regnolimit.c:43 modules/nickserv/regnolimit.c:54
 #, c-format
 msgid "%s can now bypass registration limits."
@@ -199,11 +209,6 @@ msgstr "Команда %s может быть выполнена только 
 msgid "%s cannot be closed."
 msgstr "Канал %s не может быть закрыт."
 
-#: modules/operserv/modinspect.c:38
-#, c-format
-msgid "%s cannot be inspected."
-msgstr "%s не может быть исследован."
-
 #: modules/groupserv/acsnolimit.c:57
 #, c-format
 msgid "%s cannot bypass access list limits anymore."
@@ -213,6 +218,16 @@ msgstr ""
 #, c-format
 msgid "%s cannot bypass access list limits."
 msgstr ""
+
+#: modules/nickserv/loginnolimit.c:68
+#, fuzzy, c-format
+msgid "%s cannot bypass login limits anymore."
+msgstr "Канал %s не может быть закрыт."
+
+#: modules/nickserv/loginnolimit.c:60
+#, fuzzy, c-format
+msgid "%s cannot bypass login limits."
+msgstr "Канал %s не может быть закрыт."
 
 #: modules/groupserv/regnolimit.c:57 modules/nickserv/regnolimit.c:68
 #, c-format
@@ -225,7 +240,7 @@ msgid "%s cannot bypass registration limits."
 msgstr ""
 
 #: modules/chanserv/access.c:859 modules/chanserv/fflags.c:87
-#: modules/chanserv/flags.c:420 modules/chanserv/ftransfer.c:38
+#: modules/chanserv/flags.c:449 modules/chanserv/ftransfer.c:38
 #, fuzzy, c-format
 msgid "%s cannot take foundership of a channel."
 msgstr "Позволяет передать права на владение каналом"
@@ -235,14 +250,8 @@ msgstr "Позволяет передать права на владение к�
 msgid "%s did not have a password change key outstanding."
 msgstr "%s не имеет незавершенных процедур изменения пароля."
 
-#: modules/chanserv/clear_akicks.c:44 modules/chanserv/clone.c:62
-#: modules/chanserv/clone.c:68
-#, fuzzy, c-format
-msgid "%s does not exist."
-msgstr "Канал %s не существует."
-
 #: modules/botserv/bottalk.c:63 modules/botserv/bottalk.c:130
-#: modules/botserv/main.c:884
+#: modules/botserv/main.c:893
 #, c-format
 msgid "%s does not have a bot assigned."
 msgstr ""
@@ -257,7 +266,7 @@ msgstr ""
 msgid "%s does not have an operclass set."
 msgstr "%s не имеет operclass."
 
-#: modules/chanserv/flags.c:438 modules/chanserv/xop.c:98
+#: modules/chanserv/flags.c:468 modules/chanserv/xop.c:98
 #: modules/groupserv/flags.c:121
 #, c-format
 msgid "%s does not wish to be added to channel access lists (NEVEROP set)."
@@ -278,7 +287,7 @@ msgstr ""
 msgid "%s does not wish to receive memos."
 msgstr "%s не имеет operclass."
 
-#: modules/chanserv/help.c:47
+#: modules/chanserv/help.c:50
 #, fuzzy, c-format
 msgid ""
 "%s gives normal users the ability to maintain control\n"
@@ -304,7 +313,7 @@ msgstr ""
 "Пользователь %s зарегистрировал на себя максимально допустимое кол-во "
 "каналов."
 
-#: modules/proxyscan/dnsbl.c:181
+#: modules/proxyscan/dnsbl.c:182
 #, c-format
 msgid "%s has already been entered into the DNSBL exempts list."
 msgstr ""
@@ -319,12 +328,12 @@ msgstr "%s был добавлен в список %s для %s."
 msgid "%s has been added to the services ignore list."
 msgstr "%s была добавлена в список игноров для сервисов."
 
-#: modules/chanserv/info.c:49
+#: modules/chanserv/info.c:56
 #, c-format
 msgid "%s has been closed down by the %s administration."
 msgstr "Канал %s закрыт администрацией сети %s."
 
-#: modules/chanserv/set_gameserv.c:85
+#: modules/chanserv/set_gameserv.c:91
 #, c-format
 msgid "%s has been disabled for %s."
 msgstr ""
@@ -344,12 +353,12 @@ msgstr "Установлен режим +v для %s на канале %s."
 msgid "%s has been jupitered."
 msgstr "%s был отключен."
 
-#: modules/chanserv/kick.c:155
+#: modules/chanserv/kick.c:167
 #, c-format
 msgid "%s has been kickbanned from %s."
 msgstr "Пользователь %s был забанен и кикнут с канала %s."
 
-#: modules/chanserv/kick.c:81
+#: modules/chanserv/kick.c:87
 #, c-format
 msgid "%s has been kicked from %s."
 msgstr "Пользователь %s был кикнут с канала %s."
@@ -364,7 +373,7 @@ msgstr "%s завершил сессию."
 msgid "%s has been marked."
 msgstr "%s был разморожен."
 
-#: modules/nickserv/enforce.c:489 modules/nickserv/enforce.c:500
+#: modules/nickserv/enforce.c:532 modules/nickserv/enforce.c:543
 #, c-format
 msgid "%s has been regained."
 msgstr ""
@@ -399,82 +408,82 @@ msgstr "%s была удалена из списка игноров для с�
 msgid "%s has been reopened."
 msgstr "Канал %s теперь открыт и свободен для посещения."
 
-#: modules/chanserv/set_gameserv.c:68
+#: modules/chanserv/set_gameserv.c:74
 #, c-format
 msgid "%s has been set to %s for %s."
 msgstr ""
 
-#: modules/nickserv/freeze.c:120
+#: modules/nickserv/freeze.c:122
 #, c-format
 msgid "%s has been thawed"
 msgstr "%s был разморожен."
 
-#: modules/chanserv/why.c:98
+#: modules/chanserv/why.c:100
 #, fuzzy, c-format
 msgid "%s has flags %s in %s because they are a member of %s."
 msgstr "Пользователь %s уже является владельцем канала %s."
 
-#: modules/chanserv/why.c:94
+#: modules/chanserv/why.c:96
 #, fuzzy, c-format
 msgid "%s has flags %s in %s because they are logged in as %s."
 msgstr "Доступ %s к %s был изменён на %s."
 
-#: modules/chanserv/why.c:102
+#: modules/chanserv/why.c:104
 #, fuzzy, c-format
 msgid "%s has flags %s in %s because they match %s."
 msgstr "Доступ %s к %s был изменён на %s."
 
-#: modules/chanserv/why.c:117
+#: modules/chanserv/why.c:119
 #, c-format
 msgid "%s has flags %s in %s because they match the mask %s."
 msgstr ""
 
-#: modules/chanserv/halfop.c:98
+#: modules/chanserv/halfop.c:104
 #, c-format
 msgid "%s has had halfop (+%c) status given to them on %s"
 msgstr ""
 
-#: modules/chanserv/halfop.c:115
+#: modules/chanserv/halfop.c:121
 #, c-format
 msgid "%s has had halfop (+%c) status taken from them on %s"
 msgstr ""
 
-#: modules/chanserv/op.c:94
+#: modules/chanserv/op.c:100
 #, c-format
 msgid "%s has had operator (+o) status given to them on %s"
 msgstr ""
 
-#: modules/chanserv/op.c:110
+#: modules/chanserv/op.c:116
 #, c-format
 msgid "%s has had operator (+o) status taken from them on %s"
 msgstr ""
 
-#: modules/chanserv/owner.c:98
+#: modules/chanserv/owner.c:104
 #, fuzzy, c-format
 msgid "%s has had owner (+%c) status given to them on %s"
 msgstr "Статус оператора был снят с %s на канале %s."
 
-#: modules/chanserv/owner.c:115
+#: modules/chanserv/owner.c:121
 #, fuzzy, c-format
 msgid "%s has had owner (+%c) status taken from them on %s"
 msgstr "Установлен режим -v для %s на канале %s."
 
-#: modules/chanserv/protect.c:98
+#: modules/chanserv/protect.c:104
 #, c-format
 msgid "%s has had protected (+%c) status given to them on %s"
 msgstr ""
 
-#: modules/chanserv/protect.c:115
+#: modules/chanserv/protect.c:121
 #, fuzzy, c-format
 msgid "%s has had protected (+%c) status taken from them on %s"
 msgstr "Установлен режим -v для %s на канале %s."
 
-#: modules/chanserv/voice.c:83
+#: modules/chanserv/voice.c:89
 #, c-format
 msgid "%s has had voice (+v) status given to them on %s"
 msgstr ""
 
-#: modules/chanserv/voice.c:99
+#: modules/chanserv/voice.c:105
 #, c-format
 msgid "%s has had voice (+v) status taken from them on %s"
 msgstr ""
@@ -484,19 +493,19 @@ msgstr ""
 msgid "%s has no %s."
 msgstr ""
 
-#: modules/chanserv/why.c:141
+#: modules/chanserv/why.c:143
 #, c-format
 msgid "%s has no special access to %s."
 msgstr "Пользователь %s не имеет флагов доступа на канале %s"
 
-#: modules/nickserv/verify.c:53 modules/nickserv/verify.c:113
-#: modules/nickserv/verify.c:170 modules/nickserv/verify.c:203
+#: modules/nickserv/verify.c:13 modules/nickserv/verify.c:128
+#: modules/nickserv/verify.c:204
 #, c-format
 msgid "%s has now been verified."
 msgstr "%s теперь проверен."
 
-#: modules/chanserv/halfop.c:76 modules/chanserv/op.c:73
-#: modules/chanserv/owner.c:76 modules/chanserv/protect.c:76
+#: modules/chanserv/halfop.c:82 modules/chanserv/op.c:79
+#: modules/chanserv/owner.c:82 modules/chanserv/protect.c:82
 #, c-format
 msgid ""
 "%s has the SECURE option enabled, and %s does not have appropriate access."
@@ -504,14 +513,14 @@ msgstr ""
 "На канале %s активирована опция SECURE, указанный пользователь %s не может "
 "получить статуса, так как не имеет соответствующего уровня доступа"
 
-#: modules/nickserv/register.c:149 modules/nickserv/set_email.c:52
-#: modules/nickserv/verify.c:101
+#: modules/nickserv/register.c:94 modules/nickserv/set_email.c:52
+#: modules/nickserv/verify.c:116
 #, c-format
 msgid "%s has too many accounts registered."
 msgstr "%s имеет слишком большое количество зарегистрированных аккаунтов."
 
 #: modules/chanserv/access.c:853 modules/chanserv/access.c:1002
-#: modules/chanserv/flags.c:414
+#: modules/chanserv/flags.c:442
 #, c-format
 msgid "%s has too many channels registered."
 msgstr ""
@@ -523,18 +532,18 @@ msgstr ""
 msgid "%s is a grouped nick, use %s to remove it."
 msgstr "%s - ник, входящий в группу, используйте %s, чтобы удалить его."
 
-#: modules/chanserv/kick.c:59 modules/chanserv/kick.c:126
-#: modules/chanserv/op.c:65
+#: modules/chanserv/kick.c:65 modules/chanserv/kick.c:138
+#: modules/chanserv/op.c:71
 #, fuzzy, c-format
 msgid "%s is a network service; you cannot kick or deop them."
 msgstr "Пользователь %s имеет защиту против кика и вы не можете кикнуть его."
 
-#: modules/operserv/modreload.c:74
+#: modules/operserv/modmanager.c:419
 #, c-format
 msgid "%s is a permanent module; it cannot be reloaded."
 msgstr ""
 
-#: modules/operserv/modunload.c:41
+#: modules/operserv/modmanager.c:541
 #, c-format
 msgid "%s is a permanent module; it cannot be unloaded."
 msgstr ""
@@ -554,12 +563,12 @@ msgstr ""
 msgid "%s is already a member of %s."
 msgstr "Пользователь %s уже является владельцем канала %s."
 
-#: modules/botserv/main.c:835
+#: modules/botserv/main.c:844
 #, c-format
 msgid "%s is already assigned to %s."
 msgstr ""
 
-#: modules/hostserv/request.c:266 modules/hostserv/request.c:278
+#: modules/hostserv/request.c:263 modules/hostserv/request.c:275
 #, c-format
 msgid ""
 "%s is already assigned to another user.  You will need to request a "
@@ -571,7 +580,7 @@ msgstr ""
 msgid "%s is already closed."
 msgstr "Канал %s уже закрыт."
 
-#: modules/nickserv/freeze.c:80
+#: modules/nickserv/freeze.c:82
 #, c-format
 msgid "%s is already frozen."
 msgstr "%s уже заморожен."
@@ -581,7 +590,7 @@ msgstr "%s уже заморожен."
 msgid "%s is already held."
 msgstr "HOLD-режим для %s уже установлен."
 
-#: modules/operserv/modload.c:31
+#: modules/operserv/modmanager.c:377
 #, c-format
 msgid "%s is already loaded."
 msgstr "%s уже загружен."
@@ -623,7 +632,7 @@ msgid "%s is already registered to %s."
 msgstr "Канал %s уже зарегистрирован на пользователя %s."
 
 #: modules/chanfix/fix.c:461 modules/chanserv/register.c:61
-#: modules/nickserv/register.c:108
+#: modules/nickserv/register.c:111
 #, c-format
 msgid "%s is already registered."
 msgstr "Канал %s уже зарегистрирован другим пользователем."
@@ -633,17 +642,17 @@ msgstr "Канал %s уже зарегистрирован другим по�
 msgid "%s is already restricted."
 msgstr ""
 
-#: modules/chanserv/set_gameserv.c:60
+#: modules/chanserv/set_gameserv.c:66
 #, c-format
 msgid "%s is already set to %s for %s."
 msgstr ""
 
-#: modules/hostserv/request.c:252
+#: modules/hostserv/request.c:249
 #, fuzzy, c-format
 msgid "%s is already the active vhost for your account."
 msgstr "Ник %s уже зарегистрирован на ваш аккаунт."
 
-#: modules/hostserv/request.c:241
+#: modules/hostserv/request.c:238
 #, fuzzy, c-format
 msgid "%s is already the active vhost for your nick."
 msgstr "%s уже есть в списке %s для %s."
@@ -653,7 +662,7 @@ msgstr "%s уже есть в списке %s для %s."
 msgid "%s is already the founder of %s."
 msgstr "Пользователь %s уже является владельцем канала %s."
 
-#: modules/operserv/specs.c:135
+#: modules/operserv/specs.c:136
 #, c-format
 msgid "%s is an internal client."
 msgstr "%s это внутренний клиент."
@@ -673,7 +682,7 @@ msgstr "%s это внутренний клиент."
 msgid "%s is an invalid realname."
 msgstr ""
 
-#: modules/botserv/main.c:622
+#: modules/botserv/main.c:627
 #, c-format
 msgid "%s is an invalid username, not changing it."
 msgstr ""
@@ -699,11 +708,18 @@ msgstr "Канал %s закрыт и запрещен для использо
 msgid "%s is currently empty."
 msgstr "Канал %s на данный момент не существует (пуст)."
 
-#: modules/operserv/modreload.c:91
+#: modules/operserv/modmanager.c:428
 #, c-format
 msgid ""
 "%s is depended upon by %s, which is a permanent module and cannot be "
 "reloaded."
+msgstr ""
+
+#: modules/operserv/modmanager.c:557
+#, c-format
+msgid ""
+"%s is depended upon by %s, which is a permanent module and cannot be "
+"unloaded."
 msgstr ""
 
 #: modules/botserv/bottalk.c:53 modules/botserv/bottalk.c:120
@@ -764,8 +780,8 @@ msgstr ""
 msgid "%s is no longer set to NOFIX."
 msgstr "Деактивирован HOLD-режим для %s"
 
-#: modules/botserv/main.c:572 modules/botserv/main.c:673
-#: modules/botserv/main.c:823 modules/botserv/set_private.c:33
+#: modules/botserv/main.c:572 modules/botserv/main.c:682
+#: modules/botserv/main.c:832 modules/botserv/set_private.c:33
 #, c-format
 msgid "%s is not a bot."
 msgstr ""
@@ -797,8 +813,8 @@ msgstr "%s незарегистрированный ник."
 msgid "%s is not a valid action."
 msgstr "%s недопустимое действие"
 
-#: modules/chanserv/set_email.c:49 modules/groupserv/set_email.c:47
-#: modules/nickserv/register.c:143 modules/nickserv/return.c:45
+#: modules/chanserv/set_email.c:55 modules/groupserv/set_email.c:47
+#: modules/nickserv/register.c:88 modules/nickserv/return.c:46
 #: modules/nickserv/set_email.c:46
 #, c-format
 msgid "%s is not a valid e-mail address."
@@ -844,8 +860,8 @@ msgstr ""
 msgid "%s is not a valid target."
 msgstr ""
 
-#: modules/nickserv/verify.c:40 modules/nickserv/verify.c:88
-#: modules/nickserv/verify.c:159 modules/nickserv/verify.c:189
+#: modules/nickserv/verify.c:74 modules/nickserv/verify.c:103
+#: modules/nickserv/verify.c:177 modules/nickserv/verify.c:190
 #, fuzzy, c-format
 msgid "%s is not awaiting verification."
 msgstr "%s не ожидает результатов проверки."
@@ -855,7 +871,7 @@ msgstr "%s не ожидает результатов проверки."
 msgid "%s is not closed."
 msgstr "Канал %s не является закрытым каналом."
 
-#: modules/nickserv/freeze.c:110
+#: modules/nickserv/freeze.c:112
 #, c-format
 msgid "%s is not frozen."
 msgstr "%s не заморожен."
@@ -880,8 +896,8 @@ msgstr "Канал %s не имеет установленного режим�
 msgid "%s is not listed in the badmail database."
 msgstr "%s неверный адрес email."
 
-#: modules/operserv/modinspect.c:31 modules/operserv/modreload.c:58
-#: modules/operserv/modunload.c:33
+#: modules/operserv/modmanager.c:314 modules/operserv/modmanager.c:414
+#: modules/operserv/modmanager.c:536
 #, c-format
 msgid "%s is not loaded."
 msgstr "%s не загружен"
@@ -897,10 +913,10 @@ msgstr ""
 msgid "%s is not marked."
 msgstr "Заметки для %s не существует."
 
-#: modules/chanserv/halfop.c:83 modules/chanserv/kick.c:66
-#: modules/chanserv/kick.c:133 modules/chanserv/op.c:80
-#: modules/chanserv/owner.c:83 modules/chanserv/protect.c:83
-#: modules/chanserv/voice.c:69
+#: modules/chanserv/halfop.c:89 modules/chanserv/kick.c:72
+#: modules/chanserv/kick.c:145 modules/chanserv/op.c:86
+#: modules/chanserv/owner.c:89 modules/chanserv/protect.c:89
+#: modules/chanserv/voice.c:75
 #, c-format
 msgid "%s is not on %s."
 msgstr "Пользователь %s не присутствует на канале %s."
@@ -922,18 +938,18 @@ msgstr ""
 msgid "%s is not on the AKICK list for %s."
 msgstr "Запись вида %s отсутствует в AKICK-списке канала %s."
 
-#: modules/chanserv/bansearch.c:36 modules/chanserv/halfop.c:65
-#: modules/chanserv/kick.c:52 modules/chanserv/kick.c:119
-#: modules/chanserv/op.c:53 modules/chanserv/owner.c:65
-#: modules/chanserv/protect.c:65 modules/chanserv/voice.c:53
+#: modules/chanserv/bansearch.c:36 modules/chanserv/halfop.c:71
+#: modules/chanserv/kick.c:58 modules/chanserv/kick.c:131
+#: modules/chanserv/op.c:59 modules/chanserv/owner.c:71
+#: modules/chanserv/protect.c:71 modules/chanserv/voice.c:59
 #: modules/chanserv/why.c:42 modules/nickserv/ghost.c:42
 #: modules/nickserv/logout.c:33 modules/operserv/akill.c:146
-#: modules/operserv/specs.c:125
+#: modules/operserv/specs.c:126
 #, c-format
 msgid "%s is not online."
 msgstr "На данный момент пользователь %s вне сети."
 
-#: modules/chanserv/moderate.c:204 modules/chanserv/moderate.c:298
+#: modules/chanserv/moderate.c:206 modules/chanserv/moderate.c:300
 #, fuzzy, c-format
 msgid "%s is not pending registration."
 msgstr "%s незарегистрированный аккаунт."
@@ -953,7 +969,7 @@ msgstr "%s больше не зарегистрирован, но был по�
 msgid "%s is not registered anymore, but was marked by %s on %s: %s"
 msgstr "%s больше не зарегистрирован, но был помечен как %s на %s (%s)."
 
-#: modules/nickserv/info.c:78
+#: modules/nickserv/info.c:90
 #, c-format
 msgid "%s is not registered anymore, but was marked by %s on %s (%s)."
 msgstr "%s больше не зарегистрирован, но был помечен как %s на %s (%s)."
@@ -990,7 +1006,7 @@ msgstr ""
 msgid "%s is now closed."
 msgstr "Теперь канал %s закрыт и запрещен для использования."
 
-#: modules/nickserv/freeze.c:104
+#: modules/nickserv/freeze.c:106
 #, c-format
 msgid "%s is now frozen."
 msgstr "%s теперь заморожен."
@@ -1016,8 +1032,8 @@ msgstr ""
 msgid "%s is now public."
 msgstr ""
 
-#: modules/chanserv/moderate.c:226 modules/chanserv/register.c:146
-#: modules/nickserv/register.c:226
+#: modules/chanserv/moderate.c:228 modules/chanserv/register.c:176
+#: modules/nickserv/register.c:217
 #, c-format
 msgid "%s is now registered to %s."
 msgstr "Канал %s успешно зарегистрирован на ник %s."
@@ -1043,7 +1059,7 @@ msgstr "Заметка для %s успешно удалена."
 msgid "%s is now unrestricted."
 msgstr ""
 
-#: modules/chanserv/kick.c:72 modules/chanserv/kick.c:139
+#: modules/chanserv/kick.c:78 modules/chanserv/kick.c:151
 #, c-format
 msgid "%s is protected from kicks; you cannot kick them."
 msgstr "Пользователь %s имеет защиту против кика и вы не можете кикнуть его."
@@ -1068,7 +1084,7 @@ msgstr "%s - владелец %s и его нельзя добавить в 
 msgid "%s is the services server; it cannot be jupitered!"
 msgstr "%s это сервисы Сети. Их нельзя отключать!"
 
-#: modules/operserv/specs.c:130
+#: modules/operserv/specs.c:131
 #, c-format
 msgid "%s is unprivileged."
 msgstr "%s не привилегированный."
@@ -1120,7 +1136,7 @@ msgstr ""
 msgid "%s records various network statistics."
 msgstr ""
 
-#: modules/chanserv/moderate.c:170
+#: modules/chanserv/moderate.c:172
 #, c-format
 msgid ""
 "%s reviews every Channel Registration request. Your request to register %s "
@@ -1142,12 +1158,12 @@ msgstr ""
 msgid "%s was not found on the services ignore list."
 msgstr "%s не найдена в списке игноров для сервисов."
 
-#: modules/chanserv/set_gameserv.c:76
+#: modules/chanserv/set_gameserv.c:82
 #, c-format
 msgid "%s was not set for %s."
 msgstr ""
 
-#: modules/chanserv/moderate.c:308
+#: modules/chanserv/moderate.c:310
 #, fuzzy, c-format
 msgid "%s was rejected."
 msgstr "Сессия с ником %s была закрыта."
@@ -1172,12 +1188,12 @@ msgstr ""
 msgid "%u bans found."
 msgstr ""
 
-#: modules/botserv/main.c:758
+#: modules/botserv/main.c:767
 #, fuzzy, c-format
 msgid "%u bot available."
 msgstr "Выводит список vhosts пользователя."
 
-#: modules/botserv/main.c:758
+#: modules/botserv/main.c:767
 #, fuzzy, c-format
 msgid "%u bots available."
 msgstr "Выводит список vhosts пользователя."
@@ -1242,13 +1258,13 @@ msgstr "%d совпадает при сравнении %s and %s"
 msgid "%u match for %s AKILLed."
 msgstr "%d попадает в диапазон для %s akilled."
 
-#: modules/chanfix/fix.c:428 modules/chanserv/list.c:238
+#: modules/chanfix/fix.c:428 modules/chanserv/list.c:358
 #: modules/nickserv/list.c:300
 #, fuzzy, c-format
 msgid "%u match for criteria %s."
 msgstr "Итого: %d совпадений по маске %s"
 
-#: modules/nickserv/listmail.c:63 modules/nickserv/listownmail.c:56
+#: modules/nickserv/listmail.c:63 modules/nickserv/listownmail.c:59
 #, fuzzy, c-format
 msgid "%u match for e-mail address %s"
 msgstr "%d совпадает для адреса email %s"
@@ -1275,13 +1291,13 @@ msgstr "%d совпадает при сравнении %s and %s"
 msgid "%u matches for %s AKILLed."
 msgstr "%d попадает в диапазон для %s akilled."
 
-#: modules/chanfix/fix.c:429 modules/chanserv/list.c:239
+#: modules/chanfix/fix.c:429 modules/chanserv/list.c:359
 #: modules/nickserv/list.c:301
 #, fuzzy, c-format
 msgid "%u matches for criteria %s."
 msgstr "Итого: %d совпадений по маске %s"
 
-#: modules/nickserv/listmail.c:64 modules/nickserv/listownmail.c:57
+#: modules/nickserv/listmail.c:64 modules/nickserv/listownmail.c:60
 #, fuzzy, c-format
 msgid "%u matches for e-mail address %s"
 msgstr "%d совпадений для адреса email %s"
@@ -1299,7 +1315,7 @@ msgstr "Итого: %d совпадений по маске %s"
 msgid "%u modules loaded."
 msgstr "%d модулей подгружено."
 
-#: modules/botserv/main.c:771
+#: modules/botserv/main.c:780
 #, c-format
 msgid "%u private bots available."
 msgstr ""
@@ -1349,7 +1365,7 @@ msgstr "Успешно установлены флаги %s для %s на �
 msgid "*** End of Info ***"
 msgstr "*** Конец информации о канале ***"
 
-#: modules/chanserv/why.c:139
+#: modules/chanserv/why.c:141
 #, fuzzy
 msgid "+e exempts from +b."
 msgstr "Флаг +r предохраняет от воздействия флага +b."
@@ -1398,17 +1414,18 @@ msgid ""
 "the future instead."
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:101 src/crypto-benchmark/optimal.c:188
-#: src/crypto-benchmark/optimal.c:313
+#: src/crypto-benchmark/optimal.c:102 src/crypto-benchmark/optimal.c:189
+#: src/crypto-benchmark/optimal.c:258 src/crypto-benchmark/optimal.c:381
 #, c-format
 msgid "\t/* Target: %LFs; Benchmarked: %LFs */\n"
 msgstr ""
 
-#: src/crypto-benchmark/main.c:126
+#: src/crypto-benchmark/main.c:135
 msgid ""
 "\n"
 "  -h/--help                    Display this help information and exit\n"
 "  -v/--version                 Display program version and exit\n"
+"  -T/--run-selftests-only      Exit after testing all supported algorithms\n"
 "\n"
 "  -o/--run-optimal-benchmarks  Perform an automatic parameter tuning "
 "benchmark:\n"
@@ -1436,6 +1453,10 @@ msgid ""
 "  -e/--scrypt-memlimits          Comma-separated memlimits\n"
 "  -f/--scrypt-opslimits          Comma-separated opslimits\n"
 "\n"
+"  -b/--run-bcrypt-benchmarks   Benchmark the bcrypt code with "
+"configurations:\n"
+"  -r/--bcrypt-costs              Comma-separated bcrypt costs\n"
+"\n"
 "  -k/--run-pbkdf2-benchmarks   Benchmark the PBKDF2 code with "
 "configurations:\n"
 "  -c/--pbkdf2-iterations         Comma-separated iteration counts\n"
@@ -1450,21 +1471,28 @@ msgid ""
 "  One of -h/-v/-o/-a/-s/-k MUST be given. They are all mutually-exclusive.\n"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:298
+#: src/crypto-benchmark/benchmark.c:351
 msgid ""
 "\n"
 "Digest           Iterations     Elapsed\n"
 "---------------- -------------- --------------"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:185
+#: src/crypto-benchmark/benchmark.c:186
 msgid ""
 "\n"
 "MemLimit   OpsLimit       Elapsed\n"
 "---------- -------------- --------------"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:111
+#: src/crypto-benchmark/benchmark.c:242
+msgid ""
+"\n"
+"Rounds     Elapsed\n"
+"---------- --------------"
+msgstr ""
+
+#: src/crypto-benchmark/benchmark.c:112
 msgid ""
 "\n"
 "Type       MemCost    TimeCost   Threads    Elapsed\n"
@@ -1545,12 +1573,12 @@ msgstr ""
 msgid " assigned"
 msgstr ""
 
-#: modules/hostserv/vhost.c:99 modules/nickserv/info.c:165
+#: modules/hostserv/vhost.c:99 modules/nickserv/info.c:177
 #, c-format
 msgid " by %s"
 msgstr ""
 
-#: modules/hostserv/vhost.c:95 modules/nickserv/info.c:161
+#: modules/hostserv/vhost.c:95 modules/nickserv/info.c:173
 #, fuzzy, c-format
 msgid " on %s (%s ago)"
 msgstr "Онлайн-статус  : %s (%s назад)"
@@ -1599,7 +1627,7 @@ msgstr ""
 #. * below to match them, and beware that these format strings are
 #. * shared across multiple files!
 #.
-#: modules/chanserv/access.c:493 modules/chanserv/flags.c:105
+#: modules/chanserv/access.c:493 modules/chanserv/flags.c:110
 #: modules/groupserv/flags.c:59
 #, c-format
 msgid "%-8s %-22s %s"
@@ -1627,12 +1655,12 @@ msgstr ""
 msgid "%-8s %-50s %s"
 msgstr ""
 
-#: modules/chanserv/flags.c:133
+#: modules/chanserv/flags.c:141
 #, fuzzy, c-format
 msgid "%-8u %-22s %-20s (%s) [modified %s ago, on %s, by %s]"
 msgstr "%-5d %-22s %s (%s) [посл. изменения %s назад]"
 
-#: modules/chanserv/flags.c:136
+#: modules/chanserv/flags.c:144
 #, fuzzy, c-format
 msgid "%-8u %-22s %-20s [modified %s ago, on %s, by %s]"
 msgstr "%-5d %-22s %s (%s) [посл. изменения %s назад]"
@@ -1652,17 +1680,22 @@ msgstr ""
 msgid "%-8u %-50s %u"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:122
+#: src/crypto-benchmark/benchmark.c:123
 #, c-format
 msgid "%10s %10s %10zu %10zu %13LFs"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:195
+#: src/crypto-benchmark/benchmark.c:196
 #, c-format
 msgid "%10s %14zu %13LFs"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:309
+#: src/crypto-benchmark/benchmark.c:252
+#, c-format
+msgid "%10u %13LFs"
+msgstr ""
+
+#: src/crypto-benchmark/benchmark.c:362
 #, c-format
 msgid "%16s %14zu %13LFs"
 msgstr ""
@@ -1687,7 +1720,7 @@ msgstr "%lu: %s@%s - от %s - истекает через %s"
 msgid "%lu: %s@%s - by %s on %s - expires in %s - (%s)"
 msgstr "%lu: %s@%s - от %s - истекает через %s - (%s)"
 
-#: src/crypto-benchmark/main.c:120
+#: src/crypto-benchmark/main.c:129
 #, c-format
 msgid "%s (Cryptographic Benchmarking Utility)"
 msgstr ""
@@ -1712,7 +1745,7 @@ msgstr ""
 msgid "%s had NOFIX set by %s on %s (%s)"
 msgstr "Статус: канал %s был закрыт %s в %s (%s)"
 
-#: modules/nickserv/info.c:462
+#: modules/nickserv/info.c:488
 #, fuzzy, c-format
 msgid "%s has NOT COMPLETED registration verification."
 msgstr "%s не завершил регистрацию до конца."
@@ -1722,24 +1755,24 @@ msgstr "%s не завершил регистрацию до конца."
 msgid "%s has an active password reset key"
 msgstr ""
 
-#: modules/nickserv/info.c:441 modules/nickserv/sendpass.c:145
+#: modules/nickserv/info.c:467 modules/nickserv/sendpass.c:145
 #: modules/nickserv/sendpass_user.c:98
 #, c-format
 msgid "%s has been frozen by the %s administration."
 msgstr ""
 "Возможность использования ника %s приостановлена администрацией сети %s."
 
-#: modules/proxyscan/dnsbl.c:408
+#: modules/proxyscan/dnsbl.c:410
 #, fuzzy, c-format
 msgid "%s has been scanned."
 msgstr "%s снят с регистрации."
 
-#: modules/nickserv/enforce.c:586
+#: modules/nickserv/enforce.c:585
 #, c-format
 msgid "%s has enabled nick protection"
 msgstr ""
 
-#: modules/nickserv/info.c:475
+#: modules/nickserv/info.c:501
 #, fuzzy, c-format
 msgid "%s has requested an email address change to %s on %s."
 msgstr "%s запросил замену адреса email с %s на %s"
@@ -1804,13 +1837,13 @@ msgstr ""
 msgid "%s was CLOSED by %s on %s (%s)"
 msgstr "Статус: канал %s был закрыт %s в %s (%s)"
 
-#: modules/nickserv/info.c:438
+#: modules/nickserv/info.c:464
 #, fuzzy, c-format
 msgid "%s was FROZEN by %s on %s (%s)."
 msgstr "%s был ЗАМОРОЖЕН %s на %s (%s)"
 
 #: modules/chanfix/fix.c:627 modules/chanserv/info.c:292
-#: modules/nickserv/info.c:458
+#: modules/nickserv/info.c:484
 #, fuzzy, c-format
 msgid "%s was MARKED by %s on %s (%s)."
 msgstr "Статус: пометка для %s была поставлена %s в %s (%s)"
@@ -1840,7 +1873,7 @@ msgstr "%s%s%s ACC 0 (не в сети)"
 msgid "%s's inbox is full"
 msgstr "Ящик сообщений у %s переполнен."
 
-#: src/crypto-benchmark/benchmark.c:286
+#: src/crypto-benchmark/benchmark.c:339
 #, c-format
 msgid ""
 "%s: '%s' is not a valid algorithm name\n"
@@ -1848,7 +1881,7 @@ msgid ""
 "    please see --help\n"
 msgstr ""
 
-#: src/crypto-benchmark/benchmark.c:99
+#: src/crypto-benchmark/benchmark.c:100
 #, c-format
 msgid ""
 "%s: '%s' is not a valid type name\n"
@@ -1856,14 +1889,24 @@ msgid ""
 "    please see --help\n"
 msgstr ""
 
-#: modules/chanserv/count.c:79
+#: modules/chanserv/count.c:86
 #, c-format
 msgid "%s: VOP: %u, AOP: %u, SOP: %u, AKICK: %u, Other: %u"
 msgstr ""
 
-#: modules/chanserv/count.c:82
+#: modules/chanserv/count.c:95
+#, c-format
+msgid "%s: VOP: %u, AOP: %u, SOP: %u, Other: %u"
+msgstr ""
+
+#: modules/chanserv/count.c:89
 #, c-format
 msgid "%s: VOP: %u, HOP: %u, AOP: %u, SOP: %u, AKICK: %u, Other: %u"
+msgstr ""
+
+#: modules/chanserv/count.c:98
+#, c-format
+msgid "%s: VOP: %u, HOP: %u, AOP: %u, SOP: %u, Other: %u"
 msgstr ""
 
 #: modules/chanserv/akick.c:683
@@ -1898,23 +1941,23 @@ msgstr ""
 msgid "%u badmail patterns disallowing %s found."
 msgstr ""
 
-#: modules/chanserv/info.c:139 modules/nickserv/info.c:314
+#: modules/chanserv/info.c:139 modules/nickserv/info.c:332
 #, c-format
 msgid "%u custom metadata entries not shown."
 msgstr ""
 
-#: modules/nickserv/info.c:312
+#: modules/nickserv/info.c:330
 #, c-format
 msgid ""
 "%u custom metadata entries not shown; use /msg %s TAXONOMY %s to view them."
 msgstr ""
 
-#: modules/chanserv/info.c:138 modules/nickserv/info.c:314
+#: modules/chanserv/info.c:138 modules/nickserv/info.c:332
 #, c-format
 msgid "%u custom metadata entry not shown."
 msgstr ""
 
-#: modules/nickserv/info.c:312
+#: modules/nickserv/info.c:330
 #, c-format
 msgid "%u custom metadata entry not shown; use /msg %s TAXONOMY %s to view it."
 msgstr ""
@@ -1984,33 +2027,50 @@ msgstr "Посл. раз использован  : %s (%s назад)"
 msgid "%u: %s by %s on %s (Reason: %s)"
 msgstr "%d: %s добавлен %s на %s (Причина: %s)"
 
-#: modules/infoserv/main.c:445 modules/infoserv/main.c:474
+#: modules/infoserv/main.c:511
 #, fuzzy, c-format
-msgid "%u: [%s] by %s at %s: %s"
+msgid "%u: [%s] by %s at %s: %s"
 msgstr "Успешно установлены флаги %s для %s на канале %s."
 
-#: src/crypto-benchmark/main.c:250 src/crypto-benchmark/main.c:259
+#: src/crypto-benchmark/main.c:267 src/crypto-benchmark/main.c:276
 #, fuzzy, c-format
 msgid ""
 "'%s' is not a valid value for decimal option '%c'\n"
 "range of valid values: %LF to %LF (inclusive)\n"
 msgstr "%s недопустимое действие"
 
-#: src/crypto-benchmark/main.c:180 src/crypto-benchmark/main.c:281
-#: src/crypto-benchmark/main.c:290
+#: src/crypto-benchmark/main.c:193 src/crypto-benchmark/main.c:298
+#: src/crypto-benchmark/main.c:307
 #, fuzzy, c-format
 msgid ""
 "'%s' is not a valid value for integer option '%c'\n"
 "range of valid values: %u to %u (inclusive)\n"
 msgstr "%s недопустимое действие"
 
-#: modules/operserv/specs.c:180
+#: modules/infoserv/main.c:500
+msgid "(Messages above this line are no longer shown by default)"
+msgstr ""
+
+#: modules/infoserv/main.c:498
+msgid "(Messages below this line are not shown by default)"
+msgstr ""
+
+#: modules/nickserv/info.c:22
+#, fuzzy, c-format
+msgid "(about %lu weeks ago)"
+msgstr "Онлайн-статус  : не в сети (посл. раз замечен %d недель назад)"
+
+#: modules/nickserv/info.c:21
+msgid "(less than two weeks ago)"
+msgstr ""
+
+#: modules/operserv/specs.c:181
 #, fuzzy
 msgid "(no privileges held)"
 msgstr "Конец привилегий"
 
-#: modules/chanserv/access.c:624 modules/nickserv/info.c:483
-#: modules/operserv/modinspect.c:52
+#: modules/chanserv/access.c:624 modules/nickserv/info.c:509
+#: modules/operserv/modmanager.c:360
 msgid "*** End of Info ***"
 msgstr "*** Конец отчёта ***"
 
@@ -2047,7 +2107,7 @@ msgstr ""
 msgid "A official channel for %s was not set."
 msgstr ""
 
-#: modules/nickserv/return.c:92
+#: modules/nickserv/return.c:105
 #, c-format
 msgid "A random password has been set; it has been sent to %s."
 msgstr "Случайный пароль был установлен на %s."
@@ -2152,21 +2212,21 @@ msgstr "Ник %s удален из вашего списка игнориро
 msgid "Account/Hostmask"
 msgstr ""
 
-#: modules/nickserv/listmail.c:30 modules/nickserv/listownmail.c:48
+#: modules/nickserv/listmail.c:30 modules/nickserv/listownmail.c:51
 #, fuzzy, c-format
 msgid "Accounts matching e-mail address %s:"
 msgstr "Ни одного аккаунта не зарегистрировано на адрес email %s"
 
-#: modules/proxyscan/dnsbl.c:551
+#: modules/proxyscan/dnsbl.c:553
 #, c-format
 msgid "Action taken when a user is on a DNSBL: %s"
 msgstr ""
 
-#: modules/hostserv/request.c:577
+#: modules/hostserv/request.c:565
 msgid "Activate the requested vhost for a given nick."
 msgstr ""
 
-#: modules/chanserv/moderate.c:335
+#: modules/chanserv/moderate.c:337
 #, fuzzy
 msgid "Activates a pending registration"
 msgstr "Отмена регистрации канала (удаление)."
@@ -2175,7 +2235,7 @@ msgstr "Отмена регистрации канала (удаление)."
 msgid "Activates your assigned vhost."
 msgstr ""
 
-#: modules/chanserv/help.c:68
+#: modules/chanserv/help.c:71
 #, c-format
 msgid "Activity is defined as a user with one of %s being on the channel."
 msgstr ""
@@ -2220,7 +2280,7 @@ msgstr "%s добавлен в список серверов NOOP."
 msgid "Added By"
 msgstr ""
 
-#: modules/infoserv/main.c:314
+#: modules/infoserv/main.c:271
 msgid "Added entry to logon info"
 msgstr ""
 
@@ -2243,9 +2303,9 @@ msgstr "Новый шаблон успешно добавлен. Имя: %s * 
 msgid "Adding or removing founder status from a role is not implemented."
 msgstr ""
 
-#: modules/operserv/modinspect.c:44
-#, c-format
-msgid "Address    : %p"
+#: modules/operserv/modmanager.c:322
+#, fuzzy, c-format
+msgid "Address        : %p"
 msgstr "Адрес    : %p"
 
 #: modules/chanfix/fix.c:909
@@ -2284,7 +2344,7 @@ msgstr "Добавляет ник к вашему аккаунту."
 msgid "Adds a note to a channel."
 msgstr "Добавляет заметку к каналу"
 
-#: modules/nickserv/mark.c:119 modules/nickserv/multimark.c:1020
+#: modules/nickserv/mark.c:119 modules/nickserv/multimark.c:1082
 msgid "Adds a note to a user."
 msgstr "Добавляет заметку о пользователе."
 
@@ -2292,9 +2352,9 @@ msgstr "Добавляет заметку о пользователе."
 msgid "Adds an entry to the regex watch list."
 msgstr "Добавить запись в список regex rwatch."
 
-#: src/crypto-benchmark/optimal.c:66 src/crypto-benchmark/optimal.c:152
-#: src/crypto-benchmark/optimal.c:297
-msgid "Algorithm is still too slow; giving up."
+#: src/crypto-benchmark/optimal.c:67 src/crypto-benchmark/optimal.c:153
+#: src/crypto-benchmark/optimal.c:224 src/crypto-benchmark/optimal.c:364
+msgid "Algorithm is too slow; giving up."
 msgstr ""
 
 #: modules/memoserv/delete.c:111
@@ -2309,6 +2369,16 @@ msgstr "Синоним для IDENTIFY"
 #, fuzzy, c-format
 msgid "All fingerprints for %s have been removed."
 msgstr "Список блокируемых режимов канала %s полностью очищен."
+
+#: modules/nickserv/multimark.c:1045
+#, fuzzy
+msgid "All marks have been deleted."
+msgstr "%s снят с регистрации."
+
+#: modules/nickserv/multimark.c:1050
+#, fuzzy
+msgid "All restored marks have been deleted."
+msgstr "%s снят с регистрации."
 
 #: modules/gameserv/eightball.c:27
 msgid "All signs point to yes."
@@ -2327,6 +2397,10 @@ msgstr ""
 msgid "Allow a group to bypass registration limits."
 msgstr ""
 
+#: modules/nickserv/loginnolimit.c:79
+msgid "Allow a user to bypass login limits."
+msgstr ""
+
 #: modules/nickserv/regnolimit.c:79
 msgid "Allow a user to bypass registration limits."
 msgstr ""
@@ -2342,15 +2416,15 @@ msgid ""
 "Allowed clones limit must be greater than or equal to the warned limit of %u"
 msgstr ""
 
-#: modules/chanserv/set_gameserv.c:91
+#: modules/chanserv/set_gameserv.c:97
 msgid "Allows or disallows gaming services."
 msgstr ""
 
-#: modules/chanserv/set_fantasy.c:81
+#: modules/chanserv/set_fantasy.c:87
 msgid "Allows or disallows in-channel commands."
 msgstr "Настройка fantasy-режима канала (fantasy-команды)."
 
-#: modules/chanserv/set_pubacl.c:79
+#: modules/chanserv/set_pubacl.c:85
 msgid "Allows the channel ACL to be public."
 msgstr ""
 
@@ -2385,7 +2459,7 @@ msgid "An email containing email changing instructions has been sent to %s."
 msgstr ""
 "Email, содержащий инструкции по смене адреса email был отправлен на %s."
 
-#: modules/nickserv/register.c:195
+#: modules/nickserv/register.c:186
 #, c-format
 msgid ""
 "An email containing nickname activation instructions has been sent to %s."
@@ -2404,7 +2478,7 @@ msgstr "Владелец    : %s"
 msgid "AntiFlood  : (default)"
 msgstr ""
 
-#: modules/chanserv/topic.c:348
+#: modules/chanserv/topic.c:353
 msgid "Appends a topic on a channel."
 msgstr "Позволяет добавить текст к концу топика канала."
 
@@ -2417,7 +2491,7 @@ msgstr ""
 msgid "Ask the 8-Ball a question."
 msgstr "Задать вопрос магическому шару."
 
-#: modules/botserv/main.c:853
+#: modules/botserv/main.c:862
 #, c-format
 msgid "Assigned the bot %s to %s."
 msgstr ""
@@ -2432,7 +2506,7 @@ msgstr "Установлен vhost %s для %s."
 msgid "Assigned vhost %s to all nicks in account %s."
 msgstr ""
 
-#: modules/botserv/main.c:1019
+#: modules/botserv/main.c:1028
 #, fuzzy
 msgid "Assigns a bot to a channel."
 msgstr "Добавляет заметку к каналу"
@@ -2461,7 +2535,7 @@ msgstr ""
 msgid "Ban reason : %s"
 msgstr ""
 
-#: modules/chanserv/why.c:108 modules/chanserv/why.c:123
+#: modules/chanserv/why.c:110 modules/chanserv/why.c:125
 #, c-format
 msgid "Ban reason: %s"
 msgstr ""
@@ -2477,31 +2551,39 @@ msgid "Bans matching %s in %s:"
 msgstr ""
 "Банов, под которые бы попадал пользователь %s на канале %s не обнаружено."
 
-#: src/crypto-benchmark/optimal.c:35
+#: src/crypto-benchmark/optimal.c:36
 msgid "Beginning automatic optimal Argon2 benchmark ..."
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:204
+#: src/crypto-benchmark/optimal.c:271
 msgid "Beginning automatic optimal PBKDF2 benchmark ..."
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:121
+#: src/crypto-benchmark/optimal.c:205
+msgid "Beginning automatic optimal bcrypt benchmark ..."
+msgstr ""
+
+#: src/crypto-benchmark/optimal.c:122
 msgid "Beginning automatic optimal scrypt benchmark ..."
 msgstr ""
 
-#: src/crypto-benchmark/main.c:494
+#: src/crypto-benchmark/main.c:530
 msgid "Beginning customizable Argon2 benchmark ..."
 msgstr ""
 
-#: src/crypto-benchmark/main.c:537
+#: src/crypto-benchmark/main.c:592
 msgid "Beginning customizable PBKDF2 benchmark ..."
 msgstr ""
 
-#: src/crypto-benchmark/main.c:518
+#: src/crypto-benchmark/main.c:575
+msgid "Beginning customizable bcrypt benchmark ..."
+msgstr ""
+
+#: src/crypto-benchmark/main.c:555
 msgid "Beginning customizable scrypt benchmark ..."
 msgstr ""
 
-#: modules/botserv/main.c:652
+#: modules/botserv/main.c:661
 #, fuzzy, c-format
 msgid "Bot %s (%s@%s) [%s] changed."
 msgstr "Шаблон %s для канала %s остался неизменным."
@@ -2511,7 +2593,7 @@ msgstr "Шаблон %s для канала %s остался неизмен
 msgid "Bot %s (%s@%s) [%s] created."
 msgstr ""
 
-#: modules/botserv/main.c:704
+#: modules/botserv/main.c:713
 #, fuzzy, c-format
 msgid "Bot %s deleted."
 msgstr "Указанные сообщения удалены, кол-во удаленных сообщений: %d"
@@ -2563,11 +2645,6 @@ msgstr "CLONES kline на данный момент включены."
 msgid "Calculate stuff."
 msgstr ""
 
-#: modules/operserv/modinspect.c:50
-#, c-format
-msgid "Can unload : %s"
-msgstr ""
-
 #: modules/gameserv/dice.c:476
 msgid "Can't divide by zero."
 msgstr ""
@@ -2576,7 +2653,7 @@ msgstr ""
 msgid "Cancel your own pending help request."
 msgstr ""
 
-#: modules/chanserv/set_property.c:81 modules/nickserv/set_property.c:71
+#: modules/chanserv/set_property.c:87 modules/nickserv/set_property.c:71
 #, c-format
 msgid "Cannot add %s to %s metadata table, it is full."
 msgstr "Невозможно добавить запись %s - таблица метаданных для %s переполнена."
@@ -2614,7 +2691,7 @@ msgstr ""
 msgid "Changes and shows your nickname access list."
 msgstr "Изменяет и отображает список доступа для вашего ника"
 
-#: modules/operserv/set_commitinterval.c:43
+#: modules/operserv/set_commitinterval.c:66
 msgid "Changes how often the database is written to disk."
 msgstr ""
 
@@ -2653,7 +2730,7 @@ msgid ""
 "Changes the maximum number of users that may be logged in to one account."
 msgstr ""
 
-#: modules/nickserv/set_password.c:56
+#: modules/nickserv/set_password.c:68
 msgid "Changes the password associated with your account."
 msgstr "Изменяет пароль вашего аккаунта."
 
@@ -2661,11 +2738,11 @@ msgstr "Изменяет пароль вашего аккаунта."
 msgid "Changes the prefix to use when changing the user's nick on enforcement."
 msgstr ""
 
-#: modules/operserv/readonly.c:68
+#: modules/operserv/readonly.c:87
 msgid "Changes the state of read-only mode for services."
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:598
+#: modules/proxyscan/dnsbl.c:600
 msgid "Changes what happens to a user when they hit a DNSBL."
 msgstr ""
 
@@ -2673,7 +2750,7 @@ msgstr ""
 msgid "Changes whether service spams unregistered users on connect."
 msgstr ""
 
-#: modules/saslserv/ecdh-x25519-challenge.c:375
+#: modules/saslserv/ecdh-x25519-challenge.c:376
 msgid "Changes your ECDH-X25519-CHALLENGE public key."
 msgstr ""
 
@@ -2681,7 +2758,7 @@ msgstr ""
 msgid "Changes your ECDSA-NIST256P-CHALLENGE public key."
 msgstr ""
 
-#: modules/nickserv/set_accountname.c:79
+#: modules/nickserv/set_accountname.c:80
 msgid "Changes your account name."
 msgstr ""
 
@@ -2691,17 +2768,17 @@ msgstr "Изменяет ваш email адрес."
 
 #: modules/chanserv/access.c:796 modules/chanserv/access.c:945
 #: modules/chanserv/akick.c:349 modules/chanserv/akick.c:415
-#: modules/chanserv/flags.c:445 modules/chanserv/flags.c:476
+#: modules/chanserv/flags.c:476 modules/chanserv/flags.c:510
 #: modules/chanserv/xop.c:41 modules/chanserv/xop.c:114
 #, c-format
 msgid "Channel %s access list is full."
 msgstr ""
 
-#: modules/chanserv/set_guard.c:48
+#: modules/chanserv/set_guard.c:54
 #, c-format
 msgid ""
-"Channel %s already has a BotServ bot assigned to it.  You need to unassign "
-"it first."
+"Channel %s already has a BotServ bot assigned to it. You need to unassign it "
+"first."
 msgstr ""
 
 #: modules/chanfix/fix.c:448 modules/operserv/clearchan.c:43
@@ -2710,7 +2787,7 @@ msgstr ""
 msgid "Channel %s does not exist."
 msgstr "Канал %s не существует."
 
-#: modules/chanserv/topic.c:304
+#: modules/chanserv/topic.c:309
 #, fuzzy, c-format
 msgid "Channel %s does not have %s in its topic."
 msgstr "Канал %s не существует."
@@ -2740,7 +2817,7 @@ msgstr ""
 msgid "Channel     : %s"
 msgstr ""
 
-#: modules/chanserv/fflags.c:147 modules/chanserv/flags.c:499
+#: modules/chanserv/fflags.c:147 modules/chanserv/flags.c:535
 #, c-format
 msgid "Channel access to %s for %s unchanged."
 msgstr "Права доступа на канале %s для записи %s остались неизменными."
@@ -2758,16 +2835,16 @@ msgstr "Канальные мемо-сообщения запрещены адм
 msgid "Channel removal toolkit."
 msgstr "'Очистка' различных настроек канала."
 
-#: modules/operserv/specs.c:45
+#: modules/operserv/specs.c:46
 msgid "Channels"
 msgstr ""
 
-#: modules/nickserv/info.c:420
+#: modules/nickserv/info.c:446
 #, fuzzy, c-format
 msgid "Channels   : %u founder, %u other"
 msgstr "Каналы   : %d владеет, на %d имеет определеный статус"
 
-#: modules/chanserv/list.c:164
+#: modules/chanserv/list.c:267
 #, c-format
 msgid "Channels matching %s:"
 msgstr ""
@@ -2800,12 +2877,12 @@ msgstr "Все пользователи канала %s были кикнут�
 msgid "Cleared %u access entry in %s."
 msgstr "Все пользователи канала %s были кикнуты."
 
-#: modules/chanserv/clear_akicks.c:67
+#: modules/chanserv/clear_akicks.c:66
 #, fuzzy, c-format
 msgid "Cleared AKICK entries in %s."
 msgstr "Все пользователи канала %s были кикнуты."
 
-#: modules/chanserv/flags.c:264
+#: modules/chanserv/flags.c:275
 #, c-format
 msgid "Cleared flags in %s."
 msgstr ""
@@ -2834,7 +2911,7 @@ msgstr ""
 msgid "Clears a channel via KICK, KILL or AKILL"
 msgstr ""
 
-#: modules/chanserv/clear_akicks.c:74
+#: modules/chanserv/clear_akicks.c:73
 #, fuzzy
 msgid "Clears all channel AKICK entries."
 msgstr "Управление AKICK-списком канала."
@@ -2887,12 +2964,12 @@ msgstr ""
 msgid "Clone warning messages will be disabled for host %s"
 msgstr ""
 
-#: modules/chanserv/clone.c:135
+#: modules/chanserv/clone.c:134
 #, c-format
 msgid "Cloned %s to %s."
 msgstr ""
 
-#: modules/chanserv/clone.c:140
+#: modules/chanserv/clone.c:139
 #, fuzzy
 msgid "Clones a channel."
 msgstr "Закрывает канал."
@@ -2905,7 +2982,7 @@ msgstr ""
 msgid "Closes a channel."
 msgstr "Закрывает канал."
 
-#: modules/chanserv/help.c:85
+#: modules/chanserv/help.c:88
 #, c-format
 msgid ""
 "Commands can also be given on channel by prefixing one of '%s'\n"
@@ -2930,7 +3007,7 @@ msgstr "Общие пользователи в %s и %s"
 msgid "Compares two users or channels."
 msgstr "Сравнивает двух пользователей или два канала"
 
-#: modules/nickserv/pwquality.c:189
+#: modules/nickserv/pwquality.c:216
 #, c-format
 msgid "Configuration for libpasswdqc: min:[%u,%u,%u,%u,%u], max:%u, words:%u"
 msgstr ""
@@ -2982,7 +3059,7 @@ msgstr ""
 msgid "Count the number of channels on the network."
 msgstr ""
 
-#: modules/nickserv/pwquality.c:185
+#: modules/nickserv/pwquality.c:212
 #, c-format
 msgid "Cracklib dictionary path: %s"
 msgstr ""
@@ -3016,12 +3093,12 @@ msgstr ""
 msgid "DEFAULT - allowed limit %u, warn on %u"
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:213
+#: modules/proxyscan/dnsbl.c:214
 #, c-format
 msgid "DNSBL Exempt IP %s has been deleted."
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:140
+#: modules/proxyscan/dnsbl.c:141
 #, c-format
 msgid "DNSBLACTION successfully set to %s"
 msgstr ""
@@ -3081,11 +3158,11 @@ msgstr ""
 msgid "Delete an access list entry."
 msgstr ""
 
-#: modules/infoserv/main.c:504
+#: modules/infoserv/main.c:559
 msgid "Delete news items."
 msgstr ""
 
-#: modules/infoserv/main.c:513
+#: modules/infoserv/main.c:568
 msgid "Delete oper news items."
 msgstr ""
 
@@ -3098,12 +3175,12 @@ msgstr "Удалить игнор для сервисов"
 msgid "Deleted all vhosts for %s."
 msgstr ""
 
-#: modules/infoserv/main.c:368
+#: modules/infoserv/main.c:343
 #, c-format
 msgid "Deleted entry %u from logon info."
 msgstr ""
 
-#: modules/infoserv/main.c:417
+#: modules/infoserv/main.c:341
 #, c-format
 msgid "Deleted entry %u from oper logon info."
 msgstr ""
@@ -3150,6 +3227,11 @@ msgstr "Удаляет глобальный сетевой бан."
 msgid "Deletes memos."
 msgstr "Удаляет указанные мемо-сообщения."
 
+#: modules/operserv/modmanager.c:344
+#, c-format
+msgid "Dependencies (%zu):"
+msgstr ""
+
 #: modules/groupserv/info.c:47
 #, c-format
 msgid "Description : %s"
@@ -3167,7 +3249,7 @@ msgstr ""
 msgid "Disabled CLONES klines."
 msgstr "CLONES kline выключены."
 
-#: modules/chanserv/sync.c:243
+#: modules/chanserv/sync.c:249
 msgid "Disables automatic channel ACL syncing."
 msgstr ""
 
@@ -3191,7 +3273,7 @@ msgstr ""
 msgid "Displays a channel's AKICK list."
 msgstr ""
 
-#: modules/chanserv/taxonomy.c:62
+#: modules/chanserv/taxonomy.c:68
 msgid "Displays a channel's metadata."
 msgstr "Отображает метаданные канала."
 
@@ -3207,7 +3289,7 @@ msgstr "Выводит контекстуальную справочную ин�
 msgid "Displays info for a particular game."
 msgstr ""
 
-#: modules/operserv/modinspect.c:57
+#: modules/operserv/modmanager.c:574
 msgid "Displays information about loaded modules."
 msgstr "Отображает информацию о подгруженных модулях."
 
@@ -3215,7 +3297,7 @@ msgstr "Отображает информацию о подгруженных м
 msgid "Displays information about registered groups."
 msgstr ""
 
-#: modules/chanserv/info.c:326 modules/nickserv/info.c:490
+#: modules/chanserv/info.c:326 modules/nickserv/info.c:516
 msgid "Displays information on registrations."
 msgstr "Отображает различную информацию о регистрации."
 
@@ -3271,7 +3353,7 @@ msgstr ""
 msgid "Email       : %s"
 msgstr ""
 
-#: modules/nickserv/info.c:294
+#: modules/nickserv/info.c:312
 #, c-format
 msgid "Email      : %s%s"
 msgstr "Email-адрес       : %s%s"
@@ -3326,11 +3408,11 @@ msgstr "CLONES kline включены."
 msgid "Enabled CLONES klines."
 msgstr "CLONES kline включены."
 
-#: modules/nickserv/enforce.c:623
+#: modules/nickserv/enforce.c:622
 msgid "Enables or disables automatic protection of a nickname."
 msgstr "Включает или выключает автоматическую защиту ника."
 
-#: modules/chanserv/set_keeptopic.c:79
+#: modules/chanserv/set_keeptopic.c:85
 msgid "Enables topic retention."
 msgstr "Активирует хранение топика канала."
 
@@ -3343,7 +3425,7 @@ msgstr "Включает/выключает KLINE для клонов, кото�
 msgid "End of %s ACCESS listing."
 msgstr ""
 
-#: modules/chanserv/flags.c:142 modules/groupserv/flags.c:73
+#: modules/chanserv/flags.c:150 modules/groupserv/flags.c:73
 #, c-format
 msgid "End of %s FLAGS listing."
 msgstr "Конец списка флагов канала %s\""
@@ -3363,7 +3445,7 @@ msgstr "Конец списка доступа для %s"
 msgid "End of %s fingerprint list."
 msgstr ""
 
-#: modules/chanserv/taxonomy.c:57 modules/nickserv/taxonomy.c:52
+#: modules/chanserv/taxonomy.c:63 modules/nickserv/taxonomy.c:52
 #, c-format
 msgid "End of %s taxonomy."
 msgstr "Конец taxonomy-списка для %s."
@@ -3397,11 +3479,11 @@ msgstr "Конец RWATCH LIST"
 msgid "End of Server NOOP list."
 msgstr "Конец списка серверов NOOP."
 
-#: modules/chanserv/moderate.c:329 modules/global/main.c:157
-#: modules/helpserv/ticket.c:271 modules/hostserv/offer.c:348
-#: modules/hostserv/request.c:544 modules/infoserv/main.c:450
-#: modules/infoserv/main.c:479 modules/nickserv/badmail.c:191
-#: modules/nickserv/multimark.c:964 modules/proxyscan/dnsbl.c:241
+#: modules/chanserv/moderate.c:331 modules/global/main.c:157
+#: modules/helpserv/ticket.c:271 modules/hostserv/offer.c:379
+#: modules/hostserv/request.c:532 modules/infoserv/main.c:522
+#: modules/nickserv/badmail.c:191 modules/nickserv/multimark.c:964
+#: modules/proxyscan/dnsbl.c:242
 msgid "End of list."
 msgstr ""
 
@@ -3417,11 +3499,11 @@ msgstr "Конец списка глобальных сетевых шаблон
 msgid "End of oper class list"
 msgstr "Конец списка oper class"
 
-#: modules/alis/main.c:387
+#: modules/alis/main.c:408
 msgid "End of output."
 msgstr ""
 
-#: modules/operserv/specs.c:183
+#: modules/operserv/specs.c:184
 #, fuzzy
 msgid "End of privileges."
 msgstr "Конец привилегий"
@@ -3445,37 +3527,37 @@ msgstr "Конец списка операторов"
 msgid "Entity ID   : %s"
 msgstr ""
 
-#: modules/nickserv/info.c:125
+#: modules/nickserv/info.c:137
 #, c-format
 msgid "Entity ID  : %s"
 msgstr ""
 
-#: modules/chanserv/access.c:493 modules/chanserv/flags.c:105
+#: modules/chanserv/access.c:493 modules/chanserv/flags.c:110
 #: modules/groupserv/flags.c:59 modules/operserv/noop.c:290
 #: modules/operserv/noop.c:317
 msgid "Entry"
 msgstr ""
 
-#: modules/infoserv/main.c:373
+#: modules/infoserv/main.c:351
 #, fuzzy, c-format
 msgid "Entry %u not found in logon info."
 msgstr "%s не найдено в списке исключений для клонов."
 
-#: modules/infoserv/main.c:422
+#: modules/infoserv/main.c:349
 #, fuzzy, c-format
 msgid "Entry %u not found in oper logon info."
 msgstr "%s не найдено в списке исключений для клонов."
 
-#: modules/operserv/modinspect.c:45
-#, c-format
-msgid "Entry point: %p"
+#: modules/operserv/modmanager.c:326
+#, fuzzy, c-format
+msgid "Entry Point    : %p"
 msgstr "Точка входа: %p"
 
 #: modules/gameserv/dice.c:97
 msgid "Error: Cannot perform modulus or division by zero."
 msgstr ""
 
-#: src/crypto-benchmark/main.c:432
+#: src/crypto-benchmark/main.c:462
 msgid "Error: Conflicting options (or no options) given. Exiting."
 msgstr ""
 
@@ -3506,12 +3588,12 @@ msgstr ""
 msgid "Error: You typed an invalid expression."
 msgstr ""
 
-#: modules/operserv/modinspect.c:46
-#, c-format
-msgid "Exit point : %p"
+#: modules/operserv/modmanager.c:327
+#, fuzzy, c-format
+msgid "Exit Point     : %p"
 msgstr "Точка выхода : %p"
 
-#: modules/chanserv/why.c:147
+#: modules/chanserv/why.c:149
 msgid "Explains channel access logic."
 msgstr "Объясняет наличие прав для указанного пользователя канала."
 
@@ -3540,7 +3622,7 @@ msgstr ""
 msgid "Failed to open log file %s"
 msgstr "Вы идентифицированы как %s."
 
-#: modules/scripting/perl/perl_module.c:385
+#: modules/scripting/perl/perl_module.c:366
 #, c-format
 msgid "Failed to retrieve script list: %s"
 msgstr ""
@@ -3589,12 +3671,12 @@ msgstr ""
 msgid "Fix request has been acknowledged for %s."
 msgstr ""
 
-#: modules/chanserv/flags.c:105 modules/chanserv/template.c:36
+#: modules/chanserv/flags.c:110 modules/chanserv/template.c:36
 #: modules/chanserv/template.c:105 modules/groupserv/flags.c:59
 msgid "Flags"
 msgstr "Флаги"
 
-#: modules/chanserv/fflags.c:152 modules/chanserv/flags.c:503
+#: modules/chanserv/fflags.c:152 modules/chanserv/flags.c:541
 #, c-format
 msgid "Flags %s were set on %s in %s."
 msgstr "Успешно установлены флаги %s для %s на канале %s."
@@ -3604,7 +3686,7 @@ msgstr "Успешно установлены флаги %s для %s на �
 msgid "Flags       : %s"
 msgstr ""
 
-#: modules/chanserv/info.c:258 modules/nickserv/info.c:394
+#: modules/chanserv/info.c:258 modules/nickserv/info.c:420
 #, c-format
 msgid "Flags      : %s"
 msgstr "Флаги      : %s"
@@ -3614,7 +3696,7 @@ msgstr "Флаги      : %s"
 msgid "Flags      : %s (%s)"
 msgstr ""
 
-#: modules/chanserv/flags.c:317
+#: modules/chanserv/flags.c:337
 #, c-format
 msgid "Flags for %s in %s are %s."
 msgstr "Текущие флаги для %s на канале %s: %s."
@@ -3684,7 +3766,7 @@ msgstr ""
 msgid "Force drops a group registration."
 msgstr ""
 
-#: modules/nickserv/verify.c:226
+#: modules/nickserv/verify.c:232
 msgid "Forcefully verifies an account registration."
 msgstr "Принудительная проверка регистрации аккаунта."
 
@@ -3701,7 +3783,7 @@ msgstr "Позволяет принудительно изменить флаг�
 msgid "Forces access levels to XOP levels."
 msgstr "Принудительное изменение системы доступа на xOP-значения."
 
-#: modules/chanserv/sync.c:234
+#: modules/chanserv/sync.c:240
 #, fuzzy
 msgid "Forces channel statuses to flags."
 msgstr "Установка статуса оператора указанному пользователю."
@@ -3745,7 +3827,7 @@ msgstr "Владелец    : %s"
 msgid "Foundership of %s has been transferred from %s to %s."
 msgstr "Права на владение каналом %s были сняты с %s и переданы %s."
 
-#: modules/nickserv/freeze.c:131
+#: modules/nickserv/freeze.c:133
 msgid "Freezes an account."
 msgstr "Замораживает аккаунт"
 
@@ -3753,7 +3835,7 @@ msgstr "Замораживает аккаунт"
 msgid "Fudge-style dice generation."
 msgstr "Fudge-стиль генерации костей."
 
-#: modules/operserv/specs.c:59
+#: modules/operserv/specs.c:60
 msgid "General"
 msgstr ""
 
@@ -3781,23 +3863,23 @@ msgstr ""
 msgid "Genre: %s"
 msgstr ""
 
-#: modules/chanserv/halfop.c:154
+#: modules/chanserv/halfop.c:160
 msgid "Gives channel halfops to a user."
 msgstr "Установка статуса полуоператора указанному пользователю."
 
-#: modules/chanserv/op.c:149
+#: modules/chanserv/op.c:155
 msgid "Gives channel ops to a user."
 msgstr "Установка статуса оператора указанному пользователю."
 
-#: modules/chanserv/voice.c:138
+#: modules/chanserv/voice.c:144
 msgid "Gives channel voice to a user."
 msgstr "Установка статуса войса указанному пользователю."
 
-#: modules/chanserv/owner.c:154
+#: modules/chanserv/owner.c:160
 msgid "Gives the channel owner flag to a user."
 msgstr ""
 
-#: modules/chanserv/protect.c:154
+#: modules/chanserv/protect.c:160
 msgid "Gives the channel protection flag to a user."
 msgstr ""
 
@@ -3834,7 +3916,7 @@ msgstr ""
 msgid "Group memos are administratively disabled."
 msgstr ""
 
-#: modules/operserv/specs.c:85
+#: modules/operserv/specs.c:86
 msgid "GroupServ"
 msgstr ""
 
@@ -3871,7 +3953,7 @@ msgstr "Помощь по CLEAR:"
 msgid "Help for SET:"
 msgstr "Помощь по SET:"
 
-#: modules/chanserv/set_private.c:83
+#: modules/chanserv/set_private.c:89
 msgid "Hides information about a channel."
 msgstr ""
 
@@ -3916,7 +3998,7 @@ msgid ""
 "disabled): %u"
 msgstr ""
 
-#: modules/infoserv/main.c:232
+#: modules/infoserv/main.c:206
 #, c-format
 msgid "How many messages will be sent to users on connect: %u"
 msgstr ""
@@ -3930,12 +4012,12 @@ msgstr ""
 msgid "I'd like to think so."
 msgstr "Думаю так оно и есть."
 
-#: modules/proxyscan/dnsbl.c:225
+#: modules/proxyscan/dnsbl.c:226
 #, c-format
 msgid "IP %s not found in DNSBL Exempt database."
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:238
+#: modules/proxyscan/dnsbl.c:239
 #, c-format
 msgid "IP: %s Reason: %s (%s - %s)"
 msgstr ""
@@ -3973,7 +4055,7 @@ msgstr ""
 "Если вы не завершите процедуру регистрации в течении одного дня, ваш аккаунт "
 "будет удален."
 
-#: modules/nickserv/register.c:197
+#: modules/nickserv/register.c:188
 msgid ""
 "If you do not complete registration within one day, your nickname will "
 "expire."
@@ -4028,7 +4110,7 @@ msgstr "Игнорирует мемо-сообщения от указанног
 msgid "Ignores memos."
 msgstr "Управляет списком игнорирования мемо-сообщений."
 
-#: modules/infoserv/main.c:263
+#: modules/infoserv/main.c:233
 msgid "Importance must be a digit between 0 and 4"
 msgstr ""
 
@@ -4052,13 +4134,13 @@ msgstr ""
 msgid "Information for server %s:"
 msgstr "Информация о %s:"
 
-#: modules/nickserv/info.c:107
+#: modules/nickserv/info.c:119
 #, c-format
 msgid "Information on %s (account %s):"
 msgstr "Информация по %s (аккаунт %s):"
 
 #: modules/chanfix/fix.c:586 modules/chanserv/info.c:63
-#: modules/nickserv/info.c:109 modules/operserv/modinspect.c:42
+#: modules/nickserv/info.c:121 modules/operserv/modmanager.c:320
 #: modules/rpgserv/info.c:40
 #, c-format
 msgid "Information on %s:"
@@ -4069,7 +4151,7 @@ msgstr "Информация о %s:"
 msgid "Initial step : %.0f%% of %u (%0.1f)"
 msgstr ""
 
-#: modules/scripting/perl/perl_module.c:420
+#: modules/scripting/perl/perl_module.c:401
 msgid "Inspect the Perl interpreter"
 msgstr ""
 
@@ -4093,7 +4175,7 @@ msgstr "Указан неверный параметр в качестве но�
 msgid "Invalid IP/mask given."
 msgstr "Указана неверная длительность."
 
-#: modules/proxyscan/dnsbl.c:146
+#: modules/proxyscan/dnsbl.c:147
 msgid "Invalid action given."
 msgstr ""
 
@@ -4144,29 +4226,29 @@ msgstr "Указан неверный параметр в качестве но�
 msgid "Invalid mode; valid ones are %s."
 msgstr "Указан неверный режим, доступные режимы: %s."
 
-#: modules/chanserv/ban.c:80 modules/chanserv/ban.c:177
-#: modules/chanserv/quiet.c:347 modules/chanserv/quiet.c:464
+#: modules/chanserv/ban.c:80 modules/chanserv/ban.c:183
+#: modules/chanserv/quiet.c:347 modules/chanserv/quiet.c:470
 #, c-format
 msgid "Invalid nickname/hostmask provided: %s"
 msgstr "Маска вида %s не является корретными ником/хостмаской"
 
-#: modules/nickserv/verify.c:209
+#: modules/nickserv/verify.c:215
 msgid "Invalid operation specified for FVERIFY."
 msgstr "Неверная операция для VERIFY."
 
-#: modules/nickserv/verify.c:126
+#: modules/nickserv/verify.c:146
 msgid "Invalid operation specified for VERIFY."
 msgstr "Неверная операция для VERIFY."
 
-#: modules/alis/main.c:226
+#: modules/alis/main.c:247
 #, fuzzy, c-format
 msgid "Invalid option %s"
 msgstr "Неверная маска %s."
 
-#: modules/alis/main.c:128 modules/alis/main.c:136 modules/alis/main.c:144
-#: modules/alis/main.c:155 modules/alis/main.c:163 modules/alis/main.c:176
-#: modules/alis/main.c:190 modules/alis/main.c:208
-#: modules/gameserv/gamecalc.c:158
+#: modules/alis/main.c:84 modules/alis/main.c:102 modules/alis/main.c:123
+#: modules/alis/main.c:166 modules/alis/main.c:174 modules/alis/main.c:182
+#: modules/alis/main.c:193 modules/alis/main.c:201 modules/alis/main.c:214
+#: modules/alis/main.c:228 modules/gameserv/gamecalc.c:158
 #, fuzzy, c-format
 msgid "Invalid option for %s"
 msgstr "Неверный пароль для %s."
@@ -4176,9 +4258,9 @@ msgstr "Неверный пароль для %s."
 msgid "Invalid parameters for %s."
 msgstr "Неверный пароль для %s."
 
-#: modules/nickserv/enforce.c:382 modules/nickserv/enforce.c:560
+#: modules/nickserv/enforce.c:382 modules/nickserv/enforce.c:559
 #: modules/nickserv/ghost.c:105 modules/nickserv/identify.c:172
-#: modules/nickserv/register.c:172
+#: modules/nickserv/register.c:163
 #, c-format
 msgid "Invalid password for %s."
 msgstr "Неверный пароль для %s."
@@ -4212,7 +4294,7 @@ msgstr ""
 msgid "Invalid template name %s."
 msgstr "Указано неверное имя шаблона: %s."
 
-#: modules/chanserv/flags.c:372
+#: modules/chanserv/flags.c:395
 #, fuzzy, c-format
 msgid "Invalid template name given, use /msg %s TEMPLATE %s for a list"
 msgstr ""
@@ -4238,7 +4320,7 @@ msgstr ""
 msgid "Invalid user@host: %s@%s. This mask is unsafe."
 msgstr "Неверный user@host: %s@%s. Эта маска небезопасна."
 
-#: modules/chanserv/set_mlock.c:175 modules/chanserv/set_mlock.c:180
+#: modules/chanserv/set_mlock.c:181 modules/chanserv/set_mlock.c:186
 #, c-format
 msgid "Invalid value %s for mode +%c."
 msgstr "Указан недопустимый параметр %s для режима +%c."
@@ -4283,12 +4365,12 @@ msgstr ""
 msgid "Kicks all users from a channel."
 msgstr "Кикает всех пользователей с указанного канала."
 
-#: modules/nickserv/info.c:398
+#: modules/nickserv/info.c:424
 #, c-format
 msgid "Language   : %s"
 msgstr ""
 
-#: modules/nickserv/info.c:148
+#: modules/nickserv/info.c:160
 #, c-format
 msgid "Last addr  : %s"
 msgstr "Посл. маска  : %s"
@@ -4298,17 +4380,27 @@ msgstr "Посл. маска  : %s"
 msgid "Last quit  : %s"
 msgstr "Посл. маска  : %s"
 
-#: modules/nickserv/info.c:214 modules/nickserv/info.c:229
+#: modules/nickserv/info.c:221
+#, fuzzy, c-format
+msgid "Last seen  : %s"
+msgstr "Онлайн-статус  : в сети"
+
+#: modules/nickserv/info.c:239
 #, c-format
 msgid "Last seen  : %s (%s ago)"
 msgstr "Онлайн-статус  : %s (%s назад)"
 
-#: modules/nickserv/info.c:212 modules/nickserv/info.c:227
+#: modules/nickserv/info.c:242
 #, fuzzy, c-format
-msgid "Last seen  : (about %u week(s) ago)"
-msgstr "Онлайн-статус  : не в сети (посл. раз замечен %d недель назад)"
+msgid "Last seen  : (hidden) %s (%s ago)"
+msgstr "Онлайн-статус  : %s (%s назад)"
 
-#: modules/nickserv/info.c:206 modules/nickserv/info.c:267
+#: modules/nickserv/info.c:231
+#, fuzzy
+msgid "Last seen  : (hidden) now"
+msgstr "Онлайн-статус  : в сети"
+
+#: modules/nickserv/info.c:228
 msgid "Last seen  : now"
 msgstr "Онлайн-статус  : в сети"
 
@@ -4322,7 +4414,7 @@ msgstr "Посл. раз использован  : %s (%s назад)"
 msgid "Last used  : (about %u week(s) ago)"
 msgstr "Посл. раз использован  : (около %d недель назад)"
 
-#: modules/chanserv/set_limitflags.c:83
+#: modules/chanserv/set_limitflags.c:89
 msgid "Limits the power of the +f flag."
 msgstr ""
 
@@ -4367,11 +4459,11 @@ msgstr ""
 msgid "List of channel-defined roles:"
 msgstr ""
 
-#: modules/infoserv/main.c:522
+#: modules/infoserv/main.c:595
 msgid "List previously posted news items."
 msgstr ""
 
-#: modules/infoserv/main.c:532
+#: modules/infoserv/main.c:605
 msgid "List previously posted oper news items."
 msgstr ""
 
@@ -4388,12 +4480,12 @@ msgstr "Показать список игноров для сервисов"
 msgid "Listed %u channels."
 msgstr "Позволяет зарегистрировать канал"
 
-#: modules/botserv/main.c:748
+#: modules/botserv/main.c:757
 #, c-format
 msgid "Listing of bots available on %s:"
 msgstr ""
 
-#: modules/botserv/main.c:763
+#: modules/botserv/main.c:772
 #, c-format
 msgid "Listing of private bots available on %s:"
 msgstr ""
@@ -4406,11 +4498,11 @@ msgstr "Список аккаунтов для заданной маски."
 msgid "Lists accounts registered to an e-mail address."
 msgstr "Показывает список аккаунтов зарегистрированных на данный адрес e-mail."
 
-#: modules/nickserv/listownmail.c:62
+#: modules/nickserv/listownmail.c:65
 msgid "Lists accounts registered to your e-mail address."
 msgstr ""
 
-#: modules/hostserv/offer.c:372
+#: modules/hostserv/offer.c:403
 msgid "Lists all available vhosts."
 msgstr ""
 
@@ -4433,17 +4525,17 @@ msgstr "Выводит список всех глобальных сетевых
 msgid "Lists all of your memos."
 msgstr "Выводит все полученные вами мемо-сообщения."
 
-#: modules/botserv/main.c:1037
+#: modules/botserv/main.c:1046
 #, fuzzy
 msgid "Lists available bots."
 msgstr "Выводит список vhosts пользователя."
 
-#: modules/alis/main.c:418
+#: modules/alis/main.c:439
 #, fuzzy
 msgid "Lists channels matching given parameters."
 msgstr "Отображает список зарегистрированных каналов (по маске)."
 
-#: modules/chanserv/list.c:245
+#: modules/chanserv/list.c:365
 msgid "Lists channels registered matching a given pattern."
 msgstr "Отображает список зарегистрированных каналов (по маске)."
 
@@ -4504,7 +4596,7 @@ msgstr "Выводит список vhosts пользователя."
 msgid "Lists users waiting for help."
 msgstr ""
 
-#: modules/hostserv/request.c:559
+#: modules/hostserv/request.c:547
 msgid "Lists vhosts currently waiting for activation."
 msgstr ""
 
@@ -4512,8 +4604,9 @@ msgstr ""
 msgid "Loaded modules:"
 msgstr "Загруженные модули:"
 
-#: modules/operserv/modload.c:55
-msgid "Loads a module."
+#: modules/operserv/modmanager.c:583
+#, fuzzy
+msgid "Loads modules."
 msgstr "Подгружает модуль."
 
 #: modules/operserv/greplog.c:176
@@ -4521,30 +4614,35 @@ msgstr "Подгружает модуль."
 msgid "Log file may be corrupted, %u/%u unexpected lines"
 msgstr ""
 
-#: modules/nickserv/enforce.c:517 modules/nickserv/identify.c:133
+#: modules/nickserv/enforce.c:460 modules/nickserv/identify.c:133
 #, c-format
 msgid "Logged in nicks are: %s"
 msgstr "Авторизованных ников: %s"
 
-#: modules/nickserv/info.c:249 modules/nickserv/info.c:257
+#: modules/nickserv/info.c:277 modules/nickserv/info.c:285
 #, c-format
 msgid "Logins from: %s"
 msgstr "Авторизовывался с: %s"
+
+#: modules/infoserv/main.c:463
+#, c-format
+msgid "Logon info entry %u moved to position %u."
+msgstr ""
 
 #: modules/nickserv/logout.c:118
 msgid "Logs your services session out."
 msgstr "Заканчивает вашу сессию с сервисами."
 
-#: modules/chanserv/set_mlock.c:101
+#: modules/chanserv/set_mlock.c:107
 msgid "MLOCK key contains invalid characters."
 msgstr "Указанный для блокировки ключ содержит недопустимые символы."
 
-#: modules/chanserv/set_mlock.c:96
+#: modules/chanserv/set_mlock.c:102
 #, fuzzy, c-format
 msgid "MLOCK key is too long (%zu > %u)."
 msgstr "Указанный для блокировки ключ слишком велик (%d > %d)."
 
-#: modules/botserv/main.c:1010
+#: modules/botserv/main.c:1019
 #, fuzzy
 msgid "Maintains network bot list."
 msgstr "Управляет глобальными сетевыми банами."
@@ -4565,7 +4663,7 @@ msgstr ""
 msgid "Manage channel roles."
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:607
+#: modules/proxyscan/dnsbl.c:609
 msgid "Manage the list of IP's exempt from DNSBL checking."
 msgstr ""
 
@@ -4619,7 +4717,7 @@ msgstr "Позволяет управлять списком VOP'ов канал
 msgid "Manipulates a channel's AKICK list."
 msgstr "Управление AKICK-списком канала."
 
-#: modules/chanserv/set_property.c:100
+#: modules/chanserv/set_property.c:106
 msgid "Manipulates channel metadata."
 msgstr "Позволяет ассоциировать различные метаданные с каналом."
 
@@ -4631,7 +4729,7 @@ msgstr "Изменяет metadata вашего аккаунта"
 msgid "Manipulates predefined sets of flags."
 msgstr "Позволяет управлять списоком шаблонов (наборами флагов)."
 
-#: modules/chanserv/flags.c:513
+#: modules/chanserv/flags.c:551
 msgid "Manipulates specific permissions on a channel."
 msgstr "Управление различными флагами прав доступа на канале."
 
@@ -4639,7 +4737,7 @@ msgstr "Управление различными флагами прав дос
 msgid "Manually chanfix a channel."
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:616
+#: modules/proxyscan/dnsbl.c:618
 msgid "Manually scan if a user is in a DNSBL."
 msgstr ""
 
@@ -4672,7 +4770,7 @@ msgstr "Маска %s уже находится в вашем списке д�
 msgid "Mask %s is not on your access list."
 msgstr "Маска %s не найдена в вашем списке доступа"
 
-#: modules/alis/main.c:382
+#: modules/alis/main.c:403
 msgid "Maximum channel output reached"
 msgstr ""
 
@@ -4723,22 +4821,22 @@ msgstr "Показывает список аккаунтов зарегистр�
 msgid "Maybe."
 msgstr "Возможно..."
 
-#: modules/chanserv/info.c:130 modules/nickserv/info.c:303
+#: modules/chanserv/info.c:130 modules/nickserv/info.c:321
 #, c-format
 msgid "Metadata   : %s = %s"
 msgstr "Метаданные   : %s = %s"
 
-#: modules/chanserv/set_property.c:95 modules/nickserv/set_property.c:91
+#: modules/chanserv/set_property.c:101 modules/nickserv/set_property.c:91
 #, c-format
 msgid "Metadata entry %s added."
 msgstr "В таблицу метаданных добавлена запись под названием %s."
 
-#: modules/chanserv/set_property.c:66 modules/nickserv/set_property.c:59
+#: modules/chanserv/set_property.c:72 modules/nickserv/set_property.c:59
 #, c-format
 msgid "Metadata entry %s has been deleted."
 msgstr "Запись вида %s удалена из таблицы метаданных."
 
-#: modules/chanserv/set_property.c:59 modules/nickserv/set_property.c:48
+#: modules/chanserv/set_property.c:65 modules/nickserv/set_property.c:48
 #, c-format
 msgid "Metadata entry %s was not set."
 msgstr "Запись вида %s в таблице метаданных не обнаружена."
@@ -4747,7 +4845,7 @@ msgstr "Запись вида %s в таблице метаданных не �
 msgid "Migrating mark data..."
 msgstr ""
 
-#: modules/botserv/main.c:904
+#: modules/botserv/main.c:913
 #, c-format
 msgid ""
 "Minimum number of users that must be in a channel for a bot to be assigned: "
@@ -4768,34 +4866,34 @@ msgstr "MLOCK-список слишком велик, показаны не вс
 msgid "Modified   : %s (%s ago) by %s"
 msgstr "Посл. раз использован  : %s (%s назад)"
 
-#: modules/operserv/modload.c:41
+#: modules/operserv/modmanager.c:386
 #, c-format
 msgid "Module %s failed to load."
 msgstr "Не удалось подгрузить модуль %s"
 
-#: modules/operserv/modreload.c:145
+#: modules/operserv/modmanager.c:503
 #, c-format
 msgid ""
 "Module %s failed to reload, and does not allow unloading. Shutting down to "
 "avoid data loss."
 msgstr ""
 
-#: modules/operserv/modreload.c:154
+#: modules/operserv/modmanager.c:496
 #, c-format
 msgid "Module %s failed to reload."
 msgstr ""
 
-#: modules/operserv/modload.c:39
+#: modules/operserv/modmanager.c:384
 #, c-format
 msgid "Module %s loaded."
 msgstr "Модуль %s успешно подгружен."
 
-#: modules/operserv/modreload.c:137
-#, c-format
-msgid "Module %s reloaded (from %s)."
-msgstr ""
+#: modules/operserv/modmanager.c:490
+#, fuzzy, c-format
+msgid "Module %s reloaded."
+msgstr "Модуль %s успешно подгружен."
 
-#: modules/operserv/modunload.c:56
+#: modules/operserv/modmanager.c:568
 #, c-format
 msgid "Module %s unloaded."
 msgstr "Модуль %s выгружен."
@@ -4814,27 +4912,37 @@ msgstr ""
 msgid "Most likely."
 msgstr "Скорее всего."
 
+#: modules/infoserv/main.c:577
+#, fuzzy
+msgid "Move news items."
+msgstr "У вас нет новых мемо-сообщений."
+
+#: modules/infoserv/main.c:586
+#, fuzzy
+msgid "Move oper news items."
+msgstr "У вас нет новых мемо-сообщений."
+
 #: modules/gameserv/eightball.c:46
 msgid "NO!"
 msgstr "НЕТ!"
 
-#: modules/operserv/specs.c:77
+#: modules/operserv/specs.c:78
 msgid "NOOP access"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:331
+#: src/crypto-benchmark/optimal.c:399
 msgid ""
 "NOTICE: Please be sure to specify -l/--optimal-memory-limit\n"
 "        appropriately for this machine!"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:38
+#: src/crypto-benchmark/optimal.c:39
 msgid ""
 "NOTICE: This does not test multithreading.\n"
 "Use '-a -p' for thread testing."
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:208
+#: src/crypto-benchmark/optimal.c:275
 msgid ""
 "NOTICE: This program may perform significantly better if you build it\n"
 "        against a supported third-party cryptographic digest library!"
@@ -4843,11 +4951,6 @@ msgstr ""
 #: modules/chanserv/template.c:36 modules/chanserv/template.c:105
 msgid "Name"
 msgstr "Имя"
-
-#: modules/operserv/modinspect.c:43
-#, c-format
-msgid "Name       : %s"
-msgstr "Имя       : %s"
 
 #: modules/chanfix/fix.c:609
 #, c-format
@@ -4924,7 +5027,7 @@ msgid "Nick %s is not registered to %s."
 msgstr "Ник %s не зарегистрирован на аккаунте %s."
 
 #: modules/hostserv/drop.c:36 modules/hostserv/group.c:35
-#: modules/hostserv/request.c:233 modules/nickserv/group.c:100
+#: modules/hostserv/request.c:230 modules/nickserv/group.c:100
 #: modules/nickserv/set_accountname.c:50
 #, c-format
 msgid "Nick %s is not registered to your account."
@@ -4945,12 +5048,12 @@ msgstr "Ник %s это имя вашего аккаунта. Вы не мо�
 msgid "Nick %s not found in help request database."
 msgstr ""
 
-#: modules/hostserv/request.c:424 modules/hostserv/request.c:523
+#: modules/hostserv/request.c:416 modules/hostserv/request.c:511
 #, c-format
 msgid "Nick %s not found in vhost request database."
 msgstr ""
 
-#: modules/hostserv/request.c:541
+#: modules/hostserv/request.c:529
 #, c-format
 msgid "Nick: %s, vHost: %s (%s - %s)"
 msgstr ""
@@ -4974,7 +5077,7 @@ msgstr ""
 msgid "Nickname ownership is disabled."
 msgstr "Возможность закрепления ника за собой отключена."
 
-#: modules/chanserv/access.c:493 modules/chanserv/flags.c:105
+#: modules/chanserv/access.c:493 modules/chanserv/flags.c:110
 msgid "Nickname/Host"
 msgstr ""
 
@@ -4982,16 +5085,16 @@ msgstr ""
 msgid "Nicknames/Accounts"
 msgstr ""
 
-#: modules/nickserv/info.c:280 modules/nickserv/info.c:288
+#: modules/nickserv/info.c:298 modules/nickserv/info.c:306
 #, c-format
 msgid "Nicks      : %s"
 msgstr "Ники в группе      : %s"
 
 #: modules/chanfix/fix.c:609 modules/chanfix/fix.c:610
-#: modules/chanserv/moderate.c:222 modules/groupserv/main/hooks.c:119
-#: modules/hostserv/request.c:146 modules/nickserv/pwquality.c:195
+#: modules/chanserv/moderate.c:224 modules/groupserv/main/hooks.c:119
+#: modules/hostserv/request.c:143 modules/nickserv/pwquality.c:222
 #: modules/operserv/info.c:22 modules/operserv/info.c:28
-#: modules/operserv/info.c:44 modules/operserv/modinspect.c:51
+#: modules/operserv/info.c:44
 #, fuzzy
 msgid "No"
 msgstr "Не-а."
@@ -5028,7 +5131,7 @@ msgstr "Ни одного аккаунта не зарегистрировано
 msgid "No accounts matched pattern %s"
 msgstr "Не найдено ни одного аккаунта для заданной маски (%s)"
 
-#: modules/chanserv/ban.c:157 modules/chanserv/unban_self.c:93
+#: modules/chanserv/ban.c:163 modules/chanserv/unban_self.c:99
 #, c-format
 msgid "No bans found matching %s on %s."
 msgstr ""
@@ -5048,7 +5151,7 @@ msgstr ""
 msgid "No channel access was found for the nickname %s."
 msgstr "Не найдены списки доступа для ника %s."
 
-#: modules/chanserv/list.c:236
+#: modules/chanserv/list.c:356
 #, c-format
 msgid "No channel matched criteria %s"
 msgstr ""
@@ -5067,7 +5170,7 @@ msgstr ""
 msgid "No entries matching pattern %s found in badmail database."
 msgstr ""
 
-#: modules/chanserv/flags.c:322
+#: modules/chanserv/flags.c:342
 #, c-format
 msgid "No flags for %s in %s."
 msgstr "Никаких флагов для %s на канале %s не обнаружено."
@@ -5114,7 +5217,7 @@ msgstr ""
 msgid "No nicknames matched criteria %s"
 msgstr ""
 
-#: modules/chanserv/quiet.c:439
+#: modules/chanserv/quiet.c:445
 #, c-format
 msgid "No quiets found matching %s on %s."
 msgstr ""
@@ -5151,7 +5254,7 @@ msgstr "В базе нет AKILL с номером %d."
 msgid "No such SQLINE: %s."
 msgstr ""
 
-#: modules/chanserv/ban.c:171
+#: modules/chanserv/ban.c:177
 #, c-format
 msgid "No such ban %s on %s."
 msgstr "Бан вида %s на канале %s не обнаружен."
@@ -5161,12 +5264,12 @@ msgstr "Бан вида %s на канале %s не обнаружен."
 msgid "No such command %s."
 msgstr "Нет такого oper class %s."
 
-#: modules/operserv/soper.c:118 modules/operserv/specs.c:144
+#: modules/operserv/soper.c:118 modules/operserv/specs.c:145
 #, c-format
 msgid "No such oper class %s."
 msgstr "Нет такого oper class %s."
 
-#: modules/chanserv/quiet.c:458
+#: modules/chanserv/quiet.c:464
 #, c-format
 msgid "No such quiet %s on %s."
 msgstr ""
@@ -5191,7 +5294,7 @@ msgstr "Список шаблонов канала %s пуст."
 msgid "No topic set for %s"
 msgstr ""
 
-#: modules/chanserv/flags.c:358
+#: modules/chanserv/flags.c:380
 #, fuzzy, c-format
 msgid "No valid flags given, use /msg %s HELP FLAGS for a list"
 msgstr "Указан неверный флаг, используйте /%s%s HELP FLAGS для списка флагов"
@@ -5236,7 +5339,7 @@ msgstr ""
 "Не изменены %d записей в списке доступа поскольку они затрагивают статус "
 "владельца. Пожалуйста произведите нужные изменения вручную."
 
-#: modules/chanserv/set_verbose.c:109
+#: modules/chanserv/set_verbose.c:115
 msgid "Notifies channel about access list modifications."
 msgstr "Активирует уведомления об изменениях списка доступа канала."
 
@@ -5282,19 +5385,23 @@ msgstr "Отображает информацию о подгруженных м
 msgid "Of course!"
 msgstr "Ну конечно!"
 
+#: src/crypto-benchmark/main.c:639
+msgid "One or more self-tests FAILED (BUG!). Exiting now..."
+msgstr ""
+
 #: modules/statserv/server.c:77
 #, c-format
 msgid "Online operators: %u"
 msgstr ""
 
 #: modules/chanserv/access.c:839 modules/chanserv/access.c:988
-#: modules/chanserv/flags.c:406
+#: modules/chanserv/flags.c:433
 #, fuzzy, c-format
 msgid "Only %u founder allowed per channel."
 msgstr "Список владельцев канала не может превышать %d"
 
 #: modules/chanserv/access.c:840 modules/chanserv/access.c:989
-#: modules/chanserv/flags.c:407
+#: modules/chanserv/flags.c:434
 #, fuzzy, c-format
 msgid "Only %u founders allowed per channel."
 msgstr "Список владельцев канала не может превышать %d"
@@ -5317,7 +5424,7 @@ msgstr "За один раз можно бросить только от 1 до 
 msgid "Oper class %s has more privileges than you."
 msgstr "Oper class %s имеет больше привилегий, чем вы."
 
-#: modules/nickserv/info.c:404
+#: modules/nickserv/info.c:430
 #, c-format
 msgid "Oper class : %s"
 msgstr "Oper class         : %s"
@@ -5337,7 +5444,12 @@ msgstr "Вам не хватает привилегий, чтобы измени
 msgid "Oper class list:"
 msgstr "список oper class:"
 
-#: modules/operserv/specs.c:71
+#: modules/infoserv/main.c:461
+#, c-format
+msgid "Oper logon info entry %u moved to position %u."
+msgstr ""
+
+#: modules/operserv/specs.c:72
 msgid "OperServ"
 msgstr ""
 
@@ -5359,7 +5471,7 @@ msgstr ""
 msgid "Original challenge: %s"
 msgstr ""
 
-#: libathemecore/services.c:963
+#: libathemecore/services.c:975
 #, c-format
 msgid "Output limit (%u) exceeded, halting output"
 msgstr ""
@@ -5389,7 +5501,7 @@ msgstr "Обходим MARK поставленный %s на аккаунт %s."
 msgid "Paper"
 msgstr "Бумага"
 
-#: modules/chanserv/set_property.c:88 modules/nickserv/set_property.c:78
+#: modules/chanserv/set_property.c:94 modules/nickserv/set_property.c:78
 msgid "Parameters are too long. Aborting."
 msgstr "Вы указали слишком длинное значение одного из параметров команды."
 
@@ -5399,12 +5511,16 @@ msgstr "Вы указали слишком длинное значение од�
 msgid "Password authentication is disabled for this account."
 msgstr "Авторизует на аккаунт сервисов."
 
-#: modules/nickserv/pwquality.c:156
+#: modules/nickserv/pwquality.c:174
+msgid "Password change denied due to insecure password"
+msgstr ""
+
+#: modules/nickserv/pwquality.c:136
 #, c-format
 msgid "Password is insecure [cracklib]: %s"
 msgstr ""
 
-#: modules/nickserv/pwquality.c:161
+#: modules/nickserv/pwquality.c:145
 #, c-format
 msgid "Password is insecure [passwdqc]: %s"
 msgstr ""
@@ -5434,11 +5550,15 @@ msgstr ""
 msgid "Perl help commands not yet implemented"
 msgstr ""
 
+#: modules/operserv/modmanager.c:71
+msgid "Permanent"
+msgstr ""
+
 #: modules/nickserv/register.c:76
 msgid "Please change to a real nickname, and try again."
 msgstr "Пожалуйста, смените ник на действительный и попробуйте еще раз."
 
-#: modules/nickserv/register.c:196
+#: modules/nickserv/register.c:187
 msgid ""
 "Please check the address if you don't receive it. If it is incorrect, DROP "
 "then REGISTER again."
@@ -5455,11 +5575,11 @@ msgstr ""
 msgid "Please contact an Operator to get a vhost assigned to this nick."
 msgstr ""
 
-#: modules/nickserv/verify.c:127
+#: modules/nickserv/verify.c:147
 msgid "Please double-check your verification e-mail."
 msgstr "Пожалуйста проверьте еще раз ваш email."
 
-#: modules/nickserv/verify.c:80
+#: modules/nickserv/verify.c:95
 #, fuzzy
 msgid "Please log in before attempting to verify an email address change."
 msgstr ""
@@ -5471,7 +5591,7 @@ msgstr ""
 msgid "Please make sure your memo is not greater than %u characters"
 msgstr ""
 
-#: modules/chanserv/help.c:62
+#: modules/chanserv/help.c:65
 #, fuzzy, c-format
 msgid ""
 "Please note that channels will expire after %u days of inactivity,\n"
@@ -5479,7 +5599,7 @@ msgid ""
 msgstr ""
 "Помните, что канал автоматически удаляется при отсутствии его наследников."
 
-#: modules/chanserv/help.c:72
+#: modules/chanserv/help.c:75
 msgid ""
 "Please note that channels will expire if there are no eligible channel "
 "successors."
@@ -5491,7 +5611,7 @@ msgstr ""
 msgid "Please specify a new account name for %s."
 msgstr "Пожалуйста, укажите новое имя аккаунта для %s."
 
-#: modules/infoserv/main.c:495
+#: modules/infoserv/main.c:550
 msgid "Post news items for users to view."
 msgstr ""
 
@@ -5505,14 +5625,14 @@ msgstr ""
 msgid "Prefix     : %s (default)"
 msgstr ""
 
-#: modules/chanserv/set_prefix.c:58
+#: modules/chanserv/set_prefix.c:64
 #, c-format
 msgid ""
 "Prefix '%s' is invalid. The prefix may contain only printable characters, "
 "and must contain at least one non-space character."
 msgstr ""
 
-#: modules/chanserv/topic.c:357
+#: modules/chanserv/topic.c:362
 msgid "Prepends a topic on a channel."
 msgstr "Позволяет добавить текст к началу топика канала."
 
@@ -5536,7 +5656,7 @@ msgstr "Предохранит аккаунт от удаления по сро�
 msgid "Prevents services from setting modes upon you automatically."
 msgstr "Запрещает сервисам автоматическую установку модов на вас."
 
-#: modules/chanserv/set_secure.c:79
+#: modules/chanserv/set_secure.c:85
 msgid "Prevents unauthorized users from gaining operator status."
 msgstr ""
 "Предотвращает получение статуса оператора неуполномоченным пользователями."
@@ -5559,12 +5679,12 @@ msgstr ""
 msgid "Private mode of bot %s is now ON."
 msgstr ""
 
-#: modules/operserv/specs.c:158 modules/operserv/specs.c:160
+#: modules/operserv/specs.c:159 modules/operserv/specs.c:161
 #, c-format
 msgid "Privileges for %s:"
 msgstr "Привилегии для %s:"
 
-#: modules/operserv/specs.c:162
+#: modules/operserv/specs.c:163
 #, c-format
 msgid "Privileges for oper class %s:"
 msgstr "Привилегии для oper class %s:"
@@ -5596,8 +5716,7 @@ msgstr ""
 msgid "REHASH completed."
 msgstr "REHASH завершен."
 
-#: modules/operserv/modload.c:49 modules/operserv/modreload.c:169
-#: modules/operserv/rehash.c:27
+#: modules/operserv/modmanager.c:292 modules/operserv/rehash.c:27
 #, c-format
 msgid ""
 "REHASH of %s failed. Please correct any errors in the file and try again."
@@ -5633,16 +5752,20 @@ msgstr ""
 msgid "Rating: %s"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:296
+#: src/crypto-benchmark/optimal.c:363
 msgid "Reached minimum iteration count!"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:65
+#: src/crypto-benchmark/optimal.c:66
 msgid "Reached minimum memory and time cost!"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:151
+#: src/crypto-benchmark/optimal.c:152
 msgid "Reached minimum memory limit!"
+msgstr ""
+
+#: src/crypto-benchmark/optimal.c:223
+msgid "Reached minimum rounds limit!"
 msgstr ""
 
 #: modules/memoserv/read.c:118
@@ -5655,19 +5778,19 @@ msgstr "Прочитано мемо-сообщений: %d."
 msgid "Read %u memos."
 msgstr "Прочитано мемо-сообщений: %d."
 
-#: modules/operserv/readonly.c:47
+#: modules/operserv/readonly.c:60
 msgid "Read-only mode is already disabled."
 msgstr ""
 
-#: modules/operserv/readonly.c:31
+#: modules/operserv/readonly.c:37
 msgid "Read-only mode is already enabled."
 msgstr ""
 
-#: modules/operserv/readonly.c:57
+#: modules/operserv/readonly.c:70
 msgid "Read-only mode is now disabled."
 msgstr ""
 
-#: modules/operserv/readonly.c:41
+#: modules/operserv/readonly.c:47
 msgid "Read-only mode is now enabled."
 msgstr ""
 
@@ -5675,7 +5798,7 @@ msgstr ""
 msgid "Reads a memo."
 msgstr "Позволяет прочитать мемо-сообщения."
 
-#: modules/nickserv/info.c:198
+#: modules/nickserv/info.c:210
 #, c-format
 msgid "Real addr  : %s"
 msgstr "Реал. адрес  : %s"
@@ -5689,7 +5812,7 @@ msgstr ""
 msgid "Reason"
 msgstr ""
 
-#: modules/hostserv/request.c:447
+#: modules/hostserv/request.c:440
 msgid "Reason too long. It must be 150 characters or less."
 msgstr ""
 
@@ -5697,12 +5820,12 @@ msgstr ""
 msgid "Reclaims use of a nickname."
 msgstr "Закрыть IRC-сессию, использующую ваш ник"
 
-#: modules/nickserv/info.c:202
+#: modules/nickserv/info.c:214
 msgid "Recognized : now (matches access list)"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:97 src/crypto-benchmark/optimal.c:184
-#: src/crypto-benchmark/optimal.c:309
+#: src/crypto-benchmark/optimal.c:98 src/crypto-benchmark/optimal.c:185
+#: src/crypto-benchmark/optimal.c:254 src/crypto-benchmark/optimal.c:377
 msgid "Recommended parameters:"
 msgstr ""
 
@@ -5722,11 +5845,6 @@ msgstr "Восстановление канала %s завершено"
 msgid "Redefining built-in template %s."
 msgstr "Переназначение встроенного шаблона %s..."
 
-#: modules/operserv/modreload.c:68
-#, c-format
-msgid "Refusing to reload %s."
-msgstr ""
-
 #: modules/operserv/soper.c:248
 #, c-format
 msgid ""
@@ -5734,16 +5852,11 @@ msgid ""
 msgstr ""
 "Отказываюсь выставить пароль оператора сервисов если %s IDENTIFY не загружен."
 
-#: modules/operserv/modunload.c:47
-#, c-format
-msgid "Refusing to unload %s."
-msgstr "Отказываюсь выгрузить %s."
-
 #: modules/chanserv/recover.c:186
 msgid "Regain control of your channel."
 msgstr "Позволяет вернуть управление каналом в ваши руки."
 
-#: modules/nickserv/enforce.c:641
+#: modules/nickserv/enforce.c:640
 msgid "Regain usage of a nickname."
 msgstr ""
 
@@ -5752,7 +5865,7 @@ msgstr ""
 msgid "Registered  : %s (%s ago)"
 msgstr ""
 
-#: modules/chanserv/info.c:77 modules/nickserv/info.c:114
+#: modules/chanserv/info.c:77 modules/nickserv/info.c:126
 #, c-format
 msgid "Registered : %s (%s ago)"
 msgstr "Зарегистрирован : %s (%s назад)"
@@ -5772,7 +5885,7 @@ msgstr "Зарегистрированных каналов: %d"
 msgid "Registered nicknames: %u"
 msgstr "Зарегистрированных ников: %d"
 
-#: modules/chanserv/register.c:175
+#: modules/chanserv/register.c:205
 msgid "Registers a channel."
 msgstr "Позволяет зарегистрировать канал"
 
@@ -5780,7 +5893,7 @@ msgstr "Позволяет зарегистрировать канал"
 msgid "Registers a group."
 msgstr ""
 
-#: modules/nickserv/register.c:249
+#: modules/nickserv/register.c:240
 msgid "Registers a nickname."
 msgstr "Регистрирует ник."
 
@@ -5788,11 +5901,11 @@ msgstr "Регистрирует ник."
 msgid "Registers an account."
 msgstr "Регистрирует аккаунт."
 
-#: modules/nickserv/pwquality.c:172
+#: modules/nickserv/pwquality.c:199
 msgid "Registration denied due to insecure password"
 msgstr ""
 
-#: modules/chanserv/help.c:54
+#: modules/chanserv/help.c:57
 msgid ""
 "Registration is a quick and painless process. Once registered,\n"
 "the founder can maintain complete and total control over the\n"
@@ -5805,35 +5918,36 @@ msgstr ""
 msgid "Registration passwords may not be longer than %u characters."
 msgstr ""
 
-#: modules/nickserv/pwquality.c:194
+#: modules/nickserv/pwquality.c:221
 #, c-format
 msgid "Registrations will fail with bad passwords: %s"
 msgstr ""
 
-#: modules/hostserv/request.c:568
+#: modules/hostserv/request.c:556
 msgid "Reject the requested vhost for the given nick."
 msgstr ""
 
-#: modules/chanserv/moderate.c:344
+#: modules/chanserv/moderate.c:346
 #, fuzzy
 msgid "Rejects a pending registration"
 msgstr "Отмена регистрации канала (удаление)."
 
-#: modules/nickserv/enforce.c:632
+#: modules/nickserv/enforce.c:631
 msgid "Releases a services enforcer."
 msgstr "Переход к менее строгому режиму работы сервисов."
+
+#: modules/operserv/modmanager.c:73
+msgid "Reload Only"
+msgstr ""
 
 #: modules/operserv/rehash.c:32
 msgid "Reload the configuration data."
 msgstr "Перечитывает конфигурационный файл"
 
-#: modules/operserv/modinspect.c:51
-msgid "Reload-only"
-msgstr ""
-
-#: modules/operserv/modreload.c:175
-msgid "Reloads a module."
-msgstr ""
+#: modules/operserv/modmanager.c:592
+#, fuzzy
+msgid "Reloads modules."
+msgstr "Выгружает модуль."
 
 #: modules/statserv/netsplit.c:126
 msgid "Remove a server from the netsplit list."
@@ -5869,7 +5983,7 @@ msgstr "Убран class для %s."
 msgid "Removed template %s from %s."
 msgstr "Успешно удален шаблон %s из списка шаблонов канала %s."
 
-#: modules/chanserv/ban.c:194
+#: modules/chanserv/ban.c:200
 msgid "Removes a ban on a channel."
 msgstr "Удаление бана с канала."
 
@@ -5877,15 +5991,15 @@ msgstr "Удаление бана с канала."
 msgid "Removes a nickname from your account."
 msgstr "Убирает ник из вашего аккаунта."
 
-#: modules/chanserv/quiet.c:485
+#: modules/chanserv/quiet.c:491
 msgid "Removes a quiet on a channel."
 msgstr ""
 
-#: modules/chanserv/kick.c:160
+#: modules/chanserv/kick.c:172
 msgid "Removes a user from a channel."
 msgstr "Удаляет (кикает) пользователя с канала."
 
-#: modules/hostserv/offer.c:363
+#: modules/hostserv/offer.c:394
 msgid "Removes a vhost from the list that users can take."
 msgstr ""
 
@@ -5893,27 +6007,27 @@ msgstr ""
 msgid "Removes an entry from the regex watch list."
 msgstr "Удалить запись из списка regex rwatch."
 
-#: modules/chanserv/kick.c:169
+#: modules/chanserv/kick.c:181
 msgid "Removes and bans a user from a channel."
 msgstr "Банит и кикает пользователя с канала."
 
-#: modules/chanserv/halfop.c:163
+#: modules/chanserv/halfop.c:169
 msgid "Removes channel halfops from a user."
 msgstr "Снятие статуса полуоператора c указанного пользователя."
 
-#: modules/chanserv/op.c:158
+#: modules/chanserv/op.c:164
 msgid "Removes channel ops from a user."
 msgstr "Снятие статуса оператора c указанного пользователя."
 
-#: modules/chanserv/owner.c:163
+#: modules/chanserv/owner.c:169
 msgid "Removes channel owner flag from a user."
 msgstr ""
 
-#: modules/chanserv/protect.c:163
+#: modules/chanserv/protect.c:169
 msgid "Removes channel protection flag from a user."
 msgstr ""
 
-#: modules/chanserv/voice.c:147
+#: modules/chanserv/voice.c:153
 msgid "Removes channel voice from a user."
 msgstr "Снятие статуса войса c указанного пользователя."
 
@@ -5925,12 +6039,12 @@ msgstr "Лишить аккаунт привилегий оператора се
 msgid "Request help from network staff."
 msgstr ""
 
-#: modules/hostserv/request.c:146
+#: modules/hostserv/request.c:143
 #, c-format
 msgid "Requested vHosts will be per-nick: %s"
 msgstr ""
 
-#: modules/hostserv/request.c:550
+#: modules/hostserv/request.c:538
 msgid "Requests new virtual hostname for current nick."
 msgstr ""
 
@@ -5952,7 +6066,7 @@ msgstr ""
 "Ограничиваем полномочия IRC оператора. Удаляет O-line запись с сервера и "
 "прибивает оператора."
 
-#: modules/chanserv/set_restricted.c:125
+#: modules/chanserv/set_restricted.c:131
 msgid ""
 "Restricts access to the channel to users on the access list. (Other users "
 "are kickbanned.)"
@@ -5960,7 +6074,7 @@ msgstr ""
 "Ограничивает доступ к каналу только для пользователей из списка доступа. "
 "(Все прочие пользователи будут кикнуты и забанены.)"
 
-#: modules/chanserv/set_topiclock.c:82
+#: modules/chanserv/set_topiclock.c:88
 msgid "Restricts who can change the topic."
 msgstr "Ограничивает возможность изменения топика канала."
 
@@ -5969,18 +6083,23 @@ msgstr "Ограничивает возможность изменения то�
 msgid "Result: %s"
 msgstr "Результат: %s"
 
-#: modules/alis/main.c:349
+#: modules/alis/main.c:370
 #, c-format
 msgid "Returning maximum of %u channel names matching '%s'"
 msgstr ""
 
-#: modules/nickserv/return.c:98
+#: modules/nickserv/return.c:114
 msgid "Returns an account to its owner."
 msgstr "Возвращает аккаунт хозяину."
 
 #: modules/chanserv/getkey.c:62
 msgid "Returns the key (+k) of a channel."
 msgstr "Возвращает ключ-пароль (+k) канала."
+
+#: modules/operserv/modmanager.c:350
+#, c-format
+msgid "Reverse Dependencies (%zu):"
+msgstr ""
 
 #: modules/gameserv/rps.c:18
 msgid "Rock"
@@ -6039,10 +6158,10 @@ msgstr ""
 msgid "Ruleset: %s"
 msgstr ""
 
-#: modules/operserv/modinspect.c:47
-#, c-format
-msgid "SDK Serial : %s"
-msgstr ""
+#: modules/operserv/modmanager.c:328
+#, fuzzy, c-format
+msgid "SDK Serial     : %s"
+msgstr "Автор     : %s"
 
 #: modules/nickserv/set_core.c:31
 #, fuzzy
@@ -6199,22 +6318,22 @@ msgstr ""
 msgid "Searches through the logs."
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:229
+#: src/crypto-benchmark/optimal.c:296
 #, c-format
 msgid "Selecting iterations starting point: %zu"
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:282
+#: src/crypto-benchmark/optimal.c:349
 #, c-format
 msgid "Selecting optimal algorithm: %s"
 msgstr ""
 
-#: modules/nickserv/return.c:56
+#: modules/nickserv/return.c:57
 #, c-format
 msgid "Sending email failed, account %s remains with %s."
 msgstr "Отправка email завершилась неудачей, аккаунт %s остается с %s."
 
-#: modules/nickserv/register.c:189
+#: modules/nickserv/register.c:180
 msgid "Sending email failed, sorry! Registration aborted."
 msgstr "Отправка email завершилась неудачей. Регистрация отменена."
 
@@ -6304,6 +6423,10 @@ msgid ""
 "configuration."
 msgstr ""
 
+#: modules/operserv/set_commitinterval.c:53
+msgid "Services is running read-only; this will have no effect."
+msgstr ""
+
 #: modules/helpserv/services.c:18
 #, c-format
 msgid "Services running on %s:"
@@ -6332,7 +6455,7 @@ msgstr "Установить пароль для %s равным %s."
 msgid "Sets RPG properties of your channel."
 msgstr ""
 
-#: modules/chanserv/ban.c:185
+#: modules/chanserv/ban.c:191
 msgid "Sets a ban on a channel."
 msgstr "Установка бана на канале."
 
@@ -6350,11 +6473,11 @@ msgstr ""
 "Устанавливает несколько AKILLов на пользователя, попадающего в диапазон "
 "указаннго regex выражения."
 
-#: modules/chanserv/quiet.c:476
+#: modules/chanserv/quiet.c:482
 msgid "Sets a quiet on a channel."
 msgstr ""
 
-#: modules/chanserv/topic.c:339
+#: modules/chanserv/topic.c:344
 msgid "Sets a topic on a channel."
 msgstr "Позволяет установить топик на канале."
 
@@ -6362,7 +6485,7 @@ msgstr "Позволяет установить топик на канале."
 msgid "Sets an account as being on vacation."
 msgstr "Устанавливает флаг 'в отпуске' на аккаунт"
 
-#: modules/chanserv/set_mlock.c:302
+#: modules/chanserv/set_mlock.c:308
 msgid "Sets channel mode lock."
 msgstr "Блокировка режимов канала."
 
@@ -6370,19 +6493,19 @@ msgstr "Блокировка режимов канала."
 msgid "Sets flags on a user in a group."
 msgstr ""
 
-#: modules/chanserv/set_prefix.c:74
+#: modules/chanserv/set_prefix.c:80
 msgid "Sets the channel PREFIX."
 msgstr ""
 
-#: modules/chanserv/set_url.c:83
+#: modules/chanserv/set_url.c:89
 msgid "Sets the channel URL."
 msgstr "Позволяет установить URL-адрес канала."
 
-#: modules/chanserv/set_email.c:63
+#: modules/chanserv/set_email.c:69
 msgid "Sets the channel e-mail address."
 msgstr "Позволяет установить EMAIL-адрес канала."
 
-#: modules/chanserv/set_entrymsg.c:90
+#: modules/chanserv/set_entrymsg.c:96
 #, fuzzy
 msgid "Sets the channel entry message."
 msgstr "Устанавливает сообщение при входе на канал"
@@ -6436,7 +6559,7 @@ msgstr ""
 msgid "Sets various control flags."
 msgstr "Позволяет настроить различные опции."
 
-#: modules/hostserv/offer.c:354
+#: modules/hostserv/offer.c:385
 msgid "Sets vhosts available for users to take."
 msgstr ""
 
@@ -6448,7 +6571,7 @@ msgstr ""
 msgid "Sets when unused nicks and accounts expire."
 msgstr ""
 
-#: modules/chanserv/set_guard.c:91
+#: modules/chanserv/set_guard.c:97
 msgid "Sets whether or not services will inhabit the channel."
 msgstr "Позволяет пригласить ChanServ на канал."
 
@@ -6489,15 +6612,15 @@ msgstr "Выводит все записи списка игнорировани
 msgid "Shows and changes services operator privileges."
 msgstr "Показать или изменить привилегии операторов сервисов."
 
-#: modules/statserv/pwhashes.c:305
+#: modules/statserv/pwhashes.c:315
 msgid "Shows database password hash statistics."
 msgstr ""
 
-#: modules/chanserv/count.c:110
+#: modules/chanserv/count.c:129
 msgid "Shows number of entries in access lists."
 msgstr "Выводит число записей в access-списке канала."
 
-#: modules/operserv/specs.c:195
+#: modules/operserv/specs.c:196
 msgid "Shows oper flags."
 msgstr "Показать флаги оператора."
 
@@ -6602,7 +6725,7 @@ msgstr "Наследник  : %s"
 msgid "Successor  : (none)"
 msgstr "Наследник  : (нет)"
 
-#: modules/chanserv/help.c:77
+#: modules/chanserv/help.c:80
 #, fuzzy
 msgid ""
 "Successors are primarily those who have the +S (if available)\n"
@@ -6624,7 +6747,7 @@ msgstr ""
 msgid "Summary for %s set."
 msgstr ""
 
-#: modules/chanserv/topic.c:366
+#: modules/chanserv/topic.c:371
 #, fuzzy
 msgid "Swap part of the topic on a channel."
 msgstr "Позволяет установить топик на канале."
@@ -6694,12 +6817,12 @@ msgstr ""
 msgid "Syntax: ACT <#channel> <msg>"
 msgstr ""
 
-#: modules/chanserv/moderate.c:197
+#: modules/chanserv/moderate.c:199
 #, fuzzy
 msgid "Syntax: ACTIVATE <#channel>"
 msgstr "Синтаксис: INVITE <#канал>"
 
-#: modules/hostserv/request.c:372
+#: modules/hostserv/request.c:376
 msgid "Syntax: ACTIVATE <nick>"
 msgstr ""
 
@@ -6741,7 +6864,7 @@ msgstr "Синтаксис: AKILL ADD|DEL|LIST"
 msgid "Syntax: AKILL DEL <hostmask>"
 msgstr "Синтаксис: AKILL DEL <маска>"
 
-#: modules/botserv/main.c:790
+#: modules/botserv/main.c:799
 msgid "Syntax: ASSIGN <#channel> <nick>"
 msgstr ""
 
@@ -6772,18 +6895,18 @@ msgstr "Синтаксис: BAN <#канал> <ник|хостмаска>"
 msgid "Syntax: BANSEARCH <#channel>"
 msgstr "Синтаксис: REGISTER <#канал>"
 
-#: modules/botserv/main.c:495 modules/botserv/main.c:714
-#: modules/botserv/main.c:735
+#: modules/botserv/main.c:495 modules/botserv/main.c:723
+#: modules/botserv/main.c:744
 msgid "Syntax: BOT ADD <nick> <user> <host> <real>"
 msgstr ""
 
-#: modules/botserv/main.c:565 modules/botserv/main.c:629
-#: modules/botserv/main.c:715 modules/botserv/main.c:736
+#: modules/botserv/main.c:565 modules/botserv/main.c:638
+#: modules/botserv/main.c:724 modules/botserv/main.c:745
 msgid "Syntax: BOT CHANGE <oldnick> <newnick> [<user> [<host> [<real>]]]"
 msgstr ""
 
-#: modules/botserv/main.c:667 modules/botserv/main.c:716
-#: modules/botserv/main.c:737
+#: modules/botserv/main.c:676 modules/botserv/main.c:725
+#: modules/botserv/main.c:746
 msgid "Syntax: BOT DEL <nick>"
 msgstr ""
 
@@ -6887,12 +7010,12 @@ msgstr "Синтаксис: COMPARE <ник|#канал> <ник|#канал>"
 msgid "Syntax: COUNT <#channel>"
 msgstr "Синтаксис: COUNT <#канал>"
 
-#: modules/chanserv/halfop.c:145
+#: modules/chanserv/halfop.c:151
 #, fuzzy
 msgid "Syntax: DEHALFOP <#channel> [nickname] [...]"
 msgstr "Синтаксис: DEHALFOP <#канал> [ник]"
 
-#: modules/infoserv/main.c:340 modules/infoserv/main.c:347
+#: modules/infoserv/main.c:302 modules/infoserv/main.c:313
 #, fuzzy
 msgid "Syntax: DEL <id>"
 msgstr "Синтаксис: DF <кость>"
@@ -6901,21 +7024,21 @@ msgstr "Синтаксис: DF <кость>"
 msgid "Syntax: DELETE ALL|OLD|message id"
 msgstr "Синтаксис: DELETE ALL|OLD|номер_сообщения"
 
-#: modules/chanserv/op.c:140
+#: modules/chanserv/op.c:146
 #, fuzzy
 msgid "Syntax: DEOP <#channel> [nickname] [...]"
 msgstr "Синтаксис: DEOP <#канал> [ник]"
 
-#: modules/chanserv/owner.c:145
+#: modules/chanserv/owner.c:151
 #, fuzzy
 msgid "Syntax: DEOWNER <#channel> [nickname] [...]"
 msgstr "Синтаксис: DEOP <#канал> [ник]"
 
-#: modules/chanserv/protect.c:145
+#: modules/chanserv/protect.c:151
 msgid "Syntax: DEPROTECT <#channel> [nickname]"
 msgstr ""
 
-#: modules/chanserv/voice.c:129
+#: modules/chanserv/voice.c:135
 #, fuzzy
 msgid "Syntax: DEVOICE <#channel> [nickname] [...]"
 msgstr "Синтаксис: DEVOICE <#канал> [ник]"
@@ -6928,19 +7051,19 @@ msgstr "Синтаксис: DF <кость>"
 msgid "Syntax: DISABLE <channel>"
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:171
+#: modules/proxyscan/dnsbl.c:172
 msgid "Syntax: DNSBLEXEMPT ADD <ip> <reason>"
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:161 modules/proxyscan/dnsbl.c:247
+#: modules/proxyscan/dnsbl.c:162 modules/proxyscan/dnsbl.c:248
 msgid "Syntax: DNSBLEXEMPT ADD|DEL|LIST [ip] [reason]"
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:202
+#: modules/proxyscan/dnsbl.c:203
 msgid "Syntax: DNSBLEXEMPT DEL <ip>"
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:400
+#: modules/proxyscan/dnsbl.c:402
 msgid "Syntax: DNSBLSCAN <user>"
 msgstr ""
 
@@ -6987,12 +7110,12 @@ msgstr ""
 msgid "Syntax: FLAGS <!group> [user] [changes]"
 msgstr ""
 
-#: modules/chanserv/flags.c:274
+#: modules/chanserv/flags.c:285
 #, fuzzy
 msgid "Syntax: FLAGS <#channel> MODIFY [target] <flags>"
 msgstr "Синтаксис: FLAGS <#канал> [цель] [флаги]"
 
-#: modules/chanserv/flags.c:182
+#: modules/chanserv/flags.c:190
 msgid "Syntax: FLAGS <channel> [target] [flags]"
 msgstr "Синтаксис: FLAGS <#канал> [цель] [флаги]"
 
@@ -7017,7 +7140,7 @@ msgstr "Синтаксис: FUNGROUP <ник> <новый_ник>"
 msgid "Syntax: FUNGROUP <nickname> [newaccountname]"
 msgstr "Синтаксис: FUNGROUP <ник> [новый_ник]"
 
-#: modules/nickserv/verify.c:145
+#: modules/nickserv/verify.c:163
 msgid "Syntax: FVERIFY <operation> <account>"
 msgstr "Синтаксис: FVERIFY <операция> <аккаунт>"
 
@@ -7042,7 +7165,7 @@ msgstr "Синтаксис: GLOBAL <параметры>|SEND|CLEAR"
 msgid "Syntax: GREPLOG <service> <pattern> [days]"
 msgstr ""
 
-#: modules/chanserv/halfop.c:132
+#: modules/chanserv/halfop.c:138
 #, fuzzy
 msgid "Syntax: HALFOP <#channel> [nickname] [...]"
 msgstr "Синтаксис: HALFOP <#канал> [ник]"
@@ -7088,7 +7211,7 @@ msgstr ""
 msgid "Syntax: INFO <channel>"
 msgstr ""
 
-#: modules/nickserv/info.c:51
+#: modules/nickserv/info.c:63
 msgid "Syntax: INFO <nickname>"
 msgstr "Синтаксис: INFO <ник>"
 
@@ -7113,7 +7236,7 @@ msgstr ""
 msgid "Syntax: KICK <#channel> <nickname> [reason]"
 msgstr "Синтаксис: KICK <#канал> <ник> [причина]"
 
-#: modules/chanserv/kick.c:99
+#: modules/chanserv/kick.c:105
 msgid "Syntax: KICKBAN <#channel> <nickname> [reason]"
 msgstr "Синтаксис: KICKBAN <#канал> <ник> [причина]"
 
@@ -7137,21 +7260,30 @@ msgstr "Синтаксис: LOGOUT <аккаунт> <пароль>"
 msgid "Syntax: MODE <channel> <parameters>"
 msgstr "Синтаксис: MODE <канал> <параметры>"
 
-#: modules/operserv/modinspect.c:21
-msgid "Syntax: MODINSPECT <module>"
+#: modules/operserv/modmanager.c:302
+#, fuzzy
+msgid "Syntax: MODINSPECT <module> [module [...]]"
 msgstr "Синтаксис: MODINSPECT <модуль>"
 
-#: modules/operserv/modload.c:22
-msgid "Syntax: MODLOAD <module...>"
+#: modules/operserv/modmanager.c:369
+#, fuzzy
+msgid "Syntax: MODLOAD <module> [module [...]]"
 msgstr "Синтаксис: MODLOAD <модуль...>"
 
-#: modules/operserv/modreload.c:52
-msgid "Syntax: MODRELOAD <module...>"
-msgstr ""
+#: modules/operserv/modmanager.c:398
+#, fuzzy
+msgid "Syntax: MODRELOAD <module> [module [...]]"
+msgstr "Синтаксис: MODLOAD <модуль...>"
 
-#: modules/operserv/modunload.c:22
-msgid "Syntax: MODUNLOAD <module...>"
+#: modules/operserv/modmanager.c:526
+#, fuzzy
+msgid "Syntax: MODUNLOAD <module> [module [...]]"
 msgstr "Синтаксис: MODUNLOAD <модуль>"
+
+#: modules/infoserv/main.c:379 modules/infoserv/main.c:390
+#, fuzzy
+msgid "Syntax: MOVE <from> <to>"
+msgstr "Синтаксис: INFO <#канал>"
 
 #: modules/statserv/netsplit.c:90
 msgid "Syntax: NETSPLIT REMOVE <server>"
@@ -7170,7 +7302,7 @@ msgstr "Синтаксис: NOOP <ADD|DEL|LIST> <HOSTMASK|SERVER> <маска> [
 msgid "Syntax: NWOD [-chance] <dice> [-reroll] [reroll]"
 msgstr ""
 
-#: modules/infoserv/main.c:389 modules/infoserv/main.c:396
+#: modules/infoserv/main.c:300 modules/infoserv/main.c:311
 #, fuzzy
 msgid "Syntax: ODEL <id>"
 msgstr "Синтаксис: DF <кость>"
@@ -7179,21 +7311,26 @@ msgstr "Синтаксис: DF <кость>"
 msgid "Syntax: OFFER [!group] <vhost>"
 msgstr ""
 
-#: modules/chanserv/op.c:127
+#: modules/infoserv/main.c:377 modules/infoserv/main.c:388
+#, fuzzy
+msgid "Syntax: OMOVE <from> <to>"
+msgstr "Синтаксис: INFO <#канал>"
+
+#: modules/chanserv/op.c:133
 #, fuzzy
 msgid "Syntax: OP <#channel> [nickname] [...]"
 msgstr "Синтаксис: OP <#канал> [ник]"
 
-#: modules/chanserv/owner.c:132
+#: modules/chanserv/owner.c:138
 #, fuzzy
 msgid "Syntax: OWNER <#channel> [nickname] [...]"
 msgstr "Синтаксис: OP <#канал> [ник]"
 
-#: modules/infoserv/main.c:257
+#: modules/infoserv/main.c:226
 msgid "Syntax: POST <importance> <subject> <message>"
 msgstr ""
 
-#: modules/chanserv/protect.c:132
+#: modules/chanserv/protect.c:138
 msgid "Syntax: PROTECT <#channel> [nickname]"
 msgstr ""
 
@@ -7228,7 +7365,7 @@ msgstr "Синтаксис: RECOVER <#канал>"
 msgid "Syntax: REGAIN <nick> [password]"
 msgstr ""
 
-#: modules/nickserv/enforce.c:554
+#: modules/nickserv/enforce.c:553
 msgid "Syntax: REGAIN <nickname> [password]"
 msgstr ""
 
@@ -7236,11 +7373,11 @@ msgstr ""
 msgid "Syntax: REGISTER <#channel>"
 msgstr "Синтаксис: REGISTER <#канал>"
 
-#: modules/nickserv/register.c:54 modules/nickserv/register.c:99
+#: modules/nickserv/register.c:54 modules/nickserv/register.c:102
 msgid "Syntax: REGISTER <account> <password> <email>"
 msgstr "Синтаксис: REGISTER <аккаунт> <пароль> <email>"
 
-#: modules/nickserv/register.c:56 modules/nickserv/register.c:101
+#: modules/nickserv/register.c:56 modules/nickserv/register.c:104
 msgid "Syntax: REGISTER <password> <email>"
 msgstr "Синтаксис: REGISTER <пароль> <email>"
 
@@ -7248,12 +7385,12 @@ msgstr "Синтаксис: REGISTER <пароль> <email>"
 msgid "Syntax: REGNOLIMIT <!group> <ON|OFF>"
 msgstr ""
 
-#: modules/chanserv/moderate.c:291
+#: modules/chanserv/moderate.c:293
 #, fuzzy
 msgid "Syntax: REJECT <#channel>"
 msgstr "Синтаксис: RECOVER <#канал>"
 
-#: modules/hostserv/request.c:441
+#: modules/hostserv/request.c:434
 #, fuzzy
 msgid "Syntax: REJECT <nick> [reason]"
 msgstr "Синтаксис: RELEASE <ник> [пароль]"
@@ -7270,7 +7407,7 @@ msgstr "Синтаксис: RELEASE <ник> [пароль]"
 msgid "Syntax: REQUEST <topic>"
 msgstr ""
 
-#: modules/hostserv/request.c:197
+#: modules/hostserv/request.c:194
 msgid "Syntax: REQUEST <vhost>"
 msgstr ""
 
@@ -7420,11 +7557,11 @@ msgid "Syntax: SET CHANEXPIRE <days>"
 msgstr ""
 
 #: modules/operserv/set_commitinterval.c:21
-#: modules/operserv/set_commitinterval.c:31
+#: modules/operserv/set_commitinterval.c:37
 msgid "Syntax: SET COMMITINTERVAL <minutes>"
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:131
+#: modules/proxyscan/dnsbl.c:132
 msgid "Syntax: SET DNSBLACTION <action>"
 msgstr ""
 
@@ -7563,7 +7700,7 @@ msgstr ""
 msgid "Syntax: SYNC <#channel>"
 msgstr "Синтаксис: INFO <#канал>"
 
-#: modules/hostserv/offer.c:268
+#: modules/hostserv/offer.c:331
 msgid "Syntax: TAKE <vhost>"
 msgstr ""
 
@@ -7579,20 +7716,20 @@ msgstr "Синтаксис: TAXONOMY <ник>"
 msgid "Syntax: TOPIC <#channel> <topic>"
 msgstr "Синтаксис: TOPIC <#канал> <текст>"
 
-#: modules/chanserv/topic.c:90
+#: modules/chanserv/topic.c:95
 msgid "Syntax: TOPICAPPEND <#channel> <topic>"
 msgstr "Синтаксис: TOPICAPPEND <#канал> <текст>"
 
-#: modules/chanserv/topic.c:166
+#: modules/chanserv/topic.c:171
 msgid "Syntax: TOPICPREPEND <#channel> <topic>"
 msgstr "Синтаксис: TOPICPREPEND <#канал> <текст>"
 
-#: modules/chanserv/topic.c:250 modules/chanserv/topic.c:261
+#: modules/chanserv/topic.c:255 modules/chanserv/topic.c:266
 #, fuzzy
 msgid "Syntax: TOPICSWAP <#channel> <search>:[<replace>]"
 msgstr "Синтаксис: TOPIC <#канал> <текст>"
 
-#: modules/botserv/main.c:866
+#: modules/botserv/main.c:875
 msgid "Syntax: UNASSIGN <#channel>"
 msgstr ""
 
@@ -7604,7 +7741,7 @@ msgstr ""
 msgid "Syntax: UNBAN <#channel> <nickname|hostmask>"
 msgstr "Синтаксис: UNBAN <#канал> <ник|хостмаска>"
 
-#: modules/chanserv/ban.c:178
+#: modules/chanserv/ban.c:184
 msgid "Syntax: UNBAN <#channel> [nickname|hostmask]"
 msgstr "Синтаксис: UNBAN <#канал> [ник|хостмаска]"
 
@@ -7617,12 +7754,12 @@ msgstr ""
 msgid "Syntax: UNQUIET <#channel> <nickname|hostmask> [...]"
 msgstr "Синтаксис: UNBAN <#канал> <ник|хостмаска>"
 
-#: modules/chanserv/quiet.c:465
+#: modules/chanserv/quiet.c:471
 #, fuzzy
 msgid "Syntax: UNQUIET <#channel> [nickname|hostmask] [...]"
 msgstr "Синтаксис: UNBAN <#канал> [ник|хостмаска]"
 
-#: modules/nickserv/verify.c:26
+#: modules/nickserv/verify.c:60
 msgid "Syntax: VERIFY <operation> <account> <key>"
 msgstr "Синтакс: VERIFY <операция> <аккаунт> <ключ>"
 
@@ -7646,7 +7783,7 @@ msgstr ""
 msgid "Syntax: VHOSTNICK <nick> [vhost]"
 msgstr ""
 
-#: modules/chanserv/voice.c:116
+#: modules/chanserv/voice.c:122
 #, fuzzy
 msgid "Syntax: VOICE <#channel> [nickname] [...]"
 msgstr "Синтаксис: VOICE <#канал> [ник]"
@@ -7695,7 +7832,7 @@ msgstr ""
 msgid "Taint Location: %s:%u"
 msgstr ""
 
-#: modules/hostserv/offer.c:381
+#: modules/hostserv/offer.c:412
 msgid "Take an offered vhost for use."
 msgstr ""
 
@@ -7703,7 +7840,7 @@ msgstr ""
 msgid "Target inbox is full."
 msgstr "Ошибка перенаправления, ящик сообщений указанного ника переполнен."
 
-#: modules/chanserv/taxonomy.c:47 modules/nickserv/taxonomy.c:42
+#: modules/chanserv/taxonomy.c:53 modules/nickserv/taxonomy.c:42
 #, c-format
 msgid "Taxonomy for %s:"
 msgstr "Taxonomy-лист для %s:"
@@ -7713,7 +7850,7 @@ msgstr "Taxonomy-лист для %s:"
 msgid "Template %s on %s unchanged."
 msgstr "Шаблон %s для канала %s остался неизменным."
 
-#: modules/nickserv/verify.c:54
+#: modules/nickserv/verify.c:12
 msgid ""
 "Thank you for verifying your e-mail address! You have taken steps in "
 "ensuring that your registrations are not exploited."
@@ -7729,7 +7866,7 @@ msgstr "Этот вопрос лучше оставить без ответа...
 msgid "That's a question you should ask yourself."
 msgstr "Этот вопрос ты должен задать самому себе."
 
-#: modules/chanserv/set_limitflags.c:69 modules/chanserv/set_private.c:69
+#: modules/chanserv/set_limitflags.c:75 modules/chanserv/set_private.c:75
 #: modules/nickserv/set_private.c:65 modules/nickserv/set_privmsg.c:64
 #, c-format
 msgid "The %s flag has been removed for %s."
@@ -7746,16 +7883,16 @@ msgstr ""
 msgid "The %s flag has been removed for account %s."
 msgstr "Флаг %s был снят для аккаунта %s."
 
-#: modules/chanserv/set_fantasy.c:69 modules/chanserv/set_guard.c:79
-#: modules/chanserv/set_keeptopic.c:67 modules/chanserv/set_pubacl.c:67
-#: modules/chanserv/set_restricted.c:113 modules/chanserv/set_secure.c:67
-#: modules/chanserv/set_topiclock.c:70 modules/chanserv/set_verbose.c:97
-#: modules/chanserv/sync.c:222
+#: modules/chanserv/set_fantasy.c:75 modules/chanserv/set_guard.c:85
+#: modules/chanserv/set_keeptopic.c:73 modules/chanserv/set_pubacl.c:73
+#: modules/chanserv/set_restricted.c:119 modules/chanserv/set_secure.c:73
+#: modules/chanserv/set_topiclock.c:76 modules/chanserv/set_verbose.c:103
+#: modules/chanserv/sync.c:228
 #, c-format
 msgid "The %s flag has been removed for channel %s."
 msgstr "Режим %s на канале %s теперь отключен."
 
-#: modules/chanserv/set_limitflags.c:51 modules/chanserv/set_private.c:51
+#: modules/chanserv/set_limitflags.c:57 modules/chanserv/set_private.c:57
 #: modules/nickserv/set_private.c:49 modules/nickserv/set_privmsg.c:48
 #, c-format
 msgid "The %s flag has been set for %s."
@@ -7771,16 +7908,16 @@ msgstr ""
 msgid "The %s flag has been set for account %s."
 msgstr "Флаг %s установлен для аккаунта %s."
 
-#: modules/chanserv/set_fantasy.c:52 modules/chanserv/set_guard.c:60
-#: modules/chanserv/set_keeptopic.c:51 modules/chanserv/set_pubacl.c:51
-#: modules/chanserv/set_restricted.c:97 modules/chanserv/set_secure.c:51
-#: modules/chanserv/set_topiclock.c:52 modules/chanserv/set_verbose.c:52
-#: modules/chanserv/set_verbose.c:78 modules/chanserv/sync.c:207
+#: modules/chanserv/set_fantasy.c:58 modules/chanserv/set_guard.c:66
+#: modules/chanserv/set_keeptopic.c:57 modules/chanserv/set_pubacl.c:57
+#: modules/chanserv/set_restricted.c:103 modules/chanserv/set_secure.c:57
+#: modules/chanserv/set_topiclock.c:58 modules/chanserv/set_verbose.c:58
+#: modules/chanserv/set_verbose.c:84 modules/chanserv/sync.c:213
 #, c-format
 msgid "The %s flag has been set for channel %s."
 msgstr "Режим %s для канала %s успешно установлен."
 
-#: modules/chanserv/set_limitflags.c:42 modules/chanserv/set_private.c:42
+#: modules/chanserv/set_limitflags.c:48 modules/chanserv/set_private.c:48
 #: modules/nickserv/set_private.c:40 modules/nickserv/set_privmsg.c:40
 #, c-format
 msgid "The %s flag is already set for %s."
@@ -7796,17 +7933,17 @@ msgstr ""
 msgid "The %s flag is already set for account %s."
 msgstr "Флаг %s уже установлен для аккаунта %s."
 
-#: modules/chanserv/antiflood.c:423 modules/chanserv/set_fantasy.c:44
-#: modules/chanserv/set_guard.c:42 modules/chanserv/set_keeptopic.c:42
-#: modules/chanserv/set_pubacl.c:42 modules/chanserv/set_restricted.c:88
-#: modules/chanserv/set_secure.c:42 modules/chanserv/set_topiclock.c:42
-#: modules/chanserv/set_verbose.c:42 modules/chanserv/set_verbose.c:60
-#: modules/chanserv/sync.c:199
+#: modules/chanserv/antiflood.c:423 modules/chanserv/set_fantasy.c:50
+#: modules/chanserv/set_guard.c:48 modules/chanserv/set_keeptopic.c:48
+#: modules/chanserv/set_pubacl.c:48 modules/chanserv/set_restricted.c:94
+#: modules/chanserv/set_secure.c:48 modules/chanserv/set_topiclock.c:48
+#: modules/chanserv/set_verbose.c:48 modules/chanserv/set_verbose.c:66
+#: modules/chanserv/sync.c:205
 #, c-format
 msgid "The %s flag is already set for channel %s."
 msgstr "Режим %s для канала %s уже активирован."
 
-#: modules/chanserv/set_limitflags.c:60 modules/chanserv/set_private.c:60
+#: modules/chanserv/set_limitflags.c:66 modules/chanserv/set_private.c:66
 #: modules/nickserv/set_private.c:57 modules/nickserv/set_privmsg.c:56
 #, c-format
 msgid "The %s flag is not set for %s."
@@ -7823,16 +7960,16 @@ msgstr ""
 msgid "The %s flag is not set for account %s."
 msgstr "Флаг %s не установлен для аккаунта %s."
 
-#: modules/chanserv/set_fantasy.c:61 modules/chanserv/set_guard.c:67
-#: modules/chanserv/set_keeptopic.c:58 modules/chanserv/set_pubacl.c:58
-#: modules/chanserv/set_restricted.c:104 modules/chanserv/set_secure.c:58
-#: modules/chanserv/set_topiclock.c:60 modules/chanserv/set_verbose.c:85
-#: modules/chanserv/sync.c:214
+#: modules/chanserv/set_fantasy.c:67 modules/chanserv/set_guard.c:73
+#: modules/chanserv/set_keeptopic.c:64 modules/chanserv/set_pubacl.c:64
+#: modules/chanserv/set_restricted.c:110 modules/chanserv/set_secure.c:64
+#: modules/chanserv/set_topiclock.c:66 modules/chanserv/set_verbose.c:91
+#: modules/chanserv/sync.c:220
 #, c-format
 msgid "The %s flag is not set for channel %s."
 msgstr "Режим %s для канала %s не установлен."
 
-#: modules/chanserv/why.c:130 modules/chanserv/why.c:134
+#: modules/chanserv/why.c:132 modules/chanserv/why.c:136
 #, c-format
 msgid "The %s flag is set for %s, therefore no status will be given."
 msgstr ""
@@ -7847,20 +7984,33 @@ msgstr "Email адрес для аккаунта %s был изменен на
 msgid "The %s for account %s has been set to %u seconds."
 msgstr "Блокируемые режимы для канала %s изменены на %s."
 
+#: src/crypto-benchmark/selftests.c:28
+msgid "The Digest API testsuite FAILED!"
+msgstr ""
+
+#: src/crypto-benchmark/selftests.c:32
+msgid "The Digest API testsuite passed."
+msgstr ""
+
+#: modules/nickserv/return.c:108
+#, fuzzy, c-format
+msgid "The HIDEMAIL flag has been set for %s due to the email change."
+msgstr "Режим %s для канала %s успешно установлен."
+
 #: modules/chanserv/owner.c:29 modules/chanserv/protect.c:29
 msgid "The IRCd software you are running does not support this feature."
 msgstr ""
 
-#: modules/infoserv/main.c:274 modules/infoserv/main.c:284
+#: modules/infoserv/main.c:245 modules/infoserv/main.c:256
 msgid "The InfoServ message has been sent"
 msgstr ""
 
-#: modules/chanserv/set_mlock.c:287
+#: modules/chanserv/set_mlock.c:293
 #, c-format
 msgid "The MLOCK for %s has been removed."
 msgstr "Список блокируемых режимов канала %s полностью очищен."
 
-#: modules/chanserv/set_mlock.c:281
+#: modules/chanserv/set_mlock.c:287
 #, c-format
 msgid "The MLOCK for %s has been set to %s."
 msgstr "Блокируемые режимы для канала %s изменены на %s."
@@ -7884,22 +8034,22 @@ msgstr "У %s и так oper class %s."
 msgid "The SPAM directive is already unset."
 msgstr ""
 
-#: modules/chanserv/set_url.c:43 modules/groupserv/set_url.c:40
+#: modules/chanserv/set_url.c:49 modules/groupserv/set_url.c:40
 #, c-format
 msgid "The URL for %s has been cleared."
 msgstr "URL-адрес канала %s удален."
 
-#: modules/chanserv/set_url.c:47 modules/groupserv/set_url.c:44
+#: modules/chanserv/set_url.c:53 modules/groupserv/set_url.c:44
 #, c-format
 msgid "The URL for %s was not set."
 msgstr "Канал %s не имеет установленного URL-адреса."
 
-#: modules/chanserv/set_url.c:56 modules/groupserv/set_url.c:52
+#: modules/chanserv/set_url.c:62 modules/groupserv/set_url.c:52
 #, c-format
 msgid "The URL of %s has been set to %s."
 msgstr "URL-адрес канала %s успешно установлен на %s."
 
-#: modules/nickserv/freeze.c:74
+#: modules/nickserv/freeze.c:76
 #, c-format
 msgid "The account %s belongs to a services operator; it cannot be frozen."
 msgstr "Аккаунт %s принадлежит оператору сервисов. Он не может быть заморожен."
@@ -7914,10 +8064,18 @@ msgstr "Аккаунт %s удален."
 msgid "The account %s is held; it cannot be dropped."
 msgstr "Аккаунт %s приостановлен. Он не может быть удален."
 
-#: modules/nickserv/register.c:84 modules/nickserv/register.c:91
+#: modules/nickserv/register.c:82
 #, c-format
 msgid "The account name %s is invalid."
 msgstr "Аккаунт %s недействителен."
+
+#: src/crypto-benchmark/selftests.c:36
+msgid "The bcrypt testsuite FAILED!"
+msgstr ""
+
+#: src/crypto-benchmark/selftests.c:40
+msgid "The bcrypt testsuite passed."
+msgstr ""
 
 #: modules/statserv/channel.c:42
 #, c-format
@@ -7944,6 +8102,11 @@ msgstr "Канал %s находится в режиме удержания и
 msgid "The channel %s must exist in order to register it."
 msgstr "Вы не можете зарегистрировать несуществующий канал %s"
 
+#: modules/operserv/set_commitinterval.c:42
+#, fuzzy
+msgid "The commit interval must be between 1 and 60 minutes."
+msgstr "Уровень сложности должен быть числом от 1 до 10 включительно."
+
 #: modules/operserv/genhash.c:37
 #, fuzzy, c-format
 msgid "The crypto provider %s does not exist"
@@ -7964,22 +8127,22 @@ msgstr ""
 msgid "The description of %s has been set to %s."
 msgstr ""
 
-#: modules/nickserv/return.c:90
+#: modules/nickserv/return.c:103
 #, c-format
 msgid "The e-mail address for %s has been set to %s"
 msgstr "Email для %s был изменен на %s."
 
-#: modules/chanserv/set_email.c:58
+#: modules/chanserv/set_email.c:64
 #, c-format
 msgid "The e-mail address for channel %s has been set to %s."
 msgstr "EMAIL-адрес канала %s успешно установлен на %s."
 
-#: modules/chanserv/set_email.c:38
+#: modules/chanserv/set_email.c:44
 #, c-format
 msgid "The e-mail address for channel %s was deleted."
 msgstr "EMAIL-адрес канала %s удален."
 
-#: modules/chanserv/set_email.c:43
+#: modules/chanserv/set_email.c:49
 #, c-format
 msgid "The e-mail address for channel %s was not set."
 msgstr "Канал %s не имеет установленного EMAIL-адреса."
@@ -8014,27 +8177,27 @@ msgstr "Email адрес для аккаунта %s был изменен на
 msgid "The email address for account %s is already set to %s."
 msgstr "Email для аккаунта %s уже %s."
 
-#: modules/chanserv/set_entrymsg.c:44
+#: modules/chanserv/set_entrymsg.c:50
 #, c-format
 msgid "The entry message for %s has been cleared."
 msgstr "Сообщение при входе для канала %s удалено."
 
-#: modules/chanserv/set_entrymsg.c:60
+#: modules/chanserv/set_entrymsg.c:66
 #, c-format
 msgid "The entry message for %s has been set to %s"
 msgstr "Сообщение при входе для канала %s изменено на: %s"
 
-#: modules/chanserv/set_entrymsg.c:48
+#: modules/chanserv/set_entrymsg.c:54
 #, c-format
 msgid "The entry message for %s was not set."
 msgstr "Сообщение при входе для канала %s не установлено."
 
-#: modules/chanserv/set_prefix.c:52
+#: modules/chanserv/set_prefix.c:58
 #, c-format
 msgid "The fantasy prefix for channel %s has been reset."
 msgstr ""
 
-#: modules/chanserv/set_prefix.c:67
+#: modules/chanserv/set_prefix.c:73
 #, c-format
 msgid "The fantasy prefix for channel %s has been set to %s."
 msgstr ""
@@ -8115,7 +8278,7 @@ msgstr ""
 msgid "The language for %s has been changed to %s."
 msgstr ""
 
-#: modules/nickserv/multimark.c:1003
+#: modules/nickserv/multimark.c:1040
 #, fuzzy
 msgid "The mark has been deleted."
 msgstr "%s снят с регистрации."
@@ -8184,8 +8347,8 @@ msgstr ""
 msgid "The new account name must be different from the nick to be ungrouped."
 msgstr "Новое имя аккаунта должно отличаться от ника, который будет удален."
 
-#: modules/chanserv/topic.c:57 modules/chanserv/topic.c:133
-#: modules/chanserv/topic.c:209 modules/chanserv/topic.c:318
+#: modules/chanserv/topic.c:57 modules/chanserv/topic.c:138
+#: modules/chanserv/topic.c:214 modules/chanserv/topic.c:323
 msgid "The new topic is invalid or too long."
 msgstr "Топик содержит недопустимые символы или слишком длинный."
 
@@ -8194,7 +8357,7 @@ msgstr "Топик содержит недопустимые символы ил
 msgid "The nickname %s belongs to a services operator; it cannot be dropped."
 msgstr "Ник %s принадлежит оператору сервисов. Он не может быть удален."
 
-#: modules/chanserv/flags.c:160 modules/nickserv/enforce.c:603
+#: modules/chanserv/flags.c:168 modules/nickserv/enforce.c:602
 #, fuzzy, c-format
 msgid "The nickname %s is reserved and cannot be registered."
 msgstr "Ник %s не зарегистрирован."
@@ -8236,7 +8399,7 @@ msgstr "Пароль для %s был изменен на %s."
 msgid "The password for %s has been sent to %s."
 msgstr "Пароль для %s был отправлен на %s."
 
-#: modules/nickserv/setpass.c:77 modules/nickserv/set_password.c:51
+#: modules/nickserv/setpass.c:77 modules/nickserv/set_password.c:63
 #, fuzzy, c-format
 msgid "The password for %s has been successfully changed."
 msgstr "Пароль для %s был изменен на %s."
@@ -8284,6 +8447,11 @@ msgstr "%s недопустимое имя сервера."
 msgid "The services ignore list is empty."
 msgstr "Список игноров для сервисов пуст."
 
+#: modules/infoserv/main.c:398
+#, fuzzy
+msgid "The specified entry does not exist."
+msgstr "Сообщения под указанным номером не существует."
+
 #: modules/memoserv/delete.c:65
 msgid "The specified memo doesn't exist."
 msgstr "Сообщения под указанным номером не существует."
@@ -8299,39 +8467,50 @@ msgid ""
 "again later."
 msgstr ""
 
-#: modules/chanserv/register.c:100 modules/nickserv/register.c:121
+#: modules/chanserv/register.c:100 modules/nickserv/register.c:124
 msgid ""
 "The system is currently too busy to process your registration, please try "
 "again later."
 msgstr ""
 
-#: modules/hostserv/request.c:312 modules/hostserv/request.c:334
+#: modules/hostserv/request.c:316 modules/hostserv/request.c:338
 msgid ""
 "The system is currently too busy to process your vHost request, please try "
 "again later."
 msgstr ""
+
+#: modules/infoserv/main.c:404
+#, fuzzy
+msgid "The target position does not exist."
+msgstr "Сообщения под указанным номером не существует."
 
 #: modules/chanserv/template.c:351
 #, c-format
 msgid "The template %.*s already has flags %.*s."
 msgstr ""
 
-#: libathemecore/services.c:1217
+#: modules/chanserv/topic.c:62
+msgid ""
+"The topic may not contain specific control chars, these include color, bold, "
+"italic and reverse."
+msgstr ""
+
+#: libathemecore/services.c:1231
 #, fuzzy
 msgid "The vhost provided contains invalid characters."
 msgstr "Ваше мемо-сообщение содержит недопустимые символы."
 
-#: libathemecore/services.c:1234
+#: libathemecore/services.c:1248
 #, fuzzy
 msgid "The vhost provided is invalid."
 msgstr "Указанный regex %s содержит ошибки."
 
-#: libathemecore/services.c:1222
+#: libathemecore/services.c:1236
 #, fuzzy
 msgid "The vhost provided is too long."
 msgstr "Топик содержит недопустимые символы или слишком длинный."
 
-#: libathemecore/services.c:1228
+#: libathemecore/services.c:1242
 msgid "The vhost provided looks like a CIDR mask."
 msgstr ""
 
@@ -8340,7 +8519,7 @@ msgstr ""
 msgid "There are %u channels on the network."
 msgstr "Выдаёт список клонов в сети."
 
-#: modules/nickserv/enforce.c:508 modules/nickserv/identify.c:125
+#: modules/nickserv/enforce.c:451 modules/nickserv/identify.c:125
 #, c-format
 msgid "There are already %zu sessions logged in to %s (maximum allowed: %u)."
 msgstr ""
@@ -8350,7 +8529,7 @@ msgstr ""
 msgid "There are no scores in the CHANFIX database for %s."
 msgstr ""
 
-#: modules/botserv/main.c:802
+#: modules/botserv/main.c:811
 #, c-format
 msgid "There are not enough users in %s to be able to assign a bot."
 msgstr ""
@@ -8386,6 +8565,20 @@ msgstr ""
 msgid "There is not a vhost assigned to this nick."
 msgstr "Такой маски нет в списке NOOP."
 
+#: modules/infoserv/main.c:453
+msgid "There was an error modifying the list. This is a bug in services."
+msgstr ""
+
+#: modules/nickserv/multimark.c:1064
+#, fuzzy
+msgid "This account has no marks."
+msgstr "Аккаунт %s удален."
+
+#: modules/nickserv/multimark.c:1068
+#, fuzzy
+msgid "This account has no restored marks."
+msgstr "Аккаунт %s удален."
+
 #: modules/gameserv/lottery.c:40
 msgid "This command may only be used on a channel."
 msgstr ""
@@ -8407,15 +8600,15 @@ msgstr ""
 msgid "This is a friendly reminder that you are about to DESTROY the group %s."
 msgstr ""
 
-#: libathemecore/ptasks.c:951
+#: libathemecore/ptasks.c:957
 msgid "This is your first offense. You will be ignored for 30 seconds."
 msgstr ""
 
-#: libathemecore/ptasks.c:966
+#: libathemecore/ptasks.c:972
 msgid "This is your last warning. You will be ignored for 30 seconds."
 msgstr ""
 
-#: modules/nickserv/multimark.c:1008
+#: modules/nickserv/multimark.c:1060
 #, fuzzy
 msgid "This mark does not exist."
 msgstr "Канал %s не существует."
@@ -8449,7 +8642,7 @@ msgstr ""
 msgid "This program was not built with QR-Code support!"
 msgstr ""
 
-#: modules/saslserv/main.c:1050
+#: modules/saslserv/main.c:1088
 msgid ""
 "This service exists to identify connecting clients to the network. It has no "
 "public interface."
@@ -8485,14 +8678,14 @@ msgstr ""
 "Чтобы исключить случайное использование данной команды, эта операция должна "
 "быть подтверждена. Пожалуйста подтвердите свое намерение, ответив %s"
 
-#: modules/chanserv/kick.c:147
+#: modules/chanserv/kick.c:159
 #, fuzzy, c-format
 msgid "To avoid rejoin, %u ban exception matching %s has been removed from %s."
 msgstr ""
 "Чтобы упредить автоперезаход забаненого, %d исключения(ий) из бана, "
 "соответствующих маске %s, были автоматически удалены с канала %s.\""
 
-#: modules/chanserv/kick.c:148
+#: modules/chanserv/kick.c:160
 #, fuzzy, c-format
 msgid ""
 "To avoid rejoin, %u ban exceptions matching %s have been removed from %s."
@@ -8581,8 +8774,8 @@ msgstr "Шаблон %s для канала %s остался неизмен
 msgid "Topic for %s set by %s: %s"
 msgstr ""
 
-#: modules/chanserv/topic.c:73 modules/chanserv/topic.c:149
-#: modules/chanserv/topic.c:225 modules/chanserv/topic.c:334
+#: modules/chanserv/topic.c:78 modules/chanserv/topic.c:154
+#: modules/chanserv/topic.c:230 modules/chanserv/topic.c:339
 #, c-format
 msgid "Topic set to %s on %s."
 msgstr "Установлен топик %s для канала %s."
@@ -8651,32 +8844,32 @@ msgstr ""
 msgid "Unable to encode keypair: %s"
 msgstr ""
 
-#: modules/botserv/main.c:896
+#: modules/botserv/main.c:905
 #, c-format
 msgid "Unassigned the bot from %s."
 msgstr ""
 
-#: modules/botserv/main.c:1028
+#: modules/botserv/main.c:1037
 #, fuzzy
 msgid "Unassigns a bot from a channel."
 msgstr "Добавляет заметку к каналу"
 
-#: modules/chanserv/ban.c:153 modules/chanserv/unban_self.c:89
+#: modules/chanserv/ban.c:159 modules/chanserv/unban_self.c:95
 #, fuzzy, c-format
 msgid "Unbanned %s on %s (%u ban removed)."
 msgstr "Сняты все баны с %s на канале %s (%d ban%s (банов) удалено)."
 
-#: modules/chanserv/ban.c:154 modules/chanserv/unban_self.c:90
+#: modules/chanserv/ban.c:160 modules/chanserv/unban_self.c:96
 #, fuzzy, c-format
 msgid "Unbanned %s on %s (%u bans removed)."
 msgstr "Сняты все баны с %s на канале %s (%d ban%s (банов) удалено)."
 
-#: modules/chanserv/ban.c:168
+#: modules/chanserv/ban.c:174
 #, c-format
 msgid "Unbanned %s on %s."
 msgstr "Бан вида %s удален с канала %s."
 
-#: modules/chanserv/unban_self.c:100
+#: modules/chanserv/unban_self.c:106
 msgid "Unbans you on a channel."
 msgstr ""
 
@@ -8685,21 +8878,37 @@ msgstr ""
 msgid "Unexpected error occurred: %s"
 msgstr ""
 
-#: modules/operserv/modunload.c:62
-msgid "Unloads a module."
+#: modules/operserv/modmanager.c:336
+#, c-format
+msgid "Unloadability  : %s"
+msgstr ""
+
+#: modules/operserv/modmanager.c:338
+#, c-format
+msgid "Unloadability  : %s (see reverse dependencies below)"
+msgstr ""
+
+#: modules/operserv/modmanager.c:69
+#, fuzzy
+msgid "Unloadable"
 msgstr "Выгружает модуль."
 
-#: modules/chanserv/quiet.c:434
+#: modules/operserv/modmanager.c:601
+#, fuzzy
+msgid "Unloads modules."
+msgstr "Выгружает модуль."
+
+#: modules/chanserv/quiet.c:440
 #, fuzzy, c-format
 msgid "Unquieted %s on %s (%u quiet removed)."
 msgstr "Сняты все баны с %s на канале %s (%d ban%s (банов) удалено)."
 
-#: modules/chanserv/quiet.c:435
+#: modules/chanserv/quiet.c:441
 #, fuzzy, c-format
 msgid "Unquieted %s on %s (%u quiets removed)."
 msgstr "Сняты все баны с %s на канале %s (%d ban%s (банов) удалено)."
 
-#: modules/chanserv/quiet.c:455
+#: modules/chanserv/quiet.c:461
 #, c-format
 msgid "Unquieted %s on %s."
 msgstr ""
@@ -8730,16 +8939,16 @@ msgstr "Синтаксис: CLOSE <#канал> ON <причина>"
 msgid "Usage: FFLAGS %s <target> <flags>"
 msgstr "Синтаксис: FFLAGS %s <цель> <флаги>"
 
-#: modules/chanserv/flags.c:370
+#: modules/chanserv/flags.c:393
 #, c-format
 msgid "Usage: FLAGS %s [target] [flags]"
 msgstr "Синтаксис: FLAGS %s [цель] [флаг]"
 
-#: modules/nickserv/freeze.c:51 modules/nickserv/freeze.c:125
+#: modules/nickserv/freeze.c:51 modules/nickserv/freeze.c:127
 msgid "Usage: FREEZE <account> <ON|OFF> [reason]"
 msgstr "Синтаксис: FREEZE <аккаунт> <ON|OFF> [причина]"
 
-#: modules/nickserv/freeze.c:68
+#: modules/nickserv/freeze.c:70
 msgid "Usage: FREEZE <nickname> ON <reason>"
 msgstr "Синтаксис: FREEZE <ник> ON <причина>"
 
@@ -8755,6 +8964,11 @@ msgstr "Синтаксис: HOLD <аккаунт> <ON|OFF>"
 msgid "Usage: JUPE <server> <reason>"
 msgstr "Синтаксис: JUPE <сервер> <причина>"
 
+#: modules/nickserv/loginnolimit.c:32 modules/nickserv/loginnolimit.c:73
+#, fuzzy
+msgid "Usage: LOGINNOLIMIT <account> <ON|OFF>"
+msgstr "Синтаксис: HOLD <аккаунт> <ON|OFF>"
+
 #: modules/chanfix/fix.c:663 modules/chanfix/fix.c:720
 #: modules/chanserv/mark.c:23 modules/chanserv/mark.c:81
 msgid "Usage: MARK <#channel> <ON|OFF> [note]"
@@ -8764,7 +8978,7 @@ msgstr "Синтаксис: MARK <#канал> <ON|OFF> [заметка]"
 msgid "Usage: MARK <#channel> ON <note>"
 msgstr "Синтаксис: MARK <#канал> ON <заметка>"
 
-#: modules/nickserv/multimark.c:1014
+#: modules/nickserv/multimark.c:1076
 #, fuzzy
 msgid "Usage: MARK <target> <ADD|DEL|LIST|MIGRATE> [note]"
 msgstr "Синтаксис: MARK <аккаунт> <ON|OFF> [заметка]"
@@ -8778,9 +8992,9 @@ msgstr "Синтаксис: MARK <аккаунт> <ON|OFF> [заметка]"
 msgid "Usage: MARK <target> ADD <note>"
 msgstr "Синтаксис: MARK <аккаунт> ON <заметка>"
 
-#: modules/nickserv/multimark.c:973
+#: modules/nickserv/multimark.c:979 modules/nickserv/multimark.c:992
 #, fuzzy
-msgid "Usage: MARK <target> DEL <number>"
+msgid "Usage: MARK <target> DEL <number>|RESTORED|ALL"
 msgstr "Синтаксис: MARK <аккаунт> ON <заметка>"
 
 #: modules/nickserv/mark.c:76
@@ -8802,7 +9016,7 @@ msgstr "Синтаксис: CLOSE <#канал> <ON|OFF> [причина]"
 msgid "Usage: NOFIX <#channel> ON <reason>"
 msgstr "Синтаксис: CLOSE <#канал> ON <причина>"
 
-#: modules/operserv/readonly.c:21 modules/operserv/readonly.c:62
+#: modules/operserv/readonly.c:21 modules/operserv/readonly.c:81
 msgid "Usage: READONLY <ON|OFF>"
 msgstr ""
 
@@ -8818,7 +9032,7 @@ msgstr ""
 msgid "Usage: RESTRICT <target> ON <note>"
 msgstr ""
 
-#: modules/nickserv/return.c:26
+#: modules/nickserv/return.c:27
 msgid "Usage: RETURN <account> <e-mail address>"
 msgstr "Синтаксис: RETURN <аккаунт> <email>"
 
@@ -8827,7 +9041,7 @@ msgstr "Синтаксис: RETURN <аккаунт> <email>"
 msgid "Usage: TEMPLATE %s [target flags]"
 msgstr "Синтаксис: TEMPLATE %s [название флаги]"
 
-#: modules/botserv/main.c:774
+#: modules/botserv/main.c:783
 #, c-format
 msgid "Use /msg %s ASSIGN #chan botnick to assign one to your channel."
 msgstr ""
@@ -8871,27 +9085,37 @@ msgid "Use SENDPASS %s CLEAR to clear it so that a new one can be sent."
 msgstr ""
 "Используйте SENDPASS %s CLEAR чтобы отменить старый процесс получения пароля."
 
-#: modules/proxyscan/dnsbl.c:413
+#: modules/proxyscan/dnsbl.c:415
 #, fuzzy, c-format
 msgid "User %s is not on the network, you can not scan them."
 msgstr "Пользователь %s имеет защиту против кика и вы не можете кикнуть его."
 
-#: modules/nickserv/info.c:121
+#: modules/nickserv/info.c:133
 #, c-format
 msgid "User reg.  : %s (%s ago)"
 msgstr "зарегистрирован  : %s (%s назад)"
 
-#: modules/nickserv/info.c:236
+#: modules/nickserv/info.c:247
+#, fuzzy, c-format
+msgid "User seen  : %s"
+msgstr "Пользователь находится в сети"
+
+#: modules/nickserv/info.c:263
 #, c-format
 msgid "User seen  : %s (%s ago)"
 msgstr "Был замечен: %s (%s назад)"
 
-#: modules/nickserv/info.c:234
+#: modules/nickserv/info.c:266
 #, fuzzy, c-format
-msgid "User seen  : (about %u week(s) ago)"
-msgstr "Был замечен: (около %d недель назад)"
+msgid "User seen  : (hidden) %s (%s ago)"
+msgstr "Был замечен: %s (%s назад)"
 
-#: modules/nickserv/info.c:265
+#: modules/nickserv/info.c:256
+#, fuzzy
+msgid "User seen  : (hidden) now"
+msgstr "Пользователь находится в сети"
+
+#: modules/nickserv/info.c:253
 msgid "User seen  : now"
 msgstr "Пользователь находится в сети"
 
@@ -8909,7 +9133,7 @@ msgstr "Пользователей онлайн: %d"
 msgid "Uses private messages instead of notices if enabled."
 msgstr ""
 
-#: modules/proxyscan/dnsbl.c:557
+#: modules/proxyscan/dnsbl.c:559
 #, c-format
 msgid "Using DNSBL: %s"
 msgstr ""
@@ -8919,7 +9143,7 @@ msgstr ""
 msgid "Using crypto provider %s:"
 msgstr ""
 
-#: src/crypto-benchmark/main.c:579
+#: src/crypto-benchmark/main.c:634
 #, c-format
 msgid "Using digest frontend: %s"
 msgstr ""
@@ -8929,47 +9153,47 @@ msgstr ""
 msgid "Valid languages are: %s"
 msgstr ""
 
-#: modules/nickserv/verify.c:210
+#: modules/nickserv/verify.c:216
 msgid "Valid operations are REGISTER and EMAILCHG."
 msgstr "Возможные операции - REGISTER и EMAILCHG."
 
-#: modules/operserv/specs.c:150
+#: modules/operserv/specs.c:151
 msgid "Valid target types: USER, OPERCLASS."
 msgstr "Возможные типы цели: USER, OPERCLASS."
 
-#: modules/operserv/modinspect.c:49
-#, c-format
-msgid "Vendor     : %s"
+#: modules/operserv/modmanager.c:329
+#, fuzzy, c-format
+msgid "Vendor         : %s"
 msgstr "Автор     : %s"
 
-#: modules/nickserv/setpass.c:66 modules/nickserv/verify.c:71
-#: modules/nickserv/verify.c:119
+#: modules/nickserv/setpass.c:66 modules/nickserv/verify.c:86
+#: modules/nickserv/verify.c:139
 #, c-format
 msgid "Verification failed. Invalid key for %s."
 msgstr "Проверка завершена неудачно. Неверный ключ для %s."
 
-#: modules/nickserv/verify.c:217
+#: modules/nickserv/verify.c:223
 msgid "Verifies an account registration."
 msgstr "Проверка регистрации аккаунта."
 
-#: modules/operserv/modinspect.c:48
-#, c-format
-msgid "Version    : %s"
+#: modules/operserv/modmanager.c:330
+#, fuzzy, c-format
+msgid "Version        : %s"
 msgstr "Версия    : %s"
 
-#: modules/chanserv/moderate.c:353
+#: modules/chanserv/moderate.c:355
 #, fuzzy
 msgid "View pending registrations"
 msgstr "Проверка регистрации аккаунта."
 
-#: src/crypto-benchmark/main.c:544
+#: src/crypto-benchmark/main.c:599
 #, c-format
 msgid ""
 "WARNING: Cyrus SASL clients will not perform more than %u\n"
 "         iterations! This may break SASL SCRAM compatibility."
 msgstr ""
 
-#: src/crypto-benchmark/optimal.c:217
+#: src/crypto-benchmark/optimal.c:284
 msgid ""
 "WARNING: If you wish to support SASL SCRAM (RFC 5802) logins, please see\n"
 "         the 'doc/SASL-SCRAM' file in the source code repository, whose\n"
@@ -8993,11 +9217,23 @@ msgid ""
 "Warned clones limit must be lower than or equal to the allowed limit of %u"
 msgstr ""
 
+#: modules/infoserv/main.c:273
+#, c-format
+msgid ""
+"Warning: There is more than %u entry, so your message will not be displayed "
+"by default."
+msgid_plural ""
+"Warning: There are more than %u entries, so your message will not be "
+"displayed by default."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
 #: modules/nickserv/identify.c:162
 msgid "Warning: Your password is not encrypted."
 msgstr ""
 
-#: modules/nickserv/register.c:154
+#: modules/nickserv/register.c:145
 msgid "Warning: Your password will not be encrypted."
 msgstr ""
 
@@ -9015,10 +9251,10 @@ msgid "Without a doubt."
 msgstr "Вне всякого сомнения."
 
 #: modules/chanfix/fix.c:609 modules/chanfix/fix.c:610
-#: modules/chanserv/moderate.c:222 modules/groupserv/main/hooks.c:119
-#: modules/hostserv/request.c:146 modules/nickserv/pwquality.c:195
+#: modules/chanserv/moderate.c:224 modules/groupserv/main/hooks.c:119
+#: modules/hostserv/request.c:143 modules/nickserv/pwquality.c:222
 #: modules/operserv/info.c:22 modules/operserv/info.c:28
-#: modules/operserv/info.c:44 modules/operserv/modinspect.c:50
+#: modules/operserv/info.c:44
 #, fuzzy
 msgid "Yes"
 msgstr "Ага."
@@ -9030,6 +9266,12 @@ msgstr "Да, да, да и еще раз да."
 #: modules/gameserv/eightball.c:28
 msgid "Yes."
 msgstr "Ага."
+
+#: modules/hostserv/request.c:304
+msgid ""
+"You already have an outstanding vhost request. Please wait for network staff "
+"to approve or reject it."
+msgstr ""
 
 #: modules/chanserv/status.c:81 modules/nickserv/status.c:100
 msgid "You are a server administrator."
@@ -9082,7 +9324,7 @@ msgid "You are logged in as %s."
 msgstr "Вы идентифицировались как %s."
 
 #: modules/chanserv/fflags.c:108 modules/chanserv/fflags.c:134
-#: modules/chanserv/flags.c:455 modules/chanserv/flags.c:486
+#: modules/chanserv/flags.c:487 modules/chanserv/flags.c:521
 #, c-format
 msgid "You are not allowed to set %s on %s in %s."
 msgstr "Недостаточно прав для установки флагов %s для %s на канале %s."
@@ -9096,7 +9338,7 @@ msgstr "Вам не хватает прав, чтобы установить %s
 msgid "You are not authorized to perform this operation."
 msgstr "У вас недостаточно прав для использования данной команды."
 
-#: modules/operserv/help.c:19 modules/operserv/specs.c:107
+#: modules/operserv/help.c:19 modules/operserv/specs.c:108
 #, c-format
 msgid "You are not authorized to use %s."
 msgstr "Вам запрещено использовать %s."
@@ -9146,7 +9388,7 @@ msgstr ""
 msgid "You are now logged in as %s."
 msgstr "Вы вошли как %s."
 
-#: libathemecore/ptasks.c:903
+#: libathemecore/ptasks.c:909
 msgid "You are on services ignore. You may not use any service."
 msgstr ""
 
@@ -9161,12 +9403,12 @@ msgid ""
 "without a password."
 msgstr ""
 
-#: modules/nickserv/enforce.c:457
+#: modules/nickserv/enforce.c:500
 #, fuzzy
 msgid "You can not regain a reserved nickname."
 msgstr "%s незарегистрированный ник."
 
-#: modules/nickserv/enforce.c:451
+#: modules/nickserv/enforce.c:494
 #, fuzzy, c-format
 msgid ""
 "You can not regain your nickname while banned or quieted on a channel: %s"
@@ -9176,7 +9418,7 @@ msgstr "Вы не можете использовать ваш ник в кач�
 msgid "You can't set join flags to be removed."
 msgstr ""
 
-#: modules/hostserv/offer.c:274
+#: modules/hostserv/offer.c:290
 #, fuzzy
 msgid "You can't take vhosts when not logged in"
 msgstr "Вы не идентифицированы."
@@ -9189,12 +9431,12 @@ msgstr ""
 msgid "You cannot RELEASE yourself."
 msgstr "Вы не можете RELEASE самого себя."
 
-#: modules/botserv/main.c:808
+#: modules/botserv/main.c:817
 #, c-format
 msgid "You cannot assign bots to %s."
 msgstr ""
 
-#: modules/nickserv/set_accountname.c:67
+#: modules/nickserv/set_accountname.c:68
 #, fuzzy
 msgid ""
 "You cannot change account name because the server configuration disallows it."
@@ -9268,7 +9510,7 @@ msgstr ""
 "Эта операция не может быть проведена на %s из-за того, что аккаунт был "
 "помечен как %s."
 
-#: modules/nickserv/enforce.c:476
+#: modules/nickserv/enforce.c:519
 #, fuzzy
 msgid "You cannot regain a network service."
 msgstr "%s незарегистрированный ник."
@@ -9302,7 +9544,7 @@ msgstr "Вы не можете перенаправить сообщение с�
 msgid "You cannot use your account name as a password."
 msgstr "Вы не можете использовать свой ник в качестве пароля."
 
-#: modules/nickserv/register.c:97 modules/nickserv/setpass.c:56
+#: modules/nickserv/register.c:100 modules/nickserv/setpass.c:56
 #: modules/nickserv/set_password.c:42
 msgid "You cannot use your nickname as a password."
 msgstr "Вы не можете использовать ваш ник в качестве пароля."
@@ -9355,7 +9597,7 @@ msgstr "У вас нет мемо-сообщений."
 msgid "You have access flags %s on %s."
 msgstr "Вы имеете флаги %s на канале %s."
 
-#: modules/proxyscan/dnsbl.c:193
+#: modules/proxyscan/dnsbl.c:194
 #, c-format
 msgid "You have added %s to the DNSBL exempts list."
 msgstr ""
@@ -9365,7 +9607,7 @@ msgstr ""
 msgid "You have already requested help about %s."
 msgstr ""
 
-#: modules/hostserv/request.c:307
+#: modules/hostserv/request.c:311
 #, c-format
 msgid "You have already requested vhost %s."
 msgstr ""
@@ -9380,7 +9622,7 @@ msgstr ""
 msgid "You have been invited to %s."
 msgstr "Вы были приглашены на канал %s."
 
-#: modules/nickserv/enforce.c:528 modules/nickserv/identify.c:141
+#: modules/nickserv/enforce.c:470 modules/nickserv/identify.c:141
 #, c-format
 msgid "You have been logged out of %s."
 msgstr ""
@@ -9410,11 +9652,11 @@ msgstr ""
 msgid "You have been restricted from requesting help by network staff."
 msgstr ""
 
-#: modules/hostserv/request.c:209
+#: modules/hostserv/request.c:206
 msgid "You have been restricted from requesting vhosts by network staff."
 msgstr ""
 
-#: modules/hostserv/offer.c:280
+#: modules/hostserv/offer.c:296
 msgid "You have been restricted from taking vhosts by network staff"
 msgstr ""
 
@@ -9439,6 +9681,10 @@ msgstr "У вас нет новых мемо-сообщений."
 msgid "You have no special access to %s."
 msgstr "У вас нет никаких флагов доступа на канале %s."
 
+#: modules/operserv/readonly.c:27 modules/operserv/set_commitinterval.c:27
+msgid "You have no write-capable database backend loaded."
+msgstr ""
+
 #: modules/hostserv/offer.c:182
 #, fuzzy, c-format
 msgid "You have offered vhost %s to group %s."
@@ -9454,7 +9700,7 @@ msgstr ""
 msgid "You have requested help about %s."
 msgstr ""
 
-#: modules/hostserv/request.c:320 modules/hostserv/request.c:348
+#: modules/hostserv/request.c:324 modules/hostserv/request.c:352
 #, c-format
 msgid "You have requested vhost %s."
 msgstr ""
@@ -9470,7 +9716,7 @@ msgstr "Вы имеете флаги %s на канале %s."
 msgid "You have successfully set %s to %u days."
 msgstr "Вы имеете флаги %s на канале %s."
 
-#: modules/operserv/set_akicktime.c:37 modules/operserv/set_commitinterval.c:37
+#: modules/operserv/set_akicktime.c:37 modules/operserv/set_commitinterval.c:48
 #, fuzzy, c-format
 msgid "You have successfully set %s to %u minutes."
 msgstr "Вы имеете флаги %s на канале %s."
@@ -9488,7 +9734,7 @@ msgstr "Вы имеете флаги %s на канале %s."
 msgid "You have successfully set %s to %u."
 msgstr "Вы имеете флаги %s на канале %s."
 
-#: modules/hostserv/offer.c:311
+#: modules/hostserv/offer.c:271
 #, c-format
 msgid "You have taken vhost %s."
 msgstr ""
@@ -9508,7 +9754,7 @@ msgstr ""
 "У вас слишком много зарегистрированных ников. Удалите ненужные и попробуйте "
 "снова."
 
-#: libathemecore/ptasks.c:950 libathemecore/ptasks.c:965
+#: libathemecore/ptasks.c:956 libathemecore/ptasks.c:971
 msgid "You have triggered services flood protection."
 msgstr ""
 
@@ -9583,22 +9829,22 @@ msgstr "Вы не можете удалить последнего владел�
 msgid "You may not remove a founder's +F access."
 msgstr "Вы не можете снять флаг +f с ника владельца канала."
 
-#: modules/chanserv/flags.c:394
+#: modules/chanserv/flags.c:419
 msgid "You may not remove a founder's +f access."
 msgstr "Вы не можете снять флаг +f с ника владельца канала."
 
 #: modules/chanserv/access.c:698 modules/chanserv/access.c:960
-#: modules/chanserv/fflags.c:98 modules/chanserv/flags.c:399
+#: modules/chanserv/fflags.c:98 modules/chanserv/flags.c:425
 #: modules/groupserv/fflags.c:57 modules/groupserv/flags.c:146
 msgid "You may not remove the last founder."
 msgstr "Вы не можете удалить последнего владельца канала."
 
 #: modules/chanserv/access.c:847 modules/chanserv/access.c:996
-#: modules/chanserv/fflags.c:122 modules/chanserv/flags.c:469
+#: modules/chanserv/fflags.c:122 modules/chanserv/flags.c:502
 msgid "You may not set founder status on a hostmask."
 msgstr "Вы не можете установить флаг владельца канала на хостмаску."
 
-#: modules/chanserv/set_mlock.c:204
+#: modules/chanserv/set_mlock.c:210
 #, c-format
 msgid "You may only alter +%s modes."
 msgstr "Вы можете изменять только +%s режимы."
@@ -9608,7 +9854,7 @@ msgstr "Вы можете изменять только +%s режимы."
 msgid "You may only unban yourself via %s."
 msgstr ""
 
-#: modules/nickserv/pwquality.c:166
+#: modules/nickserv/pwquality.c:168 modules/nickserv/pwquality.c:193
 #, c-format
 msgid ""
 "You may want to set a different password with: /msg %s SET PASSWORD "
@@ -9637,12 +9883,18 @@ msgstr ""
 msgid "You must change the password in the external system."
 msgstr ""
 
-#: modules/nickserv/listownmail.c:32
+#: modules/nickserv/listownmail.c:34
 msgid "You must have a valid email address to perform this operation."
 msgstr ""
 
-#: modules/chanserv/set_mlock.c:128
+#: modules/chanserv/set_mlock.c:134
 msgid "You must specify a positive integer for limit."
+msgstr ""
+"Параметр блокируемого режима +l должен быть целым, положительным числом."
+
+#: modules/infoserv/main.c:410
+#, fuzzy
+msgid "You must specify two different positions."
 msgstr ""
 "Параметр блокируемого режима +l должен быть целым, положительным числом."
 
@@ -9654,7 +9906,7 @@ msgstr ""
 "Прежде чем вы сможете регистрировать каналы, Вам необходимо пройти проверку "
 "вашего email-адреса."
 
-#: modules/hostserv/offer.c:289 modules/hostserv/request.c:217
+#: modules/hostserv/offer.c:305 modules/hostserv/request.c:214
 #, c-format
 msgid "You must wait at least %u days between changes to your vHost."
 msgstr ""
@@ -9664,13 +9916,13 @@ msgstr ""
 msgid "You need the %s privilege for this operation."
 msgstr "У вас недостаточно прав для использования данной команды."
 
-#: modules/chanserv/set_mlock.c:91 modules/chanserv/set_mlock.c:122
-#: modules/chanserv/set_mlock.c:170
+#: modules/chanserv/set_mlock.c:97 modules/chanserv/set_mlock.c:128
+#: modules/chanserv/set_mlock.c:176
 #, c-format
 msgid "You need to specify a value for mode +%c."
 msgstr "Необходимо указать дополнительные параметры для режима +%c."
 
-#: modules/nickserv/enforce.c:507
+#: modules/nickserv/enforce.c:450
 #, fuzzy
 msgid "You were not logged in."
 msgstr "Вы не идентифицированы."
@@ -9710,7 +9962,7 @@ msgstr ""
 msgid "Your account name is already set to %s."
 msgstr ""
 
-#: modules/nickserv/set_accountname.c:72
+#: modules/nickserv/set_accountname.c:73
 #, c-format
 msgid "Your account name is now set to %s."
 msgstr ""
@@ -9789,19 +10041,24 @@ msgstr ""
 msgid "Your vhost of %s is now deactivated."
 msgstr ""
 
+#: modules/infoserv/main.c:516
+#, c-format
+msgid "[%s] %s"
+msgstr ""
+
 #: modules/memoserv/list.c:59
 msgid "[unread]"
 msgstr "[не прочитано]"
 
-#: modules/operserv/specs.c:74
+#: modules/operserv/specs.c:75
 msgid "add and remove autokills"
 msgstr ""
 
-#: modules/operserv/specs.c:88
+#: modules/operserv/specs.c:89
 msgid "administer groups"
 msgstr ""
 
-#: modules/operserv/specs.c:64
+#: modules/operserv/specs.c:65
 msgid "administer services"
 msgstr ""
 
@@ -9811,31 +10068,35 @@ msgstr ""
 msgid "base64_encode() failed (BUG?)"
 msgstr ""
 
-#: modules/operserv/specs.c:53
+#: modules/operserv/specs.c:54
 msgid "bypass channel registration limits"
 msgstr ""
 
-#: modules/operserv/specs.c:89
+#: modules/operserv/specs.c:90
 msgid "bypass group registration limits"
+msgstr ""
+
+#: modules/operserv/specs.c:40
+msgid "bypass login limits"
 msgstr ""
 
 #: modules/operserv/specs.c:34
 msgid "drop accounts, freeze accounts, reset passwords"
 msgstr ""
 
-#: modules/operserv/specs.c:48
+#: modules/operserv/specs.c:49
 msgid "drop channels, close channels, transfer ownership"
 msgstr ""
 
-#: modules/operserv/specs.c:79
+#: modules/operserv/specs.c:80
 msgid "edit oper privileges"
 msgstr ""
 
-#: modules/operserv/specs.c:65
+#: modules/operserv/specs.c:66
 msgid "edit private and internal metadata"
 msgstr ""
 
-#: modules/operserv/specs.c:63
+#: modules/operserv/specs.c:64
 msgid "exempt from flood control"
 msgstr ""
 
@@ -9843,16 +10104,16 @@ msgstr ""
 msgid "hold accounts"
 msgstr ""
 
-#: modules/operserv/specs.c:52
+#: modules/operserv/specs.c:53
 #, fuzzy
 msgid "hold channels"
 msgstr "Изменяет режимы на каналах"
 
-#: modules/operserv/specs.c:50
+#: modules/operserv/specs.c:51
 msgid "join staff channels"
 msgstr ""
 
-#: modules/operserv/specs.c:76
+#: modules/operserv/specs.c:77
 msgid "jupe servers"
 msgstr ""
 
@@ -9860,16 +10121,16 @@ msgstr ""
 msgid "mark accounts"
 msgstr ""
 
-#: modules/operserv/specs.c:51
+#: modules/operserv/specs.c:52
 #, fuzzy
 msgid "mark channels"
 msgstr "Закрывает канал."
 
-#: modules/operserv/specs.c:75
+#: modules/operserv/specs.c:76
 msgid "masskill channels or regexes"
 msgstr ""
 
-#: modules/operserv/specs.c:49
+#: modules/operserv/specs.c:50
 msgid "mlock operator modes"
 msgstr ""
 
@@ -9881,7 +10142,7 @@ msgstr ""
 msgid "register accounts on behalf of another user"
 msgstr ""
 
-#: modules/operserv/specs.c:78
+#: modules/operserv/specs.c:79
 msgid "send global notices"
 msgstr ""
 
@@ -9889,7 +10150,7 @@ msgstr ""
 msgid "send passwords"
 msgstr ""
 
-#: modules/operserv/specs.c:73
+#: modules/operserv/specs.c:74
 msgid "set channel modes"
 msgstr ""
 
@@ -9912,37 +10173,37 @@ msgstr "Синтаксис: MARK <аккаунт> <ON|OFF> [заметка]"
 msgid "user@host mask(s) that are autokline exempt: %s"
 msgstr ""
 
-#: modules/nickserv/info.c:168
+#: modules/nickserv/info.c:180
 #, c-format
 msgid "vHost      : %s"
 msgstr "Вирт. хост : %s"
 
-#: modules/nickserv/info.c:170
+#: modules/nickserv/info.c:182
 #, fuzzy, c-format
 msgid "vHost      : %s (assigned%s)"
 msgstr "Вирт. хост : %s"
 
-#: modules/nickserv/info.c:172
+#: modules/nickserv/info.c:184
 #, fuzzy, c-format
 msgid "vHost      : unassigned%s"
 msgstr "Вирт. хост : %s"
 
-#: modules/hostserv/offer.c:345
+#: modules/hostserv/offer.c:376
 #, c-format
 msgid "vHost: %s, Creator: %s (%s)"
 msgstr ""
 
-#: modules/hostserv/offer.c:342
+#: modules/hostserv/offer.c:373
 #, c-format
 msgid "vHost: %s, Group: %s, Creator: %s (%s)"
 msgstr ""
 
-#: modules/nickserv/info.c:187
+#: modules/nickserv/info.c:199
 #, fuzzy, c-format
 msgid "vHostNick  : %s (on %s)"
 msgstr "Вирт. хост : %s"
 
-#: modules/hostserv/offer.c:212 modules/hostserv/offer.c:319
+#: modules/hostserv/offer.c:212 modules/hostserv/offer.c:350
 #, c-format
 msgid "vhost %s not found in vhost offer database."
 msgstr ""
@@ -9951,19 +10212,19 @@ msgstr ""
 msgid "view concealed information about accounts"
 msgstr ""
 
-#: modules/operserv/specs.c:47
+#: modules/operserv/specs.c:48
 msgid "view concealed information about channels"
 msgstr ""
 
-#: modules/operserv/specs.c:87
+#: modules/operserv/specs.c:88
 msgid "view concealed information about groups"
 msgstr ""
 
-#: modules/operserv/specs.c:61
+#: modules/operserv/specs.c:62
 msgid "view concealed information about servers"
 msgstr ""
 
-#: modules/operserv/specs.c:62
+#: modules/operserv/specs.c:63
 msgid "view privileges of other users"
 msgstr ""
 
@@ -9988,6 +10249,9 @@ msgstr ""
 
 #~ msgid "%s can now take ownership of %s."
 #~ msgstr "Начата процедура передачи прав. Новый владалец: %s. Канал: %s."
+
+#~ msgid "%s cannot be inspected."
+#~ msgstr "%s не может быть исследован."
 
 #, fuzzy
 #~ msgid "%s changed %s's access to %s."
@@ -10020,6 +10284,10 @@ msgstr ""
 #, fuzzy
 #~ msgid "%s disabled the SECURE flag"
 #~ msgstr "HOLD-режим для %s уже установлен."
+
+#, fuzzy
+#~ msgid "%s does not exist."
+#~ msgstr "Канал %s не существует."
 
 #, fuzzy
 #~ msgid "%s forced flags change %s on %s."
@@ -10281,6 +10549,9 @@ msgstr ""
 #~ msgid "Module %s unloaded."
 #~ msgstr "Модуль %s выгружен."
 
+#~ msgid "Name       : %s"
+#~ msgstr "Имя       : %s"
+
 #~ msgid "Nick %s is not registered."
 #~ msgstr "Ник %s не зарегистрирован."
 
@@ -10314,6 +10585,9 @@ msgstr ""
 #, fuzzy
 #~ msgid "QLINE:EXPIRE: %s set %s ago by %s"
 #~ msgstr "SET:MLOCK: %s на %s Установлен: %s"
+
+#~ msgid "Refusing to unload %s."
+#~ msgstr "Отказываюсь выгрузить %s."
 
 #, fuzzy
 #~ msgid "Registers a nickname on behalf of another user."
@@ -10422,6 +10696,10 @@ msgstr ""
 
 #~ msgid "UPDATE completed."
 #~ msgstr "UPDATE завершено."
+
+#, fuzzy
+#~ msgid "User seen  : (about %u week(s) ago)"
+#~ msgstr "Был замечен: (около %d недель назад)"
 
 #, fuzzy
 #~ msgid "XLINE:EXPIRE: %s set %s ago by %s"

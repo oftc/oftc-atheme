@@ -2,7 +2,7 @@
 # SPDX-URL: https://spdx.org/licenses/ISC.html
 #
 # Copyright (C) 2005-2009 Atheme Project (http://atheme.org/)
-# Copyright (C) 2018-2019 Aaron Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2019 Aaron Jones <me@aaronmdjones.net>
 #
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
@@ -23,17 +23,12 @@ AC_DEFUN([ATHEME_LIBTEST_CRYPTO], [
         [AS_HELP_STRING([--without-openssl], [Do not attempt to detect OpenSSL (cryptographic library)])],
         [], [with_openssl="auto"])
 
-    case "x${with_openssl}" in
-        xno | xyes | xauto)
-            ;;
-        x/*)
-            LIBCRYPTO_PATH="${with_openssl}"
-            with_openssl="yes"
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-openssl])
-            ;;
-    esac
+    AS_CASE(["x${with_openssl}"], [xno], [], [xyes], [], [xauto], [], [x/*], [
+        LIBCRYPTO_PATH="${with_openssl}"
+        with_openssl="yes"
+    ], [
+        AC_MSG_ERROR([invalid option for --with-openssl])
+    ])
 
     AS_IF([test "${with_openssl}" != "no"], [
         AS_IF([test -n "${LIBCRYPTO_PATH}"], [
@@ -261,4 +256,7 @@ AC_DEFUN([ATHEME_LIBTEST_CRYPTO], [
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

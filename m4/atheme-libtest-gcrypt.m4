@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 # SPDX-URL: https://spdx.org/licenses/ISC.html
 #
-# Copyright (C) 2020 Aaron Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2020 Aaron Jones <me@aaronmdjones.net>
 #
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
@@ -22,13 +22,9 @@ AC_DEFUN([ATHEME_LIBTEST_GCRYPT], [
         [AS_HELP_STRING([--without-gcrypt], [Do not attempt to detect GNU libgcrypt (cryptographic library)])],
         [], [with_gcrypt="auto"])
 
-    case "x${with_gcrypt}" in
-        xno | xyes | xauto)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-gcrypt])
-            ;;
-    esac
+    AS_CASE(["x${with_gcrypt}"], [xno], [], [xyes], [], [xauto], [], [
+        AC_MSG_ERROR([invalid option for --with-gcrypt])
+    ])
 
     AS_IF([test "${with_gcrypt}" != "no"], [
         # If this library ever starts shipping a pkg-config file, change to PKG_CHECK_MODULES ?
@@ -124,4 +120,7 @@ AC_DEFUN([ATHEME_LIBTEST_GCRYPT], [
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

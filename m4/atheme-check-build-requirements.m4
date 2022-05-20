@@ -17,6 +17,7 @@ AC_DEFUN([ATHEME_CHECK_BUILD_REQUIREMENTS], [
     AC_DEFINE([__STDC_WANT_LIB_EXT1__], [1], [We want ISO 9899:2011 Annex K memory functions if available])
     AC_USE_SYSTEM_EXTENSIONS
 
+    AC_CHECK_HEADERS([Availability.h], [], [], [])
     AC_CHECK_HEADERS([ctype.h], [], [], [])
     AC_CHECK_HEADERS([dirent.h], [], [], [])
     AC_CHECK_HEADERS([errno.h], [], [], [])
@@ -37,6 +38,8 @@ AC_DEFUN([ATHEME_CHECK_BUILD_REQUIREMENTS], [
     AC_CHECK_HEADERS([string.h], [], [], [])
     AC_CHECK_HEADERS([strings.h], [], [], [])
     AC_CHECK_HEADERS([sys/file.h], [], [], [])
+    AC_CHECK_HEADERS([sys/param.h], [], [], [])
+    AC_CHECK_HEADERS([sys/random.h], [], [], [])
     AC_CHECK_HEADERS([sys/resource.h], [], [], [])
     AC_CHECK_HEADERS([sys/stat.h], [], [], [])
     AC_CHECK_HEADERS([sys/time.h], [], [], [])
@@ -69,6 +72,7 @@ AC_DEFUN([ATHEME_CHECK_BUILD_REQUIREMENTS], [
     AC_CHECK_FUNCS([regfree], [], [ATHEME_REQUIRED_FUNC_MISSING])
     AC_CHECK_FUNCS([setenv], [], [ATHEME_REQUIRED_FUNC_MISSING])
     AC_CHECK_FUNCS([setlocale], [], [ATHEME_REQUIRED_FUNC_MISSING])
+    AC_CHECK_FUNCS([snprintf], [], [ATHEME_REQUIRED_FUNC_MISSING])
     AC_CHECK_FUNCS([strcasecmp], [], [ATHEME_REQUIRED_FUNC_MISSING])
     AC_CHECK_FUNCS([strcasestr], [], [ATHEME_REQUIRED_FUNC_MISSING])
     AC_CHECK_FUNCS([strchr], [], [ATHEME_REQUIRED_FUNC_MISSING])
@@ -88,9 +92,7 @@ AC_DEFUN([ATHEME_CHECK_BUILD_REQUIREMENTS], [
     AC_CHECK_FUNCS([strtoull], [], [ATHEME_REQUIRED_FUNC_MISSING])
     AC_CHECK_FUNCS([timingsafe_bcmp], [], [])
     AC_CHECK_FUNCS([timingsafe_memcmp], [], [])
-
-    HW_FUNC_ASPRINTF
-    HW_FUNC_SNPRINTF
+    AC_CHECK_FUNCS([vsnprintf], [], [ATHEME_REQUIRED_FUNC_MISSING])
 
     AC_C_BIGENDIAN
     AC_C_CONST
@@ -121,10 +123,8 @@ AC_DEFUN([ATHEME_CHECK_BUILD_REQUIREMENTS], [
     LIBS="${DYNAMIC_LD_LIBS} ${LIBS}"
 
     # If we're building on Windows we need socket and regex libraries from mingw
-    case "${host}" in
-        *-*-mingw32)
-            CPPFLAGS="-I/mingw/include ${CPPFLAGS}"
-            LIBS="-lwsock32 -lws2_32 -lregex ${LIBS}"
-            ;;
-    esac
+    AS_CASE(["${host}"], [*-*-mingw32], [
+        CPPFLAGS="-I/mingw/include ${CPPFLAGS}"
+        LIBS="-lwsock32 -lws2_32 -lregex ${LIBS}"
+    ])
 ])

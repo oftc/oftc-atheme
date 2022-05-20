@@ -27,9 +27,9 @@ ns_cmd_set_accountname(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	if (is_conf_soper(si->smu))
+	if (is_conf_named_soper(si->smu))
 	{
-		command_fail(si, fault_noprivs, _("You may not modify your account name because your operclass is defined in the configuration file."));
+		command_fail(si, fault_noprivs, _("You may not modify your account name because your operclass is defined by name in the configuration file."));
 		return;
 	}
 
@@ -64,6 +64,7 @@ ns_cmd_set_accountname(struct sourceinfo *si, int parc, char *parv[])
 	hook_call_user_can_rename(&req);
 	if (!req.allowed)
 	{
+		logcommand(si, CMDLOG_REGISTER, "failed SET:ACCOUNTNAME \2%s\2 -> \2%s\2 (denied by hook)", entity(si->smu)->name, newname);
 		command_fail(si, fault_authfail, _("You cannot change account name because the server configuration disallows it."));
 		return;
 	}

@@ -725,14 +725,14 @@ multimark_needforce(struct hook_user_needforce *hdata)
 static void
 ns_cmd_multimark(struct sourceinfo *si, int parc, char *parv[])
 {
-	char *target = parv[0];
-	char *action = parv[1];
-	char *info = parv[2];
+	const char *target = parv[0];
+	const char *action = parv[1];
+	const char *info = parv[2];
 	struct myuser *mu;
 	struct myuser_name *mun;
 	mowgli_list_t *l;
 
-	mowgli_node_t *n;
+	mowgli_node_t *n, *tn;
 	struct multimark *mm;
 	struct tm *tm;
 	char time[BUFSIZE];
@@ -767,7 +767,9 @@ ns_cmd_multimark(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	if (!(mu = myuser_find_ext(target)) && strcasecmp(action, "LIST"))
+	if ((mu = myuser_find_ext(target)))
+		target = entity(mu)->name;
+	else if (strcasecmp(action, "LIST"))
 	{
 		command_fail(si, fault_nosuch_target, STR_IS_NOT_REGISTERED, target);
 		return;
@@ -967,45 +969,107 @@ ns_cmd_multimark(struct sourceinfo *si, int parc, char *parv[])
 	{
 		unsigned int num;
 
-		if (! info || ! string_to_uint(info, &num))
+		enum {
+			DELETE_ONE_MARK,
+			DELETE_RESTORED_MARKS,
+			DELETE_ALL_MARKS,
+		} mode = DELETE_ONE_MARK;
+
+		if (! info )
 		{
 			command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS, "MARK");
-			command_fail(si, fault_needmoreparams, _("Usage: MARK <target> DEL <number>"));
+			command_fail(si, fault_needmoreparams, _("Usage: MARK <target> DEL <number>|RESTORED|ALL"));
 			return;
 		}
 
-		bool found = false;
+		if (! strcasecmp(info, "RESTORED") )
+			mode = DELETE_RESTORED_MARKS;
+		else if (! strcasecmp(info, "ALL") )
+			mode = DELETE_ALL_MARKS;
+		else if (string_to_uint(info, &num))
+			mode = DELETE_ONE_MARK;
+		else
+		{
+			command_fail(si, fault_badparams, STR_INVALID_PARAMS, "MARK");
+			command_fail(si, fault_badparams, _("Usage: MARK <target> DEL <number>|RESTORED|ALL"));
+			return;
+		}
+
+		unsigned int found = 0;
 
 		l = multimark_list(mu);
 
-		MOWGLI_ITER_FOREACH(n, l->head)
+		MOWGLI_ITER_FOREACH_SAFE(n, tn, l->head)
 		{
 			mm = n->data;
 
-			if (mm->number == num)
+			switch (mode)
 			{
-				mowgli_node_delete(&mm->node, l);
+				case DELETE_ONE_MARK:
+					if (mm->number != num)
+						continue;
+					break;
 
-				sfree(mm->setter_uid);
-				sfree(mm->setter_name);
-				sfree(mm->restored_from_uid);
-				sfree(mm->restored_from_account);
-				sfree(mm->mark);
-				sfree(mm);
+				case DELETE_ALL_MARKS:
+					break;
 
-				found = true;
-				break;
+				case DELETE_RESTORED_MARKS:
+					if (mm->restored_from_uid == NULL)
+						continue;
+					break;
 			}
+
+			mowgli_node_delete(&mm->node, l);
+
+			sfree(mm->setter_uid);
+			sfree(mm->setter_name);
+			sfree(mm->restored_from_uid);
+			sfree(mm->restored_from_account);
+			sfree(mm->mark);
+			sfree(mm);
+
+			found++;
+
+			if (mode == DELETE_ONE_MARK)
+				break;
 		}
 
 		if (found)
 		{
-			command_success_nodata(si, _("The mark has been deleted."));
-			logcommand(si, CMDLOG_ADMIN, "MARK:DEL: \2%s\2 \2%s\2", target, info);
+			switch (mode)
+			{
+				case DELETE_ONE_MARK:
+					command_success_nodata(si, _("The mark has been deleted."));
+					logcommand(si, CMDLOG_ADMIN, "MARK:DEL: \2%s\2 \2%s\2", target, info);
+					break;
+
+				case DELETE_ALL_MARKS:
+					command_success_nodata(si, _("All marks have been deleted."));
+					logcommand(si, CMDLOG_ADMIN, "MARK:DEL:ALL: \2%s\2 (%u matches)", target, found);
+					break;
+
+				case DELETE_RESTORED_MARKS:
+					command_success_nodata(si, _("All restored marks have been deleted."));
+					logcommand(si, CMDLOG_ADMIN, "MARK:DEL:RESTORED: \2%s\2 (%u matches)", target, found);
+					break;
+			}
 		}
 		else
 		{
-			command_fail(si, fault_nosuch_key, _("This mark does not exist."));
+			switch (mode)
+			{
+				case DELETE_ONE_MARK:
+					command_fail(si, fault_nosuch_key, _("This mark does not exist."));
+					break;
+
+				case DELETE_ALL_MARKS:
+					command_fail(si, fault_nosuch_key, _("This account has no marks."));
+					break;
+
+				case DELETE_RESTORED_MARKS:
+					command_fail(si, fault_nosuch_key, _("This account has no restored marks."));
+					break;
+			}
 		}
 	}
 	else
@@ -1040,7 +1104,7 @@ mod_init(struct module *const restrict m)
 	use_nslist_main_symbols(m);
 
 	if (! (restored_marks = mowgli_global_storage_get(MULTIMARK_PERSIST_MDNAME)))
-		restored_marks = mowgli_patricia_create(&strcasecanon);
+		restored_marks = mowgli_patricia_create(&irccasecanon);
 	else
 		mowgli_global_storage_free(MULTIMARK_PERSIST_MDNAME);
 

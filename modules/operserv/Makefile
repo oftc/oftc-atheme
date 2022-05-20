@@ -6,7 +6,7 @@
 # Copyright (C) 2010 Jilles Tjoelker <jilles@stack.nl>
 # Copyright (C) 2010-2011 JD Horelick <jdhore1@gmail.com>
 # Copyright (C) 2011 Stephen Bennett <spb@exherbo.org>
-# Copyright (C) 2018-2020 Aaron M. D. Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2020 Aaron M. D. Jones <me@aaronmdjones.net>
 # Copyright (C) 2019 Janik Kleinhoff <ilbelkyr@shalture.org>
 
 include ../../extra.mk
@@ -27,11 +27,8 @@ SRCS   =                    \
     jupe.c                  \
     main.c                  \
     mode.c                  \
-    modinspect.c            \
     modlist.c               \
-    modload.c               \
-    modreload.c             \
-    modunload.c             \
+    modmanager.c            \
     noop.c                  \
     rakill.c                \
     raw.c                   \

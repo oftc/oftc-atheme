@@ -13,21 +13,16 @@ AC_DEFUN([ATHEME_LIBTEST_LDAP], [
     LIBS_SAVED="${LIBS}"
 
     LIBLDAP="No"
-
-    LDAP_CFLAGS=""
-    LDAP_LIBS=""
+    LIBLDAP_CFLAGS=""
+    LIBLDAP_LIBS=""
 
     AC_ARG_WITH([ldap],
         [AS_HELP_STRING([--without-ldap], [Do not attempt to detect libldap (for modules/auth/ldap)])],
         [], [with_ldap="auto"])
 
-    case "x${with_ldap}" in
-        xno | xyes | xauto)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-ldap])
-            ;;
-    esac
+    AS_CASE(["x${with_ldap}"], [xno], [], [xyes], [], [xauto], [], [
+        AC_MSG_ERROR([invalid option for --with-ldap])
+    ])
 
     AS_IF([test "${with_ldap}" != "no"], [
         # If this library ever starts shipping a pkg-config file, change to PKG_CHECK_MODULES ?
@@ -50,7 +45,7 @@ AC_DEFUN([ATHEME_LIBTEST_LDAP], [
                 LIBLDAP="Yes"
                 AC_DEFINE([HAVE_LIBLDAP], [1], [Define to 1 if libldap appears to be usable])
                 AS_IF([test "x${ac_cv_search_ldap_initialize}" != "xnone required"], [
-                    LDAP_LIBS="${ac_cv_search_ldap_initialize}"
+                    LIBLDAP_LIBS="${ac_cv_search_ldap_initialize}"
                 ])
             ], [
                 AC_MSG_RESULT([no])
@@ -70,13 +65,16 @@ AC_DEFUN([ATHEME_LIBTEST_LDAP], [
     ])
 
     AS_IF([test "${LDAP}" = "No"], [
-        LDAP_CFLAGS=""
-        LDAP_LIBS=""
+        LIBLDAP_CFLAGS=""
+        LIBLDAP_LIBS=""
     ])
 
-    AC_SUBST([LDAP_CFLAGS])
-    AC_SUBST([LDAP_LIBS])
+    AC_SUBST([LIBLDAP_CFLAGS])
+    AC_SUBST([LIBLDAP_LIBS])
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

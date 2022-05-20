@@ -22,20 +22,19 @@ struct me
 	char *          actual;                 // the reported name of the uplink
 	char *          vhost;                  // IP we bind outgoing stuff to
 	unsigned int    recontime;              // time between reconnection attempts
-	unsigned int    restarttime;            // time before restarting
 	char *          netname;                // IRC network name
 	char *          hidehostsuffix;         // host suffix for P10 +x etc
 	char *          adminname;              // SRA's name (for ADMIN)
 	char *          adminemail;             // SRA's email (for ADMIN)
 	char *          mta;                    // path to mta program
 	char *          numeric;                // server numeric
-	int             maxfd;                  // how many fds do we have?
 	unsigned int    mdlimit;                // metadata entry limit
 	time_t          start;                  // starting time
 	struct server * me;                     // pointer to our server struct
 	bool            connected;              // are we connected?
 	bool            bursting;               // are we bursting?
 	bool            recvsvr;                // received server peer
+	unsigned int    maxcertfp;              // maximum fingerprints in certfp list
 	unsigned int    maxlogins;              // maximum logins per username
 	unsigned int    maxusers;               // maximum usernames from one email
 	unsigned int    maxmemos;
@@ -72,6 +71,7 @@ struct ConfOption
 	unsigned int    vhost_change;           // days in which a user must wait between vhost changes
 	unsigned int    clone_time;             // default expire for clone exemptions
 	unsigned int    commit_interval;        // interval between commits
+	bool            db_save_blocking;       // whether to always use a blocking database commit
 	bool            silent;                 // stop sending WALLOPS?
 	bool            join_chans;             // join registered channels?
 	bool            leave_chans;            // leave channels when empty?
@@ -96,6 +96,10 @@ struct ConfOption
 	unsigned int    immune_level;           // what flag is required for kick immunity
 	bool            show_entity_id;         // do not require user:auspex to see entity IDs
 	bool            load_database_mdeps;    // for core module deps listed in DB, whether to load them or abort
+	bool            hide_opers;             // whether or not to hide RPL_WHOISOPERATOR from remote whois
+	bool            masks_through_vhost;    // whether masks match the host/IP behind a vhost
+	unsigned int    default_pass_length;    // the default length for services-generated passwords (resetpass,
+	                                        // sendpass, return)
 };
 
 extern struct ConfOption config_options;
@@ -134,7 +138,6 @@ struct claro_state
 	unsigned int    node;
 	unsigned int    event;
 	time_t          currtime;
-	int             maxfd;
 };
 
 extern struct claro_state claro_state;
@@ -158,7 +161,9 @@ void unmark_all_illegal(void);
 void remove_illegals(void);
 
 /* atheme.c */
+void db_save_periodic(void *);
 extern mowgli_eventloop_t *base_eventloop;
+extern mowgli_eventloop_timer_t *commit_interval_timer;
 extern bool cold_start;
 extern bool readonly;
 extern bool offline_mode;

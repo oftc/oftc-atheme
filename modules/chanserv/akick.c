@@ -489,18 +489,18 @@ cs_cmd_akick_del(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	if (metadata_find(mc, "private:close:closer"))
-	{
-		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, chan);
-		return;
-	}
-
 	struct akick_timeout *timeout;
 	struct chanban *cb;
 
 	if ((chanacs_source_flags(mc, si) & (CA_FLAGS | CA_REMOVE)) != (CA_FLAGS | CA_REMOVE))
 	{
 		command_fail(si, fault_noprivs, STR_NOT_AUTHORIZED);
+		return;
+	}
+
+	if (metadata_find(mc, "private:close:closer"))
+	{
+		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, chan);
 		return;
 	}
 
@@ -893,6 +893,9 @@ mod_init(struct module *const restrict m)
 static void
 mod_deinit(const enum module_unload_intent ATHEME_VATTR_UNUSED intent)
 {
+	if (akick_timeout_check_timer)
+		(void) mowgli_timer_destroy(base_eventloop, akick_timeout_check_timer);
+
 	(void) hook_del_chanuser_sync(&chanuser_sync);
 
 	(void) service_named_unbind_command("chanserv", &cs_akick);

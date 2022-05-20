@@ -2,9 +2,9 @@
  * SPDX-License-Identifier: ISC
  * SPDX-URL: https://spdx.org/licenses/ISC.html
  *
- * Copyright (C) 2019 Aaron M. D. Jones <aaronmdjones@gmail.com>
+ * Copyright (C) 2019 Aaron M. D. Jones <me@aaronmdjones.net>
  *
- * Frontend routines for the random interface (OpenBSD backend).
+ * Frontend routines for the random interface (arc4random(3) backend).
  */
 
 #ifndef ATHEME_LAC_RANDOM_FRONTEND_C
@@ -40,5 +40,5 @@ libathemecore_random_early_init(void)
 const char *
 random_get_frontend_info(void)
 {
-	return "OpenBSD arc4random(3)";
+	return "Secure arc4random(3)";
 }

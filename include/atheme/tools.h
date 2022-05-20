@@ -18,16 +18,6 @@
 #include <atheme/stdheaders.h>
 #include <atheme/structures.h>
 
-/* email stuff */
-int sendemail(struct user *u, struct myuser *mu, const char *type, const char *email, const char *param);
-
-/* email types (meaning of param argument) */
-#define EMAIL_REGISTER	"register"	/* register an account/nick (verification code) */
-#define EMAIL_SENDPASS	"sendpass"	/* send a password to a user (password) */
-#define EMAIL_SETEMAIL	"setemail"	/* change email address (verification code) */
-#define EMAIL_MEMO	"memo"		/* emailed memos (memo text) */
-#define EMAIL_SETPASS	"setpass"	/* send a password change key (verification code) */
-
 /* cidr.c */
 int valid_ip_or_mask(const char *src);
 
@@ -56,7 +46,7 @@ struct logfile
 extern char *log_path; /* contains path to default log. */
 extern int log_force;
 
-struct logfile *logfile_new(const char *log_path_, unsigned int log_mask) ATHEME_FATTR_MALLOC;
+struct logfile *logfile_new(const char *log_path_, unsigned int log_mask) ATHEME_FATTR_MALLOC_UNCHECKED;
 void logfile_register(struct logfile *lf);
 void logfile_unregister(struct logfile *lf);
 
@@ -108,15 +98,6 @@ void logcommand_external(struct service *svs, const char *type, struct connectio
 
 /* function.c */
 
-typedef void (*email_canonicalizer_fn)(char email[static (EMAILLEN + 1)], void *user_data);
-
-struct email_canonicalizer_item
-{
-	email_canonicalizer_fn  func;
-	void *                  user_data;
-	mowgli_node_t           node;
-};
-
 /* misc string stuff */
 bool string_in_list(const char *str, const char *list);
 char *random_string(size_t sz) ATHEME_FATTR_MALLOC ATHEME_FATTR_RETURNS_NONNULL;
@@ -125,15 +106,10 @@ void tb2sp(char *line);
 char *replace(char *s, int size, const char *old, const char *new);
 const char *number_to_string(int num);
 bool string_to_uint(const char *, unsigned int *) ATHEME_FATTR_WUR;
-int validemail(const char *email);
-stringref canonicalize_email(const char *email);
-void canonicalize_email_case(char email[static (EMAILLEN + 1)], void *user_data);
-void register_email_canonicalizer(email_canonicalizer_fn func, void *user_data);
-void unregister_email_canonicalizer(email_canonicalizer_fn func, void *user_data);
-bool email_within_limits(const char *email);
 bool validhostmask(const char *host);
 char *pretty_mask(char *mask);
 bool validtopic(const char *topic);
+bool validtopic_ctrl_chars(const char *topic);
 bool has_ctrl_chars(const char *text);
 char *sbytes(float x);
 float bytes(float x);
@@ -171,18 +147,5 @@ int tokenize(char *message, char **parv);
 const char *uinttobase64(char *buf, uint64_t v, int64_t count);
 unsigned int base64touint(const char *buf);
 void decode_p10_ip(const char *b64, char ipstring[HOSTIPLEN + 1]);
-
-#if !HAVE_VSNPRINTF
-int rpl_vsnprintf(char *, size_t, const char *, va_list) ATHEME_FATTR_PRINTF(3, 0);
-#endif
-#if !HAVE_SNPRINTF
-int rpl_snprintf(char *, size_t, const char *, ...) ATHEME_FATTR_PRINTF(3, 4);
-#endif
-#if !HAVE_VASPRINTF
-int rpl_vasprintf(char **, const char *, va_list) ATHEME_FATTR_PRINTF(2, 0);
-#endif
-#if !HAVE_ASPRINTF
-int rpl_asprintf(char **, const char *, ...) ATHEME_FATTR_PRINTF(2, 3);
-#endif
 
 #endif /* !ATHEME_INC_TOOLS_H */

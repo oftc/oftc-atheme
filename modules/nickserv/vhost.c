@@ -185,7 +185,7 @@ ns_cmd_vhost(struct sourceinfo *si, int parc, char *parv[])
 		logcommand(si, CMDLOG_ADMIN, "VHOST:REMOVE: \2%s\2", entity(mu)->name);
 		if (ismarked)
 		{
-			wallops("%s deleted vhost from the \2MARKED\2 account %s.", get_oper_name(si), entity(mu)->name);
+			wallops("\2%s\2 deleted vhost from the \2MARKED\2 account %s.", get_oper_name(si), entity(mu)->name);
 			if (markmd) {
 				command_success_nodata(si, _("Overriding MARK placed by %s on the account %s."), markmd->value, entity(mu)->name);
 			} else {
@@ -218,7 +218,7 @@ ns_cmd_vhost(struct sourceinfo *si, int parc, char *parv[])
 			host, entity(mu)->name);
 	if (ismarked)
 	{
-		wallops("%s set vhost %s on the \2MARKED\2 account %s.", get_oper_name(si), host, entity(mu)->name);
+		wallops("\2%s\2 set vhost %s on the \2MARKED\2 account %s.", get_oper_name(si), host, entity(mu)->name);
 		if (markmd) {
 			command_success_nodata(si, _("Overriding MARK placed by %s on the account %s."), markmd->value, entity(mu)->name);
 		} else {
@@ -298,7 +298,7 @@ mod_init(struct module *const restrict m)
 {
 	MODULE_TRY_REQUEST_DEPENDENCY(m, "nickserv/main")
 
-	hook_add_user_identify(vhost_on_identify);
+	hook_add_first_user_identify(vhost_on_identify);
 	service_named_bind_command("nickserv", &ns_vhost);
 	service_named_bind_command("nickserv", &ns_listvhost);
 }

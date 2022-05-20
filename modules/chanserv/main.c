@@ -849,6 +849,7 @@ mod_init(struct module ATHEME_VATTR_UNUSED *const restrict m)
 	add_conf_item("TEMPLATES", &chansvs.me->conf_table, c_ci_templates);
 	add_bool_conf_item("CHANGETS", &chansvs.me->conf_table, 0, &chansvs.changets, false);
 	add_bool_conf_item("HIDE_XOP", &chansvs.me->conf_table, 0, &chansvs.hide_xop, false);
+	add_bool_conf_item("HIDE_PUBACL_AKICKS", &chansvs.me->conf_table, 0, &chansvs.hide_pubacl_akicks, false);
 	add_dupstr_conf_item("TRIGGER", &chansvs.me->conf_table, 0, &chansvs.trigger, "!");
 	add_duration_conf_item("EXPIRE", &chansvs.me->conf_table, 0, &chansvs.expiry, "d", 0);
 	add_uint_conf_item("MAXCHANS", &chansvs.me->conf_table, 0, &chansvs.maxchans, 1, INT_MAX, 5);
@@ -857,6 +858,7 @@ mod_init(struct module ATHEME_VATTR_UNUSED *const restrict m)
 	add_dupstr_conf_item("FOUNDER_FLAGS", &chansvs.me->conf_table, 0, &chansvs.founder_flags, NULL);
 	add_dupstr_conf_item("DEFTEMPLATES", &chansvs.me->conf_table, 0, &chansvs.deftemplates, NULL);
 	add_duration_conf_item("AKICK_TIME", &chansvs.me->conf_table, 0, &chansvs.akick_time, "m", 0);
+	add_dupstr_conf_item("DEFAULT_MLOCK", &chansvs.me->conf_table, 0, &chansvs.default_mlock, NULL);
 }
 
 static void

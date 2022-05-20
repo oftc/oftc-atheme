@@ -8,14 +8,19 @@
  * Each inclusion is commented with examples of the things they provide.
  */
 
-#ifndef ATHEME_INC_STDINC_H
-#define ATHEME_INC_STDINC_H 1
+#ifndef ATHEME_INC_STDHEADERS_H
+#define ATHEME_INC_STDHEADERS_H 1
 
 #include <atheme/sysconf.h>
 
 #ifdef HAVE_STDDEF_H
 // NULL, size_t
 #  include <stddef.h>
+#endif
+
+#ifdef HAVE_STDARG_H
+// va_list, va_arg(), va_start(), va_end()
+#  include <stdarg.h>
 #endif
 
 #ifdef HAVE_SYS_TYPES_H
@@ -76,11 +81,6 @@
 #ifdef HAVE_SIGNAL_H
 // kill(), raise(), sigaction(), sigprocmask(), ...
 #  include <signal.h>
-#endif
-
-#ifdef HAVE_STDARG_H
-// va_list, va_arg(), va_start(), va_end()
-#  include <stdarg.h>
 #endif
 
 #ifdef HAVE_STDBOOL_H
@@ -151,4 +151,4 @@
 // MOWGLI_*, mowgli_*_t, mowgli_*()
 #include <mowgli.h>
 
-#endif /* !ATHEME_INC_STDINC_H */
+#endif /* !ATHEME_INC_STDHEADERS_H */

@@ -7,34 +7,6 @@
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
 
-ATHEME_LD_TEST_LDFLAGS_RESULT="no"
-
-AC_DEFUN([ATHEME_LD_TEST_LDFLAGS],
-    [
-        AC_MSG_CHECKING([for C linker flag(s) $1 ])
-
-        LDFLAGS_SAVED="${LDFLAGS}"
-        LDFLAGS="${LDFLAGS} $1"
-
-        AC_LINK_IFELSE(
-            [
-                AC_LANG_PROGRAM([[]], [[]])
-            ], [
-                ATHEME_LD_TEST_LDFLAGS_RESULT='yes'
-
-                AC_MSG_RESULT([yes])
-            ], [
-                ATHEME_LD_TEST_LDFLAGS_RESULT='no'
-                LDFLAGS="${LDFLAGS_SAVED}"
-
-                AC_MSG_RESULT([no])
-            ]
-        )
-
-        unset LDFLAGS_SAVED
-    ]
-)
-
 AC_DEFUN([ATHEME_FEATURETEST_LDFLAGS], [
 
     AC_ARG_ENABLE([profile],
@@ -53,6 +25,10 @@ AC_DEFUN([ATHEME_FEATURETEST_LDFLAGS], [
         [AS_HELP_STRING([--disable-linker-defs], [Disable -Wl,-z,defs (detects and rejects underlinking)])],
         [], [enable_linker_defs="yes"])
 
+    AC_ARG_ENABLE([noexecstack],
+        [AS_HELP_STRING([--disable-noexecstack], [Disable -Wl,-z,noexecstack (Marks the stack non-executable)])],
+        [], [enable_noexecstack="yes"])
+
     AC_ARG_ENABLE([as-needed],
         [AS_HELP_STRING([--disable-as-needed], [Disable -Wl,--as-needed (strips unnecessary libraries at link time)])],
         [], [enable_as_needed="yes"])
@@ -61,73 +37,50 @@ AC_DEFUN([ATHEME_FEATURETEST_LDFLAGS], [
         [AS_HELP_STRING([--disable-rpath], [Disable -Wl,-rpath= (builds installation path into binaries)])],
         [], [enable_rpath="yes"])
 
-    case "x${enable_profile}" in
-        xyes)
-            ATHEME_LD_TEST_LDFLAGS([-pg])
-            ;;
-        xno)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --enable-profile])
-            ;;
-    esac
 
-    case "x${enable_relro}" in
-        xyes)
-            ATHEME_LD_TEST_LDFLAGS([-Wl,-z,relro])
-            ;;
-        xno)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --enable-relro])
-            ;;
-    esac
 
-    case "x${enable_nonlazy_bind}" in
-        xyes)
-            ATHEME_LD_TEST_LDFLAGS([-Wl,-z,now])
-            ;;
-        xno)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --enable-nonlazy-bind])
-            ;;
-    esac
+    AS_CASE(["x${enable_profile}"], [xno], [], [xyes], [
+        ATHEME_TEST_LD_FLAGS([-pg])
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-profile])
+    ])
 
-    case "x${enable_linker_defs}" in
-        xyes)
-            AS_IF([test "${COMPILER_SANITIZERS}" = "Yes"], [
-                AC_MSG_ERROR([--enable-linker-defs is incompatible with --enable-compiler-sanitizers])
-            ], [
-                ATHEME_LD_TEST_LDFLAGS([-Wl,-z,defs])
-            ])
-            ;;
-        xno)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --enable-linker-defs])
-            ;;
-    esac
+    AS_CASE(["x${enable_relro}"], [xno], [], [xyes], [
+        ATHEME_TEST_LD_FLAGS([-Wl,-z,relro])
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-relro])
+    ])
 
-    case "x${enable_as_needed}" in
-        xyes)
-            ATHEME_LD_TEST_LDFLAGS([-Wl,--as-needed])
-            ;;
-        xno)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --enable-as-needed])
-            ;;
-    esac
+    AS_CASE(["x${enable_nonlazy_bind}"], [xno], [], [xyes], [
+        ATHEME_TEST_LD_FLAGS([-Wl,-z,now])
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-nonlazy-bind])
+    ])
 
-    case "x${enable_rpath}" in
-        xyes)
-            ATHEME_LD_TEST_LDFLAGS(${LDFLAGS_RPATH})
-            ;;
-        xno)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --enable-rpath])
-            ;;
-    esac
+    AS_CASE(["x${enable_linker_defs}"], [xno], [], [xyes], [
+        AS_IF([test "${COMPILER_SANITIZERS}" = "Yes"], [
+            AC_MSG_ERROR([To use --enable-compiler-sanitizers you must pass --disable-linker-defs])
+        ])
+        ATHEME_TEST_LD_FLAGS([-Wl,-z,defs])
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-linker-defs])
+    ])
+
+    AS_CASE(["x${enable_noexecstack}"], [xno], [], [xyes], [
+        ATHEME_TEST_LD_FLAGS([-Wl,-z,noexecstack])
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-noexecstack])
+    ])
+
+    AS_CASE(["x${enable_as_needed}"], [xno], [], [xyes], [
+        ATHEME_TEST_LD_FLAGS([-Wl,--as-needed])
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-as-needed])
+    ])
+
+    AS_CASE(["x${enable_rpath}"], [xno], [], [xyes], [
+        ATHEME_TEST_LD_FLAGS(${LDFLAGS_RPATH})
+    ], [
+        AC_MSG_ERROR([invalid option for --enable-rpath])
+    ])
 ])

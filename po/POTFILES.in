@@ -148,6 +148,7 @@ modules/nickserv/listgroups.c
 modules/nickserv/listlogins.c
 modules/nickserv/listmail.c
 modules/nickserv/listownmail.c
+modules/nickserv/loginnolimit.c
 modules/nickserv/logout.c
 modules/nickserv/main.c
 modules/nickserv/mark.c
@@ -200,11 +201,8 @@ modules/operserv/info.c
 modules/operserv/inject.c
 modules/operserv/jupe.c
 modules/operserv/mode.c
-modules/operserv/modinspect.c
 modules/operserv/modlist.c
-modules/operserv/modload.c
-modules/operserv/modreload.c
-modules/operserv/modunload.c
+modules/operserv/modmanager.c
 modules/operserv/noop.c
 modules/operserv/rakill.c
 modules/operserv/raw.c
@@ -256,5 +254,6 @@ modules/statserv/server.c
 src/crypto-benchmark/benchmark.c
 src/crypto-benchmark/main.c
 src/crypto-benchmark/optimal.c
+src/crypto-benchmark/selftests.c
 src/ecdh-x25519-tool/main.c
 src/ecdh-x25519-tool/qrcode.c

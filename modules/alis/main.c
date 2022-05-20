@@ -73,33 +73,71 @@ struct alis_query
 static struct service *alissvs = NULL;
 static unsigned int alis_max_matches = ALIS_MAXMATCH_DEF;
 
-static void
-alis_parse_mode(const char *restrict arg, struct alis_query *const restrict query)
+static bool
+alis_parse_mode(struct sourceinfo *const restrict si, const char *restrict arg,
+                struct alis_query *const restrict query)
 {
+	static const char opt[] = "-mode";
+
+	if (! arg[0] || ! arg[1])
+	{
+		(void) command_fail(si, fault_badparams, _("Invalid option for \2%s\2"), opt);
+		return false;
+	}
+	switch (*arg++)
+	{
+		case '+':
+			query->mode_cmp = MODECMP_SET;
+			break;
+
+		case '-':
+			query->mode_cmp = MODECMP_UNSET;
+			break;
+
+		case '=':
+			query->mode_cmp = MODECMP_EQUAL;
+			break;
+
+		default:
+			(void) command_fail(si, fault_badparams, _("Invalid option for \2%s\2"), opt);
+			return false;
+	}
 	while (*arg)
 	{
 		switch (*arg)
 		{
-			case 'l':
-				query->mode_limit = true;
-				break;
-
 			case 'k':
 				query->mode_key = true;
 				break;
 
+			case 'l':
+				query->mode_limit = true;
+				break;
+
 			default:
-				query->mode |= mode_to_flag(*arg);
+			{
+				const unsigned int mf = mode_to_flag(*arg);
+
+				if ((! mf) || ((ircd->oper_only_modes & mf) && (! has_priv(si, PRIV_CHAN_AUSPEX))))
+				{
+					(void) command_fail(si, fault_badparams, _("Invalid option for \2%s\2"), opt);
+					return false;
+				}
+
+				query->mode |= mf;
 
 				for (size_t i = 0; ignore_mode_list[i].mode; i++)
 					if (*arg == ignore_mode_list[i].mode)
 						query->mode_ext[i] = true;
 
 				break;
+			}
 		}
 
 		arg++;
 	}
+
+	return true;
 }
 
 static bool
@@ -190,26 +228,9 @@ alis_parse_query(struct sourceinfo *const restrict si, const int parc, char **co
 				(void) command_fail(si, fault_badparams, _("Invalid option for \2%s\2"), opt);
 				return false;
 			}
-			switch (*arg)
-			{
-				case '+':
-					query->mode_cmp = MODECMP_SET;
-					break;
 
-				case '-':
-					query->mode_cmp = MODECMP_UNSET;
-					break;
-
-				case '=':
-					query->mode_cmp = MODECMP_EQUAL;
-					break;
-
-				default:
-					(void) command_fail(si, fault_badparams, _("Invalid option for \2%s\2"), opt);
-					return false;
-			}
-
-			(void) alis_parse_mode(arg + 1, query);
+			if (! alis_parse_mode(si, arg, query))
+				return false;
 		}
 		else if (strcasecmp(opt, "-showsecret") == 0)
 		{

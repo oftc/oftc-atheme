@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: ISC
  * SPDX-URL: https://spdx.org/licenses/ISC.html
  *
- * Copyright (C) 2019 Aaron M. D. Jones <aaronmdjones@gmail.com>
+ * Copyright (C) 2019 Aaron M. D. Jones <me@aaronmdjones.net>
  *
  * Frontend routines for the random interface.
  */
@@ -20,8 +20,8 @@
 
 #if (ATHEME_API_RANDOM_FRONTEND == ATHEME_API_RANDOM_FRONTEND_INTERNAL)
 #  include "random_fe_internal.c"
-#elif (ATHEME_API_RANDOM_FRONTEND == ATHEME_API_RANDOM_FRONTEND_OPENBSD)
-#  include "random_fe_openbsd.c"
+#elif (ATHEME_API_RANDOM_FRONTEND == ATHEME_API_RANDOM_FRONTEND_ARC4RANDOM)
+#  include "random_fe_arc4random.c"
 #elif (ATHEME_API_RANDOM_FRONTEND == ATHEME_API_RANDOM_FRONTEND_SODIUM)
 #  include "random_fe_sodium.c"
 #elif (ATHEME_API_RANDOM_FRONTEND == ATHEME_API_RANDOM_FRONTEND_MBEDTLS)

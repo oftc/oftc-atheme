@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 # SPDX-URL: https://spdx.org/licenses/ISC.html
 #
-# Copyright (C) 2018-2019 Aaron Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2019 Aaron Jones <me@aaronmdjones.net>
 #
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
@@ -20,13 +20,9 @@ AC_DEFUN([ATHEME_LIBTEST_PASSWDQC], [
         [AS_HELP_STRING([--without-passwdqc], [Do not attempt to detect libpasswdqc (for modules/nickserv/pwquality -- checking password strength)])],
         [], [with_passwdqc="auto"])
 
-    case "x${with_passwdqc}" in
-        xno | xyes | xauto)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-passwdqc])
-            ;;
-    esac
+    AS_CASE(["x${with_passwdqc}"], [xno], [], [xyes], [], [xauto], [], [
+        AC_MSG_ERROR([invalid option for --with-passwdqc])
+    ])
 
     AS_IF([test "${with_passwdqc}" != "no"], [
         # If this library ever starts shipping a pkg-config file, change to PKG_CHECK_MODULES ?
@@ -82,4 +78,7 @@ AC_DEFUN([ATHEME_LIBTEST_PASSWDQC], [
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

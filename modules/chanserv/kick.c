@@ -46,6 +46,12 @@ cs_cmd_kick(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
+	if (!mc->chan)
+	{
+		command_fail(si, fault_nosuch_target, STR_CHANNEL_IS_EMPTY, chan);
+		return;
+	}
+
 	// figure out who we're going to kick
 	if ((tu = user_find_named(nick)) == NULL)
 	{
@@ -110,6 +116,12 @@ cs_cmd_kickban(struct sourceinfo *si, int parc, char *parv[])
 	if (!chanacs_source_has_flag(mc, si, CA_REMOVE))
 	{
 		command_fail(si, fault_noprivs, STR_NOT_AUTHORIZED);
+		return;
+	}
+
+	if (metadata_find(mc, "private:close:closer"))
+	{
+		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, chan);
 		return;
 	}
 

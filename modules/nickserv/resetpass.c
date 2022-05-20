@@ -41,7 +41,7 @@ ns_cmd_resetpass(struct sourceinfo *si, int parc, char *parv[])
 	{
 		if (has_priv(si, PRIV_MARK))
 		{
-			wallops("%s reset the password for the \2MARKED\2 account %s.", get_oper_name(si), entity(mu)->name);
+			wallops("\2%s\2 reset the password for the \2MARKED\2 account %s.", get_oper_name(si), entity(mu)->name);
 			logcommand(si, CMDLOG_ADMIN, "RESETPASS: \2%s\2 (overriding mark by \2%s\2)", entity(mu)->name, md->value);
 			command_success_nodata(si, _("Overriding MARK placed by %s on the account %s."), md->value, entity(mu)->name);
 		}
@@ -54,11 +54,11 @@ ns_cmd_resetpass(struct sourceinfo *si, int parc, char *parv[])
 	}
 	else
 	{
-		wallops("%s reset the password for the account %s", get_oper_name(si), entity(mu)->name);
+		wallops("\2%s\2 reset the password for the account %s", get_oper_name(si), entity(mu)->name);
 		logcommand(si, CMDLOG_ADMIN, "RESETPASS: \2%s\2", entity(mu)->name);
 	}
 
-	newpass = random_string(16);
+	newpass = random_string(config_options.default_pass_length);
 	metadata_delete(mu, "private:setpass:key");
 	metadata_add(mu, "private:sendpass:sender", get_oper_name(si));
 	metadata_add(mu, "private:sendpass:timestamp", number_to_string(time(NULL)));

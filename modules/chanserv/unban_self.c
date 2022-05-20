@@ -49,12 +49,6 @@ cs_cmd_unban(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	if (!c)
-	{
-		command_fail(si, fault_nosuch_target, STR_CHANNEL_IS_EMPTY, channel);
-		return;
-	}
-
 	if (!si->smu)
 	{
 		command_fail(si, fault_noprivs, STR_NOT_LOGGED_IN);
@@ -65,6 +59,18 @@ cs_cmd_unban(struct sourceinfo *si, int parc, char *parv[])
 			!chanacs_source_has_flag(mc, si, CA_EXEMPT))
 	{
 		command_fail(si, fault_noprivs, STR_NOT_AUTHORIZED);
+		return;
+	}
+
+	if (metadata_find(mc, "private:close:closer"))
+	{
+		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, channel);
+		return;
+	}
+
+	if (!c)
+	{
+		command_fail(si, fault_nosuch_target, STR_CHANNEL_IS_EMPTY, channel);
 		return;
 	}
 
@@ -107,6 +113,7 @@ static struct command cs_unban = {
 static void
 mod_init(struct module *const restrict m)
 {
+	MODULE_CONFLICT(m, "chanserv/ban")
 	MODULE_TRY_REQUEST_DEPENDENCY(m, "chanserv/main")
 
 	service_named_bind_command("chanserv", &cs_unban);

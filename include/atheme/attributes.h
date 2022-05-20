@@ -29,6 +29,9 @@
  */
 
 #ifdef __has_attribute
+#  if __has_attribute(__aligned__)
+#    define ATHEME_ATTR_HAS_ALIGNED                     1
+#  endif
 #  if __has_attribute(__alloc_size__)
 #    define ATHEME_ATTR_HAS_ALLOC_SIZE                  1
 #  endif
@@ -37,6 +40,9 @@
 #  endif
 #  if __has_attribute(__diagnose_if__)
 #    define ATHEME_ATTR_HAS_DIAGNOSE_IF                 1
+#  endif
+#  if __has_attribute(__fallthrough__)
+#    define ATHEME_ATTR_HAS_FALLTHROUGH                 1
 #  endif
 #  if __has_attribute(__format__)
 #    define ATHEME_ATTR_HAS_FORMAT                      1
@@ -49,6 +55,9 @@
 #  endif
 #  if __has_attribute(__noreturn__)
 #    define ATHEME_ATTR_HAS_NORETURN                    1
+#  endif
+#  if __has_attribute(__ownership_returns__) && __has_attribute(__ownership_takes__)
+#    define ATHEME_ATTR_HAS_OWNERSHIP                   1
 #  endif
 #  if __has_attribute(__packed__)
 #    define ATHEME_ATTR_HAS_PACKED                      1
@@ -65,6 +74,7 @@
 #else
 #  if !defined(__clang__) && defined(__GNUC__) && defined(__GNUC_MINOR__) && defined(__GNUC_PATCHLEVEL__)
 #    if ((__GNUC__ > 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 4)))
+#      define ATHEME_ATTR_HAS_ALIGNED                   1
 #      define ATHEME_ATTR_HAS_DEPRECATED                1
 #      define ATHEME_ATTR_HAS_FORMAT                    1
 #      define ATHEME_ATTR_HAS_MALLOC                    1
@@ -83,6 +93,31 @@
 #endif
 
 
+
+/* Tells the compiler to increase the alignment for the given variable to x bytes. Cannot be used to decrease a
+ * variable's alignment below its minimum unless used in conjunction with the "packed" attribute (below). If used
+ * without a specified size, increase the variable to the maximum alignment required for any scalar data type.
+ *
+ * Examples:
+ *
+ *   struct foo {
+ *     int a;                                       // Assuming alignof(int) == 4 ...
+ *     int b __attribute__((__aligned__(8)));       // ... then insert 4 bytes of padding before this ...
+ *   };                                             // ... and raise the alignment for this struct to 8 bytes
+ *
+ *   void bar(void)
+ *   {
+ *     int a[4] __attribute__((__aligned__(32)));   // Ensures that this stack-based array starts at an
+ *                                                  // address which is an integer multiple of 32 bytes
+ *   }
+ */
+#ifdef ATHEME_ATTR_HAS_ALIGNED
+#  define ATHEME_VATTR_ALIGNED(x)                       __attribute__((__aligned__((x))))
+#  define ATHEME_VATTR_ALIGNED_MAX                      __attribute__((__aligned__))
+#else
+#  define ATHEME_VATTR_ALIGNED(x)                       /* No 'aligned' variable attribute support */
+#  define ATHEME_VATTR_ALIGNED_MAX                      /* No 'aligned' variable attribute support */
+#endif
 
 /* Informs the compiler that the size of memory reachable by the pointer returned from this function is x (or x * y)
  * bytes, where x and y are positional function arguments (starting at 1). This aids static analysis and makes e.g.
@@ -120,6 +155,38 @@
 #  define ATHEME_FATTR_DIAGNOSE_IF(cond, msg, type)     /* No 'diagnose_if' function attribute support */
 #endif
 
+/* Prevent the compiler from warning about fall-through in switch() case statements. This one is a little bit
+ * unique, in that its name is shorter because it is intended to be used within a block of code multiple times,
+ * and so saves a lot of typing and eyesore. Its name is still prefixed with ATHEME_ however, to prevent any
+ * unintended collision with a FALLTHROUGH macro declared in the header files of any library we end up using.
+ */
+#ifdef ATHEME_ATTR_HAS_FALLTHROUGH
+#  define ATHEME_FALLTHROUGH                            __attribute__((__fallthrough__))
+#else
+#  define ATHEME_FALLTHROUGH                            /* No 'fallthrough' statement attribute support */
+#endif
+
+/* Informs compilers and static analyzers that these functions return or take ownership of a specific type of object,
+ * and thus e.g. when passed to a function with attribute "takes", the object is no longer considered valid for other
+ * code to use or reference after the function returns. The index parameter denotes which function parameter the
+ * pointer to the object is passed to (starting at 1). The "returns" attribute can only appear once per function, but
+ * the "takes" attribute can be repeated for multiple parameters, so that ownership of multiple objects can be taken
+ * by a single function. The object identifier must be bare, not a quoted string, but can otherwise be any valid
+ * token. Currently, only the "malloc" token has any effect; others are silently ignored.
+ *
+ * Example:
+ *   void *scalloc(size_t, size_t) __attribute__((ownership_returns(malloc)));
+ *   void *smalloc(size_t)         __attribute__((ownership_returns(malloc)));
+ *   void sfree(void *)            __attribute__((ownership_takes(malloc, 1)));
+ */
+#ifdef ATHEME_ATTR_HAS_OWNERSHIP
+#  define ATHEME_FATTR_OWNERSHIP_RETURNS(token)         __attribute__((__ownership_returns__(token)))
+#  define ATHEME_FATTR_OWNERSHIP_TAKES(token, index)    __attribute__((__ownership_takes__(token, index)))
+#else
+#  define ATHEME_FATTR_OWNERSHIP_RETURNS(token)         /* No 'ownership_returns' function attribute support */
+#  define ATHEME_FATTR_OWNERSHIP_TAKES(token, index)    /* No 'ownership_takes' function attribute support */
+#endif
+
 /* Have the compiler verify printf(3) or scanf(3) format tokens in the parameter position given by 'fmt' against the
  * function arguments starting at position 'start'. Also quenches warnings about passing 'fmt' itself to the
  * printf(3) or scanf(3) family of functions (because it is not a string literal). If the format string is available
@@ -143,7 +210,9 @@
  * objects. This aids static analysis and some compiler optimisations.
  *
  * The warn_unused_result attribute is also present (if supported) because ignoring the return value could lead to
- * a memory leak.
+ * a memory leak. A variant is provided without this, to account for the fact that the function may be returning a
+ * pointer that it itself keeps track of (for example, it's being added to the list in another structure), and thus
+ * the pointer it returns is not lost if the return value is ignored.
  */
 #ifdef ATHEME_ATTR_HAS_MALLOC
 #  ifdef ATHEME_ATTR_HAS_WARN_UNUSED_RESULT
@@ -151,8 +220,10 @@
 #  else
 #    define ATHEME_FATTR_MALLOC                         __attribute__((__malloc__))
 #  endif
+#  define ATHEME_FATTR_MALLOC_UNCHECKED                 __attribute__((__malloc__))
 #else
 #  define ATHEME_FATTR_MALLOC                           /* No 'malloc' function attribute support */
+#  define ATHEME_FATTR_MALLOC_UNCHECKED                 /* No 'malloc' function attribute support */
 #endif
 
 /* Inform the compiler that a variable may be unused (don't warn, whether it's used or not). This is distinct

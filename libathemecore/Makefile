@@ -4,7 +4,7 @@
 # Copyright (C) 2010-2014 William Pitcock <nenolod@dereferenced.org>
 # Copyright (C) 2012 Bryan Drewery <bryan@shatow.net>
 # Copyright (C) 2015 Mantas Mikulėnas <grawity@gmail.com>
-# Copyright (C) 2017-2020 Aaron M. D. Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2017-2020 Aaron M. D. Jones <me@aaronmdjones.net>
 
 include ../extra.mk
 
@@ -38,6 +38,7 @@ SRCS =                              \
     digest_frontend.c               \
     digest_testsuite.c              \
     eksblowfish.c                   \
+    email.c                         \
     entity.c                        \
     flags.c                         \
     function.c                      \
@@ -45,7 +46,7 @@ SRCS =                              \
     linker.c                        \
     logger.c                        \
     match.c                         \
-    memory_frontend.c               \
+    memory.c                        \
     module.c                        \
     node.c                          \
     object.c                        \
@@ -61,7 +62,6 @@ SRCS =                              \
     servtree.c                      \
     sharedheap.c                    \
     signal.c                        \
-    snprintf.c                      \
     string.c                        \
     strshare.c                      \
     svsignore.c                     \
@@ -83,17 +83,14 @@ CFLAGS +=                           \
     ${LIBGCRYPT_CFLAGS}             \
     ${LIBMBEDCRYPTO_CFLAGS}         \
     ${LIBNETTLE_CFLAGS}             \
-    ${LIBPCRE_CFLAGS}               \
     ${LIBQRENCODE_CFLAGS}           \
-    ${LIBSODIUM_CFLAGS}             \
-    ${LIB_CFLAGS}
+    ${LIBSODIUM_CFLAGS}
 
 LIBS +=                             \
     ${LIBCRYPTO_LIBS}               \
     ${LIBGCRYPT_LIBS}               \
     ${LIBMBEDCRYPTO_LIBS}           \
     ${LIBNETTLE_LIBS}               \
-    ${LIBPCRE_LIBS}                 \
     ${LIBQRENCODE_LIBS}             \
     ${LIBSODIUM_LIBS}               \
     ${LIBDL_LIBS}                   \

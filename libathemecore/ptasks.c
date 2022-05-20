@@ -121,6 +121,7 @@ handle_stats(struct user *u, char req)
 
 	if (floodcheck(u, NULL))
 		return;
+
 	logcommand_user(NULL, u, CMDLOG_GET, "STATS: \2%c\2", req);
 
 	switch (req)
@@ -145,7 +146,7 @@ handle_stats(struct user *u, char req)
 		  MOWGLI_ITER_FOREACH(n, uplinks.head)
 		  {
 			  uplink = (struct uplink *)n->data;
-			  numeric_sts(me.me, 213, u, "C *@127.0.0.1 A %s %u uplink", uplink->name, uplink->port);
+			  numeric_sts(me.me, 213, u, "C *@%s A %s %u uplink", uplink->host, uplink->name, uplink->port);
 		  }
 		  break;
 
@@ -167,8 +168,8 @@ handle_stats(struct user *u, char req)
 
 		  break;
 
-	  case 'f':
 	  case 'F':
+	  case 'f':
 		  if (!has_priv_user(u, PRIV_SERVER_AUSPEX))
 			  break;
 
@@ -193,8 +194,8 @@ handle_stats(struct user *u, char req)
 		  break;
 
 #ifdef OBJECT_DEBUG
-	  case 'j':
 	  case 'J':
+	  case 'j':
 		  MOWGLI_ITER_FOREACH(n, object_list.head)
 		  {
 			  struct atheme_object *obj = n->data;
@@ -220,8 +221,8 @@ handle_stats(struct user *u, char req)
 
 		  break;
 
-	  case 'o':
 	  case 'O':
+	  case 'o':
 		  if (!has_priv_user(u, PRIV_VIEWPRIVS))
 			  break;
 
@@ -245,6 +246,16 @@ handle_stats(struct user *u, char req)
 
 	  case 'T':
 	  case 't':
+		  // These 3 are not sensitive; and can already be obtained with /LUSERS on IRC
+		  numeric_sts(me.me, 249, u, "T :server     %7u", cnt.server);
+		  numeric_sts(me.me, 249, u, "T :user       %7u", cnt.user);
+		  numeric_sts(me.me, 249, u, "T :chan       %7u", cnt.chan);
+
+		  // These 3 are not sensitive
+		  numeric_sts(me.me, 249, u, "T :myuser     %7u", cnt.myuser);
+		  numeric_sts(me.me, 249, u, "T :mynick     %7u", cnt.mynick);
+		  numeric_sts(me.me, 249, u, "T :mychan     %7u", cnt.mychan);
+
 		  if (!has_priv_user(u, PRIV_SERVER_AUSPEX))
 			  break;
 
@@ -256,15 +267,9 @@ handle_stats(struct user *u, char req)
 		  numeric_sts(me.me, 249, u, "T :tld        %7u", cnt.tld);
 		  numeric_sts(me.me, 249, u, "T :kline      %7u", cnt.kline);
 		  numeric_sts(me.me, 249, u, "T :xline      %7u", cnt.xline);
-		  numeric_sts(me.me, 249, u, "T :server     %7u", cnt.server);
-		  numeric_sts(me.me, 249, u, "T :user       %7u", cnt.user);
-		  numeric_sts(me.me, 249, u, "T :chan       %7u", cnt.chan);
 		  numeric_sts(me.me, 249, u, "T :chanuser   %7u", cnt.chanuser);
-		  numeric_sts(me.me, 249, u, "T :myuser     %7u", cnt.myuser);
 		  numeric_sts(me.me, 249, u, "T :myuser_acc %7u", cnt.myuser_access);
-		  numeric_sts(me.me, 249, u, "T :mynick     %7u", cnt.mynick);
 		  numeric_sts(me.me, 249, u, "T :myuser_nam %7u", cnt.myuser_name);
-		  numeric_sts(me.me, 249, u, "T :mychan     %7u", cnt.mychan);
 		  numeric_sts(me.me, 249, u, "T :chanacs    %7u", cnt.chanacs);
 
 #ifdef OBJECT_DEBUG
@@ -291,8 +296,8 @@ handle_stats(struct user *u, char req)
 				  timediff(CURRTIME - curr_uplink->conn->first_recv));
 		  break;
 
-	  case 'q':
 	  case 'Q':
+	  case 'q':
 		  if (!has_priv_user(u, PRIV_MASS_AKILL))
 			  break;
 
@@ -308,8 +313,8 @@ handle_stats(struct user *u, char req)
 
 		  break;
 
-	  case 'x':
 	  case 'X':
+	  case 'x':
 		  if (!has_priv_user(u, PRIV_MASS_AKILL))
 			  break;
 
@@ -325,8 +330,8 @@ handle_stats(struct user *u, char req)
 
 		  break;
 
-	  case 'y':
 	  case 'Y':
+	  case 'y':
 		  if (!has_priv_user(u, PRIV_SERVER_AUSPEX))
 			  break;
 
@@ -360,7 +365,7 @@ handle_whois(struct user *u, const char *target)
 			numeric_sts(me.me, 301, u, "%s :Gone", t->nick);
 		if (is_service(t))
 			numeric_sts(me.me, 313, u, "%s :%s", t->nick, config_options.servicestring);
-		else if (is_ircop(t))
+		else if (is_ircop(t) && !config_options.hide_opers)
 			numeric_sts(me.me, 313, u, "%s :%s", t->nick, config_options.operstring);
 		if (t->myuser && !(t->myuser->flags & MU_WAITAUTH))
 			numeric_sts(me.me, 330, u, "%s %s :is logged in as", t->nick, entity(t->myuser)->name);
@@ -798,7 +803,9 @@ handle_kill(struct sourceinfo *si, const char *victim, const char *reason)
 	}
 	else if (u->server == me.me)
 	{
-		slog(LG_INFO, "handle_kill(): %s killed service %s (%s)", source, u->nick, reason);
+		// Can't reliably use slog() here, in case it's OperServ (source of message) that got killed!
+
+		wallops("%s killed service %s (%s)", source, u->nick, reason);
 		if (lastkill != CURRTIME && killcount < 5 + me.me->users)
 		{
 			killcount = 0;
@@ -809,7 +816,6 @@ handle_kill(struct sourceinfo *si, const char *victim, const char *reason)
 			reintroduce_user(u);
 		else
 		{
-			slog(LG_ERROR, "handle_kill(): services kill fight (\2%s\2 -> \2%s\2), shutting down", source, u->nick);
 			wallops("Services kill fight (%s -> %s), shutting down!", source, u->nick);
 			runflags |= RF_SHUTDOWN;
 		}

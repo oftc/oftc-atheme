@@ -3,7 +3,7 @@
  * SPDX-URL: https://spdx.org/licenses/ISC.html
  *
  * Copyright (C) 2012 William Pitcock <nenolod@dereferenced.org>
- * Copyright (C) 2017-2019 Aaron M. D. Jones <aaronmdjones@gmail.com>
+ * Copyright (C) 2017-2019 Aaron M. D. Jones <me@aaronmdjones.net>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -17,11 +17,8 @@
 static void
 atheme_pbkdf2_config_ready(void ATHEME_VATTR_UNUSED *const restrict unused)
 {
-	if (! module_find_published(PBKDF2V2_CRYPTO_MODULE_NAME))
-		(void) slog(LG_INFO, "%s: this module has been superceded by %s; please arrange to have that module "
-		                     "loaded before this one, and see the comments in dist/atheme.conf.example for "
-		                     "the crypto {} section to configure it.", CRYPTO_MODULE_NAME,
-		                     PBKDF2V2_CRYPTO_MODULE_NAME);
+	(void) slog(LG_INFO, "%s: this module has been superseded by %s; please see the contrib/pbkdf2-convert.pl "
+	                     "script in the source directory.", CRYPTO_MODULE_NAME, PBKDF2V2_CRYPTO_MODULE_NAME);
 }
 
 static bool ATHEME_FATTR_WUR
@@ -31,7 +28,11 @@ atheme_pbkdf2_verify(const char *const restrict password, const char *const rest
 	if (strlen(parameters) != PBKDF2_LEGACY_PARAMLEN)
 		return false;
 
-	for (size_t i = 0; i < PBKDF2_LEGACY_PARAMLEN; i++)
+	for (size_t i = 0; i < PBKDF2_LEGACY_SALTLEN; i++)
+		if (! isalnum(parameters[i]))
+			return false;
+
+	for (size_t i = PBKDF2_LEGACY_SALTLEN; i < PBKDF2_LEGACY_PARAMLEN; i++)
 		if (! isxdigit(parameters[i]))
 			return false;
 

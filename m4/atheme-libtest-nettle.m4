@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 # SPDX-URL: https://spdx.org/licenses/ISC.html
 #
-# Copyright (C) 2018-2019 Aaron Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2019 Aaron Jones <me@aaronmdjones.net>
 #
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
@@ -19,17 +19,12 @@ AC_DEFUN([ATHEME_LIBTEST_NETTLE], [
         [AS_HELP_STRING([--without-nettle], [Do not attempt to detect nettle (cryptographic library)])],
         [], [with_nettle="auto"])
 
-    case "x${with_nettle}" in
-        xno | xyes | xauto)
-            ;;
-        x/*)
-            LIBNETTLE_PATH="${with_nettle}"
-            with_nettle="yes"
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-nettle])
-            ;;
-    esac
+    AS_CASE(["x${with_nettle}"], [xno], [], [xyes], [], [xauto], [], [x/*], [
+        LIBNETTLE_PATH="${with_nettle}"
+        with_nettle="yes"
+    ], [
+        AC_MSG_ERROR([invalid option for --with-nettle])
+    ])
 
     AS_IF([test "${with_nettle}" != "no"], [
         AS_IF([test -n "${LIBNETTLE_PATH}"], [
@@ -121,4 +116,7 @@ AC_DEFUN([ATHEME_LIBTEST_NETTLE], [
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

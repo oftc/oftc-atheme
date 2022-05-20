@@ -226,7 +226,6 @@ sasl_mechlist_do_rebuild(void)
 static bool
 sasl_may_impersonate(struct myuser *const source_mu, struct myuser *const target_mu)
 {
-	// Allow same (although this function won't get called in that case anyway)
 	if (source_mu == target_mu)
 		return true;
 
@@ -282,38 +281,19 @@ sasl_user_can_login(struct sasl_session *const restrict p)
 	else if (! (target_mu = myuser_find_uid(p->authzeid)))
 		return NULL;
 
-	if (metadata_find(source_mu, "private:freeze:freezer"))
+	if (! sasl_may_impersonate(source_mu, target_mu))
 	{
-		(void) logcommand(p->si, CMDLOG_LOGIN, "failed LOGIN to \2%s\2 (frozen)", entity(source_mu)->name);
+		(void) logcommand(p->si, CMDLOG_LOGIN, "denied IMPERSONATE by \2%s\2 to \2%s\2",
+		                                       entity(source_mu)->name, entity(target_mu)->name);
 		return NULL;
 	}
 
-	if (target_mu != source_mu)
-	{
-		if (! sasl_may_impersonate(source_mu, target_mu))
-		{
-			(void) logcommand(p->si, CMDLOG_LOGIN, "denied IMPERSONATE by \2%s\2 to \2%s\2",
-			                                       entity(source_mu)->name, entity(target_mu)->name);
-			return NULL;
-		}
-
-		if (metadata_find(target_mu, "private:freeze:freezer"))
-		{
-			(void) logcommand(p->si, CMDLOG_LOGIN, "failed LOGIN to \2%s\2 (frozen)",
-			                                       entity(target_mu)->name);
-			return NULL;
-		}
-	}
-
-	if (MOWGLI_LIST_LENGTH(&target_mu->logins) >= me.maxlogins)
+	if (user_loginmaxed(target_mu))
 	{
 		(void) logcommand(p->si, CMDLOG_LOGIN, "failed LOGIN to \2%s\2 (too many logins)",
 		                                       entity(target_mu)->name);
 		return NULL;
 	}
-
-	// Log it with the full n!u@h later
-	p->flags |= ASASL_SFLAG_NEED_LOG;
 
 	/* We just did SASL authentication for a user.  With IRCds which do not
 	 * have unique UIDs for users, we will likely be expecting the login
@@ -335,17 +315,24 @@ sasl_user_can_login(struct sasl_session *const restrict p)
 }
 
 static void
+sasl_session_reset(struct sasl_session *const restrict p)
+{
+	if (p->mechptr && p->mechptr->mech_finish)
+		(void) p->mechptr->mech_finish(p);
+	p->mechptr = NULL;
+
+	struct user *const u = user_find(p->uid);
+	if (u)
+		// If the user is still on the network, allow them to use NickServ IDENTIFY/LOGIN again
+		u->flags &= ~UF_DOING_SASL;
+}
+
+static void
 sasl_session_destroy(struct sasl_session *const restrict p)
 {
-	if (p->flags & ASASL_SFLAG_NEED_LOG && *p->authceid)
-	{
-		const struct myuser *const mu = myuser_find_uid(p->authceid);
-
-		if (mu && ! (ircd->flags & IRCD_SASL_USE_PUID))
-			(void) logcommand(p->si, CMDLOG_LOGIN, "LOGIN (session timed out)");
-	}
-
 	mowgli_node_t *n;
+
+	sasl_session_reset(p);
 
 	MOWGLI_ITER_FOREACH(n, sasl_sessions.head)
 	{
@@ -356,16 +343,8 @@ sasl_session_destroy(struct sasl_session *const restrict p)
 		}
 	}
 
-	if (p->mechptr && p->mechptr->mech_finish)
-		(void) p->mechptr->mech_finish(p);
-
 	if (p->si)
 		(void) atheme_object_unref(p->si);
-
-	struct user *const u = user_find(p->uid);
-	if (u)
-		// If the user is still on the network, allow them to use NickServ IDENTIFY/LOGIN again
-		u->flags &= ~UF_DOING_SASL;
 
 	(void) sfree(p->certfp);
 	(void) sfree(p->host);
@@ -374,11 +353,20 @@ sasl_session_destroy(struct sasl_session *const restrict p)
 	(void) sfree(p);
 }
 
+static void
+sasl_session_reset_or_destroy(struct sasl_session *const restrict p)
+{
+	if (p->pendingeid[0] == '\0')
+		sasl_session_destroy(p);
+	else
+		sasl_session_reset(p);
+}
+
 static inline void
 sasl_session_abort(struct sasl_session *const restrict p)
 {
 	(void) sasl_sts(p->uid, 'D', "F");
-	(void) sasl_session_destroy(p);
+	(void) sasl_session_reset_or_destroy(p);
 }
 
 static bool
@@ -407,22 +395,23 @@ static bool
 sasl_handle_login(struct sasl_session *const restrict p, struct user *const u, struct myuser *mu)
 {
 	bool was_killed = false;
+	char pendingeid[sizeof p->pendingeid];
 
-	// We will log messages now ourselves, if needed
-	p->flags &= ~ASASL_SFLAG_NEED_LOG;
+	mowgli_strlcpy(pendingeid, p->pendingeid, sizeof pendingeid);
+	p->pendingeid[0] = '\0';
 
 	// Find the account if necessary
 	if (! mu)
 	{
-		if (! *p->authzeid)
+		if (! *pendingeid)
 		{
-			(void) slog(LG_INFO, "%s: session for '%s' without an authzeid (BUG)",
+			(void) slog(LG_INFO, "%s: session for '%s' without a pendingeid (BUG)",
 			                     MOWGLI_FUNC_NAME, u->nick);
 			(void) notice(saslsvs->nick, u->nick, LOGIN_CANCELLED_STR);
 			return false;
 		}
 
-		if (! (mu = myuser_find_uid(p->authzeid)))
+		if (! (mu = myuser_find_uid(pendingeid)))
 		{
 			if (*p->authzid)
 				(void) notice(saslsvs->nick, u->nick, "Account %s dropped; login cancelled",
@@ -622,7 +611,7 @@ sasl_process_packet(struct sasl_session *const restrict p, char *const restrict 
 	}
 	else if (! p->mechptr)
 	{
-		(void) slog(LG_ERROR, "%s: session has no mechanism (BUG!)", MOWGLI_FUNC_NAME);
+		(void) slog(LG_DEBUG, "%s: session has no mechanism?", MOWGLI_FUNC_NAME);
 		return false;
 	}
 	else
@@ -666,6 +655,8 @@ sasl_process_packet(struct sasl_session *const restrict p, char *const restrict 
 
 				return false;
 			}
+
+			(void) mowgli_strlcpy(p->pendingeid, p->authzeid, sizeof p->pendingeid);
 
 			/* If the user is already on the network, attempt to log them in immediately.
 			 * Otherwise, we will log them in on introduction of user to network
@@ -736,7 +727,7 @@ sasl_input_hostinfo(const struct sasl_message *const restrict smsg, struct sasl_
 	p->ip   = sstrdup(smsg->parv[1]);
 
 	if (smsg->parc >= 3 && strcmp(smsg->parv[2], "P") != 0)
-		p->flags |= ASASL_SFLAG_CLIENT_USING_TLS;
+		p->flags |= ASASL_SFLAG_CLIENT_SECURE;
 }
 
 static bool ATHEME_FATTR_WUR
@@ -754,7 +745,7 @@ sasl_input_startauth(const struct sasl_message *const restrict smsg, struct sasl
 		(void) sfree(p->certfp);
 
 		p->certfp = sstrdup(smsg->parv[1]);
-		p->flags |= ASASL_SFLAG_CLIENT_USING_TLS;
+		p->flags |= ASASL_SFLAG_CLIENT_SECURE;
 	}
 
 	struct user *const u = user_find(p->uid);
@@ -886,7 +877,7 @@ sasl_input(struct sasl_message *const restrict smsg)
 
 		case 'D':
 			// (D)one -- when we receive it, means client abort
-			(void) sasl_session_destroy(p);
+			(void) sasl_session_reset_or_destroy(p);
 			break;
 	}
 
@@ -1002,6 +993,11 @@ sasl_authxid_can_login(struct sasl_session *const restrict p, const char *const 
 	if (! mu)
 	{
 		(void) slog(LG_DEBUG, "%s: myuser_find_by_nick: does not exist", MOWGLI_FUNC_NAME);
+		return false;
+	}
+	if (metadata_find(mu, "private:freeze:freezer"))
+	{
+		(void) logcommand(p->si, CMDLOG_LOGIN, "failed LOGIN to \2%s\2 (frozen)", entity(mu)->name);
 		return false;
 	}
 

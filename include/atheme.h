@@ -32,6 +32,7 @@
 #include <atheme/database_backend.h>
 #include <atheme/datastream.h>
 #include <atheme/digest.h>
+#include <atheme/email.h>
 #include <atheme/entity.h>
 #include <atheme/entity-validation.h>
 #include <atheme/flags.h>
@@ -41,6 +42,7 @@
 #include <atheme/httpd.h>
 #include <atheme/i18n.h>
 #include <atheme/inline.h>
+#include <atheme/instpaths.h>
 #include <atheme/linker.h>
 #include <atheme/match.h>
 #include <atheme/memory.h>

@@ -344,11 +344,19 @@ generic_mask_matches_user(const char *mask, struct user *u)
 
 	snprintf(hostbuf, sizeof hostbuf, "%s!%s@%s", u->nick, u->user, u->vhost);
 	snprintf(cloakbuf, sizeof cloakbuf, "%s!%s@%s", u->nick, u->user, u->chost);
+
+	bool result = !match(mask, hostbuf) || !match(mask, cloakbuf);
+
+	// return if configured not to check further, or if we already have a match
+	if ((!config_options.masks_through_vhost && u->host != u->vhost) || result)
+		return result;
+
 	snprintf(realbuf, sizeof realbuf, "%s!%s@%s", u->nick, u->user, u->host);
 	/* will be nick!user@ if ip unknown, doesn't matter */
 	snprintf(ipbuf, sizeof ipbuf, "%s!%s@%s", u->nick, u->user, u->ip);
 
-	return !match(mask, hostbuf) || !match(mask, cloakbuf) || !match(mask, realbuf) || !match(mask, ipbuf) || (ircd->flags & IRCD_CIDR_BANS && !match_cidr(mask, ipbuf));
+	return !match(mask, realbuf) || !match(mask, ipbuf) || (ircd->flags & IRCD_CIDR_BANS && !match_cidr(mask, ipbuf));
+
 }
 
 mowgli_node_t *
@@ -386,15 +394,18 @@ generic_next_matching_host_chanacs(struct mychan *mc, struct user *u, mowgli_nod
 bool
 generic_is_valid_nick(const char *nick)
 {
-	const char *iter = nick;
-
-	/* nicknames may not normally begin with a number, due to UID collision */
-	if (IsDigit(*iter))
+	/* nicknames may not begin with a digit or a hyphen; the former because they are usually
+	 * reserved for UIDs and thus may collide, and both because it is specified as such in
+	 * <https://datatracker.ietf.org/doc/html/rfc2812#section-2.3.1>
+	 */
+	if (IsDigit(*nick) || *nick == '-')
 		return false;
-	if (*iter == '-')
+
+	// nicknames cannot be longer than we support
+	if (strlen(nick) > NICKLEN)
 		return false;
 
-	for (; *iter != '\0'; iter++)
+	for (const char *iter = nick; *iter != '\0'; iter++)
 	{
 		if (!IsNickChar(*iter))
 			return false;

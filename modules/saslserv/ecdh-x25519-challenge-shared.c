@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: ISC
  * SPDX-URL: https://spdx.org/licenses/ISC.html
  *
- * Copyright (C) 2019 Aaron M. D. Jones <aaronmdjones@gmail.com>
+ * Copyright (C) 2019 Aaron M. D. Jones <me@aaronmdjones.net>
  *
  * ECDH-X25519-CHALLENGE mechanism shared routines.
  */
@@ -16,11 +16,11 @@
 #if defined(HAVE_LIBSODIUM_ECDH_X25519)
 #  define ECDH_X25519_USE_LIBSODIUM     1
 #elif defined(HAVE_LIBCRYPTO_ECDH_X25519)
-#  define ECDH_X25519_USE_LIBNETTLE     1
-#elif defined(HAVE_LIBMBEDCRYPTO_ECDH_X25519)
 #  define ECDH_X25519_USE_LIBCRYPTO     1
-#elif defined(HAVE_LIBNETTLE_ECDH_X25519)
+#elif defined(HAVE_LIBMBEDCRYPTO_ECDH_X25519)
 #  define ECDH_X25519_USE_LIBMBEDCRYPTO 1
+#elif defined(HAVE_LIBNETTLE_ECDH_X25519)
+#  define ECDH_X25519_USE_LIBNETTLE     1
 #else
 #  error "No ECDH X25519 cryptographic library implementation is available"
 #endif

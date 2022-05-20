@@ -137,9 +137,12 @@ get_conf_opts(void)
 	optstr[optidx++] = 'L';
 #endif /* ATHEME_ENABLE_LARGE_NET */
 
-#ifdef ATHEME_ENABLE_SODIUM_MALLOC
-	optstr[optidx++] = 'M';
-#endif /* ATHEME_ENABLE_SODIUM_MALLOC */
+	if (config_options.hide_opers)
+		optstr[optidx++] = 'O';
+
+#ifdef ATHEME_ENABLE_FHS_PATHS
+	optstr[optidx++] = 'P';
+#endif /* ATHEME_ENABLE_FHS_PATHS */
 
 	if (! match_mapping)
 		optstr[optidx++] = 'R';
@@ -250,62 +253,66 @@ init_newconf(void)
 	add_dupstr_conf_item("NAME", &conf_si_table, CONF_NO_REHASH, &me.name, NULL);
 	add_dupstr_conf_item("DESC", &conf_si_table, CONF_NO_REHASH, &me.desc, NULL);
 	add_dupstr_conf_item("NUMERIC", &conf_si_table, CONF_NO_REHASH, &me.numeric, NULL);
-	add_dupstr_conf_item("VHOST", &conf_si_table, CONF_NO_REHASH, &me.vhost, NULL);
 	add_duration_conf_item("RECONTIME", &conf_si_table, 0, &me.recontime, "s", 10);
-	add_duration_conf_item("RESTARTTIME", &conf_si_table, 0, &me.restarttime, "s", 0);
 	add_dupstr_conf_item("NETNAME", &conf_si_table, 0, &me.netname, NULL);
 	add_dupstr_conf_item("HIDEHOSTSUFFIX", &conf_si_table, 0, &me.hidehostsuffix, NULL);
 	add_dupstr_conf_item("ADMINNAME", &conf_si_table, 0, &me.adminname, NULL);
 	add_dupstr_conf_item("ADMINEMAIL", &conf_si_table, 0, &me.adminemail, NULL);
 	add_dupstr_conf_item("REGISTEREMAIL", &conf_si_table, 0, &me.register_email, NULL);
+	add_bool_conf_item("HIDDEN", &conf_si_table, 0, &me.hidden, false);
 	add_dupstr_conf_item("MTA", &conf_si_table, 0, &me.mta, NULL);
 	add_conf_item("LOGLEVEL", &conf_si_table, c_si_loglevel);
+	add_uint_conf_item("MAXCERTFP", &conf_si_table, 0, &me.maxcertfp, 0, INT_MAX, 0);
 	add_uint_conf_item("MAXLOGINS", &conf_si_table, 0, &me.maxlogins, 3, INT_MAX, 5);
 	add_uint_conf_item("MAXUSERS", &conf_si_table, 0, &me.maxusers, 0, INT_MAX, 0);
+	add_uint_conf_item("MDLIMIT", &conf_si_table, 0, &me.mdlimit, 0, INT_MAX, 30);
 	add_uint_conf_item("EMAILLIMIT", &conf_si_table, 0, &me.emaillimit, 1, INT_MAX, 10);
 	add_duration_conf_item("EMAILTIME", &conf_si_table, 0, &me.emailtime, "s", 300);
 	add_conf_item("AUTH", &conf_si_table, c_si_auth);
-	add_uint_conf_item("MDLIMIT", &conf_si_table, 0, &me.mdlimit, 0, INT_MAX, 30);
 	add_conf_item("CASEMAPPING", &conf_si_table, c_si_casemapping);
-	add_bool_conf_item("HIDDEN", &conf_si_table, 0, &me.hidden, false);
+	add_dupstr_conf_item("VHOST", &conf_si_table, CONF_NO_REHASH, &me.vhost, NULL);
 
 	/* general{} block */
+	add_bool_conf_item("PERMISSIVE_MODE", &conf_gi_table, 0, &permissive_mode, false);
 	add_dupstr_conf_item("HELPCHAN", &conf_gi_table, 0, &config_options.helpchan, NULL);
 	add_dupstr_conf_item("HELPURL", &conf_gi_table, 0, &config_options.helpurl, NULL);
-	add_bool_conf_item("PERMISSIVE_MODE", &conf_gi_table, 0, &permissive_mode, false);
-	add_bool_conf_item("VERBOSE_WALLOPS", &conf_gi_table, 0, &config_options.verbose_wallops, false);
-	add_bool_conf_item("ALLOW_TAINT", &conf_gi_table, 0, &config_options.allow_taint, false);
 	add_bool_conf_item("SILENT", &conf_gi_table, 0, &config_options.silent, false);
+	add_bool_conf_item("VERBOSE_WALLOPS", &conf_gi_table, 0, &config_options.verbose_wallops, false);
 	add_bool_conf_item("JOIN_CHANS", &conf_gi_table, 0, &config_options.join_chans, false);
 	add_bool_conf_item("LEAVE_CHANS", &conf_gi_table, 0, &config_options.leave_chans, false);
-	add_bool_conf_item("KLINE_WITH_IDENT", &conf_gi_table, 0, &config_options.kline_with_ident, false);
-	add_bool_conf_item("KLINE_VERIFIED_IDENT", &conf_gi_table, 0, &config_options.kline_verified_ident, false);
+	add_bool_conf_item("SECURE", &conf_gi_table, 0, &config_options.secure, false);
 	add_conf_item("UFLAGS", &conf_gi_table, c_gi_uflags);
 	add_conf_item("CFLAGS", &conf_gi_table, c_gi_cflags);
 	add_bool_conf_item("RAW", &conf_gi_table, 0, &config_options.raw, false);
-	add_bool_conf_item("SECURE", &conf_gi_table, 0, &config_options.secure, false);
 	add_uint_conf_item("FLOOD_MSGS", &conf_gi_table, 0, &config_options.flood_msgs, 0, INT_MAX, 0);
 	add_duration_conf_item("FLOOD_TIME", &conf_gi_table, 0, &config_options.flood_time, "s", 10);
 	add_uint_conf_item("RATELIMIT_USES", &conf_gi_table, 0, &config_options.ratelimit_uses, 0, INT_MAX, 0);
 	add_duration_conf_item("RATELIMIT_PERIOD", &conf_gi_table, 0, &config_options.ratelimit_period, "s", 0);
-	add_duration_conf_item("KLINE_TIME", &conf_gi_table, 0, &config_options.kline_time, "d", 0);
 	add_duration_conf_item("VHOST_CHANGE", &conf_gi_table, 0, &config_options.vhost_change, "d", 0);
+	add_duration_conf_item("KLINE_TIME", &conf_gi_table, 0, &config_options.kline_time, "d", 0);
+	add_bool_conf_item("KLINE_WITH_IDENT", &conf_gi_table, 0, &config_options.kline_with_ident, false);
+	add_bool_conf_item("KLINE_VERIFIED_IDENT", &conf_gi_table, 0, &config_options.kline_verified_ident, false);
 	add_duration_conf_item("CLONE_TIME", &conf_gi_table, 0, &config_options.clone_time, "m", 0);
 	add_duration_conf_item("COMMIT_INTERVAL", &conf_gi_table, 0, &config_options.commit_interval, "m", 300);
+	add_bool_conf_item("DB_SAVE_BLOCKING", &conf_gi_table, 0, &config_options.db_save_blocking, false);
 	add_dupstr_conf_item("OPERSTRING", &conf_gi_table, 0, &config_options.operstring, "is an IRC Operator");
 	add_dupstr_conf_item("SERVICESTRING", &conf_gi_table, 0, &config_options.servicestring, "is a Network Service");
+	add_bool_conf_item("MATCH_MASKS_THROUGH_VHOST", &conf_gi_table, 0, &config_options.masks_through_vhost, true);
+	add_uint_conf_item("DEFAULT_PASSWORD_LENGTH", &conf_gi_table, 0, &config_options.default_pass_length, 16, 64, 16);
 
-	/* XXX: These options should probably move into operserv/clones eventually */
-	add_uint_conf_item("DEFAULT_CLONE_WARN", &conf_gi_table, 0, &config_options.default_clone_warn, 1, INT_MAX, 5);
+	/* XXX: These 3 options should probably move into operserv/clones eventually */
 	add_uint_conf_item("DEFAULT_CLONE_ALLOWED", &conf_gi_table, 0, &config_options.default_clone_allowed, 1, INT_MAX, 5);
+	add_uint_conf_item("DEFAULT_CLONE_WARN", &conf_gi_table, 0, &config_options.default_clone_warn, 1, INT_MAX, 5);
 	add_bool_conf_item("CLONE_IDENTIFIED_INCREASE_LIMIT", &conf_gi_table, 0, &config_options.clone_increase, false);
 
 	add_uint_conf_item("UPLINK_SENDQ_LIMIT", &conf_gi_table, 0, &config_options.uplink_sendq_limit, 10240, INT_MAX, 1048576);
 	add_dupstr_conf_item("LANGUAGE", &conf_gi_table, 0, &config_options.language, "en");
 	add_conf_item("EXEMPTS", &conf_gi_table, c_gi_exempts);
+	add_bool_conf_item("ALLOW_TAINT", &conf_gi_table, 0, &config_options.allow_taint, false);
 	add_conf_item("IMMUNE_LEVEL", &conf_gi_table, c_gi_immune_level);
 	add_bool_conf_item("SHOW_ENTITY_ID", &conf_gi_table, 0, &config_options.show_entity_id, false);
 	add_bool_conf_item("LOAD_DATABASE_MDEPS", &conf_gi_table, 0, &config_options.load_database_mdeps, false);
+	add_bool_conf_item("HIDE_OPERS", &conf_gi_table, 0, &config_options.hide_opers, false);
 
 	/* language:: stuff */
 	add_dupstr_conf_item("NAME", &conf_la_table, 0, &me.language_name, NULL);
@@ -315,31 +322,62 @@ init_newconf(void)
 static int
 c_loadmodule(mowgli_config_file_entry_t *ce)
 {
-	char pathbuf[4096];
-	char *name;
-
 	if (!cold_start)
 		return 0;
 
-	if (ce->vardata == NULL)
+	// loadmodule "foo/bar";
+	if (strcmp(ce->varname, "loadmodule") == 0 && ! ce->entries && ! ce->prevlevel)
 	{
-		conf_report_warning(ce, "no parameter for configuration option");
+		if (ce->vardata)
+			(void) module_load(ce->vardata);
+		else
+			(void) conf_report_warning(ce, "no parameter for configuration option");
+
 		return 0;
 	}
 
-	name = ce->vardata;
+	/* loadmodule {
+	 *   foo {
+	 *     bar;
+	 *   };
+	 * };
+	 */
+	if (ce->entries)
+	{
+		MOWGLI_ITER_FOREACH(ce, ce->entries)
+			(void) c_loadmodule(ce);
 
-	if (*name == '/')
-	{
-		module_load(name);
 		return 0;
 	}
-	else
+
+	char path[PATH_MAX] = { 0 };
+	char ptmp[PATH_MAX] = { 0 };
+
+	while (ce->prevlevel)
 	{
-		snprintf(pathbuf, 4096, "%s/%s", MODDIR, name);
-		module_load(pathbuf);
-		return 0;
+		if (ce->vardata || ! ce->varname)
+		{
+			(void) conf_report_warning(ce, "invalid parameter for configuration option");
+			return 0;
+		}
+
+		(void) mowgli_strlcpy(ptmp, ce->varname, sizeof ptmp);
+
+		if (*path)
+		{
+			(void) mowgli_strlcat(ptmp, "/", sizeof ptmp);
+			(void) mowgli_strlcat(ptmp, path, sizeof ptmp);
+		}
+
+		(void) mowgli_strlcpy(path, ptmp, sizeof path);
+
+		ce = ce->prevlevel;
 	}
+
+	if (*path)
+		(void) module_load(path);
+
+	return 0;
 }
 
 static int
@@ -354,13 +392,21 @@ c_uplink(mowgli_config_file_entry_t *ce)
 		conf_report_warning(ce, "no parameter for configuration option");
 		return 0;
 	}
-
 	if (me.name != NULL && !irccasecmp(ce->vardata, me.name))
-		conf_report_warning(ce, "uplink's server name %s should not be the same as our server name, continuing anyway", ce->vardata);
-	else if (!strchr(ce->vardata, '.'))
-		conf_report_warning(ce, "uplink's server name %s is invalid, continuing anyway", ce->vardata);
-	else if (isdigit((unsigned char)ce->vardata[0]))
-		conf_report_warning(ce, "uplink's server name %s starts with a digit, probably invalid (continuing anyway)", ce->vardata);
+	{
+		conf_report_warning(ce, "uplink's server name %s should not be the same as our server name; "
+		                        "ignoring uplink", ce->vardata);
+		return 0;
+	}
+	if (!strchr(ce->vardata, '.'))
+	{
+		conf_report_warning(ce, "uplink's server name %s is invalid; ignoring uplink", ce->vardata);
+		return 0;
+	}
+
+	if (isdigit((unsigned char)ce->vardata[0]))
+		conf_report_warning(ce, "uplink's server name %s starts with a digit, probably invalid "
+		                        "(continuing anyway)", ce->vardata);
 
 	name = ce->vardata;
 
@@ -558,6 +604,7 @@ c_operator(mowgli_config_file_entry_t *ce)
 	char *name;
 	char *password = NULL;
 	struct operclass *operclass = NULL;
+	unsigned int flags = SOPER_CONF;
 	mowgli_config_file_entry_t *topce;
 
 	if (ce->vardata == NULL)
@@ -601,8 +648,11 @@ c_operator(mowgli_config_file_entry_t *ce)
 		}
 	}
 
+	if (*name == '?')
+		flags |= SOPER_EID;
+
 	if (operclass != NULL)
-		soper_add(name, operclass->name, SOPER_CONF, password);
+		soper_add(name, operclass->name, flags, password);
 	else
 		conf_report_warning(topce, "skipping operator %s because of bad/missing parameters",
 						name);
@@ -870,7 +920,6 @@ static void
 copy_me(struct me *src, struct me *dst)
 {
 	dst->recontime = src->recontime;
-	dst->restarttime = src->restarttime;
 	dst->netname = sstrdup(src->netname);
 	dst->hidehostsuffix = sstrdup(src->hidehostsuffix);
 	dst->adminname = sstrdup(src->adminname);
@@ -1026,10 +1075,10 @@ conf_check(void)
 
 	if (chansvs.hide_xop)
 	{
-		mowgli_patricia_delete(global_template_dict,"VOP");
-		mowgli_patricia_delete(global_template_dict,"HOP");
-		mowgli_patricia_delete(global_template_dict,"AOP");
-		mowgli_patricia_delete(global_template_dict,"SOP");
+		sfree(mowgli_patricia_delete(global_template_dict,"VOP"));
+		sfree(mowgli_patricia_delete(global_template_dict,"HOP"));
+		sfree(mowgli_patricia_delete(global_template_dict,"AOP"));
+		sfree(mowgli_patricia_delete(global_template_dict,"SOP"));
 	}
 	else
 	{
@@ -1042,6 +1091,17 @@ conf_check(void)
 		slog(LG_INFO, "conf_check(): invalid `commit_interval' set in %s; defaulting to 5 minutes", config_file);
 		config_options.commit_interval = 5 * SECONDS_PER_MINUTE;
 	}
+
+	if (commit_interval_timer)
+	{
+		(void) mowgli_timer_destroy(base_eventloop, commit_interval_timer);
+
+		commit_interval_timer = NULL;
+	}
+
+	if (db_save && ! database_create && ! readonly)
+		commit_interval_timer = mowgli_timer_add(base_eventloop, "db_save_periodic", &db_save_periodic, NULL,
+		                                         config_options.commit_interval);
 
 	return true;
 }

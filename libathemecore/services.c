@@ -632,7 +632,7 @@ handle_certfp(struct sourceinfo *si, struct user *u, const char *certfp)
 		return;
 	}
 
-	if (MOWGLI_LIST_LENGTH(&mu->logins) >= me.maxlogins)
+	if (user_loginmaxed(mu))
 	{
 		notice(svs->me->nick, u->nick, "There are already \2%zu\2 sessions logged in to \2%s\2 (maximum allowed: %u).", MOWGLI_LIST_LENGTH(&mu->logins), entity(mu)->name, me.maxlogins);
 		return;
@@ -734,6 +734,18 @@ myuser_login(struct service *svs, struct user *u, struct myuser *mu, bool sendac
 		notice(svs->me->nick, u->nick, "You have \2NOT COMPLETED\2 registration verification.");
 		notice(svs->me->nick, u->nick, "An email containing nickname activation instructions was sent to \2%s\2.", mu->email);
 		notice(svs->me->nick, u->nick, "If you do not complete registration within one day, your nickname will expire.");
+	}
+
+	if (metadata_find(mu, "private:setpass:key"))
+	{
+		slog(LG_INFO, "Invalidating password reset token for %s due to successful login", entity(mu)->name);
+
+		myuser_notice(svs->me->nick, mu, "An outstanding password reset request for your account has now "
+		                                 "been invalidated.");
+
+		metadata_delete(mu, "private:setpass:key");
+		metadata_delete(mu, "private:sendpass:sender");
+		metadata_delete(mu, "private:sendpass:timestamp");
 	}
 
 	mu->lastlogin = CURRTIME;
@@ -1044,11 +1056,12 @@ get_source_name(struct sourceinfo *si)
 	}
 	else if (si->s != NULL)
 		snprintf(result, sizeof result, "%s", si->s->name);
-	else
-	{
+	else if (si->v != NULL)
 		snprintf(result, sizeof result, "<%s>%s", si->v->description,
 				si->smu ? entity(si->smu)->name : "");
-	}
+	else
+		mowgli_strlcpy(result, "???", sizeof result);
+
 	return result;
 }
 
@@ -1061,17 +1074,16 @@ get_source_mask(struct sourceinfo *si)
 		return si->v->get_source_mask(si);
 
 	if (si->su != NULL)
-	{
 		snprintf(result, sizeof result, "%s!%s@%s", si->su->nick,
 				si->su->user, si->su->vhost);
-	}
 	else if (si->s != NULL)
 		snprintf(result, sizeof result, "%s", si->s->name);
-	else
-	{
+	else if (si->v != NULL)
 		snprintf(result, sizeof result, "<%s>%s", si->v->description,
 				si->smu ? entity(si->smu)->name : "");
-	}
+	else
+		mowgli_strlcpy(result, "???", sizeof result);
+
 	return result;
 }
 
@@ -1097,11 +1109,12 @@ get_oper_name(struct sourceinfo *si)
 	}
 	else if (si->s != NULL)
 		snprintf(result, sizeof result, "%s", si->s->name);
-	else
-	{
+	else if (si->v != NULL)
 		snprintf(result, sizeof result, "<%s>%s", si->v->description,
 				si->smu ? entity(si->smu)->name : "");
-	}
+	else
+		mowgli_strlcpy(result, "???", sizeof result);
+
 	return result;
 }
 
@@ -1116,15 +1129,16 @@ get_storage_oper_name(struct sourceinfo *si)
 	if (si->smu != NULL)
 		snprintf(result, sizeof result, "%s", entity(si->smu)->name);
 	else if (si->su != NULL)
-	{
 		snprintf(result, sizeof result, "%s!%s@%s{%s}", si->su->nick,
 				si->su->user, si->su->vhost,
 				si->su->server->name);
-	}
 	else if (si->s != NULL)
 		snprintf(result, sizeof result, "%s", si->s->name);
-	else
+	else if (si->v != NULL)
 		snprintf(result, sizeof result, "<%s>", si->v->description);
+	else
+		mowgli_strlcpy(result, "???", sizeof result);
+
 	return result;
 }
 

@@ -1,6 +1,6 @@
 # Security Policy
 
-This documentation was last updated December 2019. The latest version can
+This documentation was last updated February 2022. The latest version can
 always be found at: 
 https://github.com/atheme/atheme/blob/master/SECURITY.md
 
@@ -8,7 +8,7 @@ https://github.com/atheme/atheme/blob/master/SECURITY.md
 
 Currently, the latest minor release will receive security and bugfix
 updates as new point releases. This is currently the 7.2 release series,
-with 7.2.10-r2 being the currently supported stable release.
+with 7.2.12 being the currently supported stable release.
 
 For the lifetime of the upcoming 7.3 release series, we are planning to keep
 supporting the 7.2 series with security updates as needed.
@@ -27,19 +27,19 @@ policy for details.
 
 Our security contacts are, in alphabetical order:
 
-| GitHub username | freenode account name |
-| --------------- | --------------------- |
-| @aaronmdjones   | `amdj`                |
-| @ilbelkyr       | `ilbelkyr`            |
+| GitHub username | Libera Chat account name |
+| --------------- | ------------------------ |
+| @aaronmdjones   | `amdj`                   |
+| @ilbelkyr       | `ilbelkyr`               |
 
 If circumstances permit, you can contact us via IRC by sending us a private
-message on the freenode IRC network. Please double-check you are actually
+message on the Libera Chat IRC network. Please double-check you are actually
 talking to the right people; we are generally opped in the `#atheme` channel.
 
 Otherwise, you may prefer to contact us via email at `security@atheme.org`
 instead. If you use PGP, please encrypt your mail for *all* of these keys:
 
-- [`6E7C348A716E59FAC9E6D1A04B3896ABA96B3085`][pgp-ilbelkyr]
+- [`6645CCE551CB5AF25B5636B96E52BD84AF14021F`][pgp-ilbelkyr]
 - [`97D58E607188C8C986481CB76A2F898000519052`][pgp-amdj]
 
 We will look into the issue as quickly as possible. To avoid us having to
@@ -61,5 +61,5 @@ vulnerability.
 Security-related announcements will be found in our Git repository's
 `NEWS.md` file, as well as in the release notes for applicable releases.
 
-[pgp-ilbelkyr]: https://keys.openpgp.org/vks/v1/by-fingerprint/6E7C348A716E59FAC9E6D1A04B3896ABA96B3085
+[pgp-ilbelkyr]: https://keys.openpgp.org/vks/v1/by-fingerprint/6645CCE551CB5AF25B5636B96E52BD84AF14021F
 [pgp-amdj]: https://keys.openpgp.org/vks/v1/by-fingerprint/97D58E607188C8C986481CB76A2F898000519052

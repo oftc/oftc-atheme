@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 # SPDX-URL: https://spdx.org/licenses/ISC.html
 #
-# Copyright (C) 2018-2020 Aaron Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2020 Aaron Jones <me@aaronmdjones.net>
 #
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
@@ -18,17 +18,12 @@ AC_DEFUN([ATHEME_LIBTEST_IDN], [
         [AS_HELP_STRING([--without-idn], [Do not attempt to detect GNU libidn (for modules/saslserv/scram-sha)])],
         [], [with_idn="auto"])
 
-    case "x${with_idn}" in
-        xno | xyes | xauto)
-            ;;
-        x/*)
-            LIBIDN_PATH="${with_idn}"
-            with_idn="yes"
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-idn])
-            ;;
-    esac
+    AS_CASE(["x${with_idn}"], [xno], [], [xyes], [], [xauto], [], [x/*], [
+        LIBIDN_PATH="${with_idn}"
+        with_idn="yes"
+    ], [
+        AC_MSG_ERROR([invalid option for --with-idn])
+    ])
 
     AS_IF([test "${with_idn}" != "no"], [
         AS_IF([test -n "${LIBIDN_PATH}"], [
@@ -93,4 +88,7 @@ AC_DEFUN([ATHEME_LIBTEST_IDN], [
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

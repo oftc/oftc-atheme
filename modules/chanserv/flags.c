@@ -96,6 +96,11 @@ do_list(struct sourceinfo *si, struct mychan *mc, unsigned int flags)
 		}
 	}
 
+	bool show_akicks = true;
+
+	if (chansvs.hide_pubacl_akicks)
+		show_akicks = ( chanacs_source_has_flag(mc, si, CA_ACLVIEW) || has_priv(si, PRIV_CHAN_AUSPEX) );
+
 	/* TRANSLATORS: Adjust these numbers only if the translated column
 	 * headers would exceed that length. Pay particular attention to
 	 * also changing the numbers in the format string inside the loop
@@ -114,6 +119,9 @@ do_list(struct sourceinfo *si, struct mychan *mc, unsigned int flags)
 		const char *setter_name;
 
 		ca = n->data;
+
+		if (ca->level == CA_AKICK && !show_akicks)
+			continue;
 
 		if (flags && !(ca->level & flags))
 			continue;
@@ -180,6 +188,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 	{
 		command_fail(si, fault_needmoreparams, STR_INSUFFICIENT_PARAMS, "FLAGS");
 		command_fail(si, fault_needmoreparams, _("Syntax: FLAGS <channel> [target] [flags]"));
+		sfree(target);
 		return;
 	}
 
@@ -187,12 +196,14 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 	if (!mc)
 	{
 		command_fail(si, fault_nosuch_target, STR_IS_NOT_REGISTERED, channel);
+		sfree(target);
 		return;
 	}
 
 	if (metadata_find(mc, "private:close:closer") && (target || !has_priv(si, PRIV_CHAN_AUSPEX)))
 	{
 		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, channel);
+		sfree(target);
 		return;
 	}
 
@@ -201,6 +212,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 		unsigned int flags = (target != NULL) ? flags_to_bitmask(target, 0) : 0;
 
 		do_list(si, mc, flags);
+		sfree(target);
 		return;
 	}
 
@@ -235,7 +247,6 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 	{
 		do_list(si, mc, 0);
 		sfree(target);
-
 		return;
 	}
 	else if (anope_flags_compat && !strcasecmp(target, "CLEAR") && myentity_find_ext(target) == NULL)
@@ -260,7 +271,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			atheme_object_unref(ca);
 		}
 
-		logcommand(si, CMDLOG_DO, "CLEAR:FLAGS: \2%s\2", mc->name);
+		logcommand(si, CMDLOG_SET, "CLEAR:FLAGS: \2%s\2", mc->name);
 		command_success_nodata(si, _("Cleared flags in \2%s\2."), mc->name);
 		return;
 	}
@@ -288,6 +299,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 		if (!si->smu)
 		{
 			command_fail(si, fault_noprivs, STR_NOT_LOGGED_IN);
+			sfree(target);
 			return;
 		}
 
@@ -296,8 +308,15 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			if (!(mc->flags & MC_PUBACL) && !chanacs_source_has_flag(mc, si, CA_ACLVIEW))
 			{
 				command_fail(si, fault_noprivs, STR_NOT_AUTHORIZED);
+				sfree(target);
 				return;
 			}
+
+			bool show_akicks = true;
+
+			if (chansvs.hide_pubacl_akicks)
+				show_akicks = chanacs_source_has_flag(mc, si, CA_ACLVIEW);
+
 			if (validhostmask(target))
 				ca = chanacs_find_host_literal(mc, target, 0);
 			else
@@ -305,13 +324,14 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 				if (!(mt = myentity_find_ext(target)))
 				{
 					command_fail(si, fault_nosuch_target, STR_IS_NOT_REGISTERED, target);
+					sfree(target);
 					return;
 				}
 				sfree(target);
 				target = sstrdup(mt->name);
 				ca = chanacs_find_literal(mc, mt, 0);
 			}
-			if (ca != NULL)
+			if (ca != NULL && (ca->level != CA_AKICK || show_akicks))
 			{
 				str1 = bitmask_to_flags2(ca->level, 0);
 				command_success_string(si, str1, _("Flags for \2%s\2 in \2%s\2 are \2%s\2."),
@@ -322,6 +342,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 				command_success_string(si, "", _("No flags for \2%s\2 in \2%s\2."),
 						target, channel);
 			logcommand(si, CMDLOG_GET, "FLAGS: \2%s\2 on \2%s\2", mc->name, target);
+			sfree(target);
 			return;
 		}
 
@@ -341,6 +362,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 						strcmp(flagstr, "-*"))
 				{
 					command_fail(si, fault_noprivs, STR_NOT_AUTHORIZED);
+					sfree(target);
 					return;
 				}
 			}
@@ -357,6 +379,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			{
 				command_fail(si, fault_badparams, _("No valid flags given, use \2/msg %s HELP FLAGS\2 "
 				                                    "for a list"), chansvs.me->disp);
+				sfree(target);
 				return;
 			}
 		}
@@ -372,6 +395,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 					command_fail(si, fault_badparams, _("Invalid template name given, use \2/msg "
 					                                    "%s TEMPLATE %s\2 for a list"),
 					                                    chansvs.me->disp, mc->name);
+				sfree(target);
 				return;
 			}
 			removeflags = ca_all & ~addflags;
@@ -382,6 +406,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			if (!(mt = myentity_find_ext(target)))
 			{
 				command_fail(si, fault_nosuch_target, STR_IS_NOT_REGISTERED, target);
+				sfree(target);
 				return;
 			}
 			sfree(target);
@@ -392,11 +417,13 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			if (ca->level & CA_FOUNDER && removeflags & CA_FLAGS && !(removeflags & CA_FOUNDER))
 			{
 				command_fail(si, fault_noprivs, _("You may not remove a founder's +f access."));
+				sfree(target);
 				return;
 			}
 			if (ca->level & CA_FOUNDER && removeflags & CA_FOUNDER && mychan_num_founders(mc) == 1)
 			{
 				command_fail(si, fault_noprivs, _("You may not remove the last founder."));
+				sfree(target);
 				return;
 			}
 			if (!(ca->level & CA_FOUNDER) && addflags & CA_FOUNDER)
@@ -407,18 +434,21 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 					                                         N_("Only %u founders allowed per channel."),
 					                                         chansvs.maxfounders), chansvs.maxfounders);
 					chanacs_close(ca);
+					sfree(target);
 					return;
 				}
 				if (!myentity_can_register_channel(mt))
 				{
 					command_fail(si, fault_toomany, _("\2%s\2 has too many channels registered."), mt->name);
 					chanacs_close(ca);
+					sfree(target);
 					return;
 				}
 				if (!myentity_allow_foundership(mt))
 				{
 					command_fail(si, fault_toomany, _("\2%s\2 cannot take foundership of a channel."), mt->name);
 					chanacs_close(ca);
+					sfree(target);
 					return;
 				}
 			}
@@ -437,6 +467,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			{
 				command_fail(si, fault_noprivs, _("\2%s\2 does not wish to be added to channel access lists (NEVEROP set)."), mt->name);
 				chanacs_close(ca);
+				sfree(target);
 				return;
 			}
 
@@ -444,6 +475,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			{
 				command_fail(si, fault_toomany, _("Channel \2%s\2 access list is full."), mc->name);
 				chanacs_close(ca);
+				sfree(target);
 				return;
 			}
 
@@ -454,6 +486,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			{
 				command_fail(si, fault_noprivs, _("You are not allowed to set \2%s\2 on \2%s\2 in \2%s\2."), bitmask_to_flags2(addflags, removeflags), mt->name, mc->name);
 				chanacs_close(ca);
+				sfree(target);
 				return;
 			}
 
@@ -467,6 +500,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			if (addflags & CA_FOUNDER)
 			{
 		                command_fail(si, fault_badparams, _("You may not set founder status on a hostmask."));
+				sfree(target);
 				return;
 			}
 
@@ -475,6 +509,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			{
 				command_fail(si, fault_toomany, _("Channel \2%s\2 access list is full."), mc->name);
 				chanacs_close(ca);
+				sfree(target);
 				return;
 			}
 
@@ -485,6 +520,7 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 			{
 		                command_fail(si, fault_noprivs, _("You are not allowed to set \2%s\2 on \2%s\2 in \2%s\2."), bitmask_to_flags2(addflags, removeflags), target, mc->name);
 				chanacs_close(ca);
+				sfree(target);
 				return;
 			}
 
@@ -497,8 +533,10 @@ cs_cmd_flags(struct sourceinfo *si, int parc, char *parv[])
 		if ((addflags | removeflags) == 0)
 		{
 			command_fail(si, fault_nochange, _("Channel access to \2%s\2 for \2%s\2 unchanged."), channel, target);
+			sfree(target);
 			return;
 		}
+
 		flagstr = bitmask_to_flags2(addflags, removeflags);
 		command_success_nodata(si, _("Flags \2%s\2 were set on \2%s\2 in \2%s\2."), flagstr, target, channel);
 		logcommand(si, CMDLOG_SET, "FLAGS: \2%s\2 \2%s\2 \2%s\2", mc->name, target, flagstr);

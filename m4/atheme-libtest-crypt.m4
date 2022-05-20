@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: ISC
 # SPDX-URL: https://spdx.org/licenses/ISC.html
 #
-# Copyright (C) 2018-2019 Aaron Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2019 Aaron Jones <me@aaronmdjones.net>
 #
 # -*- Atheme IRC Services -*-
 # Atheme Build System Component
@@ -20,13 +20,9 @@ AC_DEFUN([ATHEME_LIBTEST_CRYPT], [
         [AS_HELP_STRING([--without-crypt], [Do not attempt to detect crypt(3) (for modules/crypto/crypt3-*)])],
         [], [with_crypt="auto"])
 
-    case "x${with_crypt}" in
-        xno | xyes | xauto)
-            ;;
-        *)
-            AC_MSG_ERROR([invalid option for --with-crypt])
-            ;;
-    esac
+    AS_CASE(["x${with_crypt}"], [xno], [], [xyes], [], [xauto], [], [
+        AC_MSG_ERROR([invalid option for --with-crypt])
+    ])
 
     AS_IF([test "${with_crypt}" != "no"], [
         AC_SEARCH_LIBS([crypt], [crypt], [
@@ -80,4 +76,7 @@ AC_DEFUN([ATHEME_LIBTEST_CRYPT], [
 
     CFLAGS="${CFLAGS_SAVED}"
     LIBS="${LIBS_SAVED}"
+
+    unset CFLAGS_SAVED
+    unset LIBS_SAVED
 ])

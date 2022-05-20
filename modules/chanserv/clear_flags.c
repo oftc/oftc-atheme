@@ -33,15 +33,15 @@ cs_cmd_clear_flags(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	if (metadata_find(mc, "private:close:closer"))
-	{
-		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, name);
-		return;
-	}
-
 	if (!chanacs_source_has_flag(mc, si, CA_FOUNDER))
 	{
 		command_fail(si, fault_noprivs, STR_NOT_AUTHORIZED);
+		return;
+	}
+
+	if (metadata_find(mc, "private:close:closer"))
+	{
+		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, name);
 		return;
 	}
 
@@ -57,7 +57,7 @@ cs_cmd_clear_flags(struct sourceinfo *si, int parc, char *parv[])
 		atheme_object_unref(ca);
 	}
 
-	logcommand(si, CMDLOG_DO, "CLEAR:FLAGS: \2%s\2", mc->name);
+	logcommand(si, CMDLOG_SET, "CLEAR:FLAGS: \2%s\2", mc->name);
 	command_success_nodata(si, ngettext(N_("Cleared \2%u\2 access entry in \2%s\2."),
 	                                    N_("Cleared \2%u\2 access entries in \2%s\2."),
 	                                    changes), changes, name);

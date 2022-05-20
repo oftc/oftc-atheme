@@ -5,12 +5,12 @@
 # Copyright (C) 2010-2012 William Pitcock <nenolod@atheme.org>
 # Copyright (C) 2010 Jilles Tjoelker <jilles@stack.nl>
 # Copyright (C) 2011-2012 JD Horelick <jdhore1@gmail.com>
-# Copyright (C) 2018-2020 Aaron M. D. Jones <aaronmdjones@gmail.com>
+# Copyright (C) 2018-2020 Aaron M. D. Jones <me@aaronmdjones.net>
 
 -include extra.mk
 
 SUBDIRS =                   \
-    ${LIBMOWGLI_COND_D}     \
+    ${SUBMODULE_LIBMOWGLI}  \
     ${PODIR_COND_D}         \
     include                 \
     libathemecore           \
@@ -28,6 +28,6 @@ buildsys.mk:
 	@exit 1
 
 # Explicit dependencies need to be expressed to ensure parallel builds don't die
-libathemecore: ${LIBMOWGLI_COND_D} include
+libathemecore: ${SUBMODULE_LIBMOWGLI} include
 modules: libathemecore
 src: libathemecore

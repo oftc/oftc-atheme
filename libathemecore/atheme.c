@@ -40,6 +40,7 @@ struct nicksvs nicksvs;
 mowgli_list_t taint_list = { NULL, NULL, 0 };
 
 mowgli_eventloop_t *base_eventloop = NULL;
+mowgli_eventloop_timer_t *commit_interval_timer = NULL;
 
 struct me me;
 struct cnt cnt;
@@ -181,6 +182,40 @@ detach_console(int *daemonize_pipe)
 #endif
 }
 
+#ifdef ENABLE_NLS
+static int ATHEME_FATTR_PRINTF(3, 4)
+test_vsnprintf_iso_c99_driver(char *const restrict buf, const size_t len, const char *const restrict fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	const int result = vsnprintf(buf, len, fmt, ap);
+	va_end(ap);
+	return result;
+}
+
+static bool
+test_vsnprintf_iso_c99_positional(void)
+{
+	char buf[BUFSIZE];
+
+	(void) memset(buf, 0xFF, sizeof buf);
+	(void) test_vsnprintf_iso_c99_driver(buf, sizeof buf, "%3$s %1$s %4$u %2$s", "foo", "bar", "baz", 42U);
+
+	return (strcmp(buf, "baz foo 42 bar") == 0);
+}
+
+static bool
+test_snprintf_iso_c99_positional(void)
+{
+	char buf[BUFSIZE];
+
+	(void) memset(buf, 0xFF, sizeof buf);
+	(void) snprintf(buf, sizeof buf, "%3$s %1$s %4$u %2$s", "foo", "bar", "baz", 42U);
+
+	return (strcmp(buf, "baz foo 42 bar") == 0);
+}
+#endif
+
 bool ATHEME_FATTR_WUR
 libathemecore_early_init(void)
 {
@@ -190,21 +225,37 @@ libathemecore_early_init(void)
 		return true;
 
 #ifdef ENABLE_NLS
-	/* Prepare gettext */
-	if (! setlocale(LC_ALL, ""))
+	(void) languages_set_available(false);
+
+	/* For translations to make any sense most of the time, the order of words or values has to be changed.
+	 * Here we verify that does work, so that we can decide whether to enable translations or not.
+	 * If it doesn't work, there's no point enabling translations, because the output will be garbage.
+	 */
+	if (! test_vsnprintf_iso_c99_positional())
+	{
+		(void) fprintf(stderr, "Your vsnprintf(3) does not support positional format tokens!\n");
+		(void) fprintf(stderr, "Not enabling language support. Build with '--disable-nls' to silence.\n");
+	}
+	else if (! test_snprintf_iso_c99_positional())
+	{
+		(void) fprintf(stderr, "Your snprintf(3) does not support positional format tokens!\n");
+		(void) fprintf(stderr, "Not enabling language support. Build with '--disable-nls' to silence.\n");
+	}
+	else if (! setlocale(LC_ALL, ""))
 	{
 		(void) perror("setlocale(3)");
-		return false;
 	}
-	if (! textdomain(PACKAGE_TARNAME))
-	{
-		(void) perror("textdomain(3)");
-		return false;
-	}
-	if (! bindtextdomain(PACKAGE_TARNAME, LOCALEDIR))
+	else if (! bindtextdomain(PACKAGE_TARNAME, LOCALEDIR))
 	{
 		(void) perror("bindtextdomain(3)");
-		return false;
+	}
+	else if (! textdomain(PACKAGE_TARNAME))
+	{
+		(void) perror("textdomain(3)");
+	}
+	else
+	{
+		(void) languages_set_available(true);
 	}
 #endif /* ENABLE_NLS */
 
@@ -325,10 +376,11 @@ atheme_setup(void)
 	common_ctcp_init();
 }
 
-static void
+void
 db_save_periodic(void *unused)
 {
 	slog(LG_DEBUG, "db_save_periodic(): initiating periodic database write");
+
 	db_save(unused, DB_SAVE_BG_REGULAR);
 }
 
@@ -472,7 +524,20 @@ atheme_main(int argc, char *argv[])
 
 	if (!backend_loaded && authservice_loaded)
 	{
-		slog(LG_ERROR, "atheme: no backend modules loaded, see your configuration file.");
+		slog(LG_ERROR, "atheme: no backend modules loaded; check your configuration file.");
+		exit(EXIT_FAILURE);
+	}
+	if (! me.name)
+	{
+		slog(LG_ERROR, "atheme: we have not been configured with a server name; check your "
+		               "configuration file.");
+		exit(EXIT_FAILURE);
+	}
+	if (uplink_find(me.name))
+	{
+		// Necessary if serverinfo{} comes after uplink{} in the config file
+		slog(LG_ERROR, "atheme: you have duplicated an uplink server name and our server name; "
+		               "check your configuration file.");
 		exit(EXIT_FAILURE);
 	}
 
@@ -495,6 +560,9 @@ atheme_main(int argc, char *argv[])
 		slog(LG_INFO, "atheme: a new database was created; please restart services without the -b option.");
 		return 0;
 	}
+
+	if (conf_need_rehash)
+		conf_rehash();
 
 #ifdef HAVE_GETPID
 	/* write pid */
@@ -521,13 +589,6 @@ atheme_main(int argc, char *argv[])
 
 	/* no longer starting */
 	runflags &= ~RF_STARTING;
-
-	/* we probably have a few open already... */
-	me.maxfd = 3;
-
-	/* DB commit interval is configurable */
-	if (db_save && !readonly)
-		mowgli_timer_add(base_eventloop, "db_save", db_save_periodic, NULL, config_options.commit_interval);
 
 	/* check expires every hour */
 	mowgli_timer_add(base_eventloop, "expire_check", expire_check, NULL, SECONDS_PER_HOUR);

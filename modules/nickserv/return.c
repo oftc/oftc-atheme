@@ -18,6 +18,7 @@ ns_cmd_return(struct sourceinfo *si, int parc, char *parv[])
 	char oldmail[EMAILLEN + 1];
 	struct myuser *mu;
 	struct user *u;
+	bool force_hidemail = false;
 	mowgli_node_t *n, *tn;
 
 	if (!target || !newmail)
@@ -46,7 +47,7 @@ ns_cmd_return(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	newpass = random_string(16);
+	newpass = random_string(config_options.default_pass_length);
 	mowgli_strlcpy(oldmail, mu->email, sizeof oldmail);
 	myuser_set_email(mu, newmail);
 
@@ -57,6 +58,14 @@ ns_cmd_return(struct sourceinfo *si, int parc, char *parv[])
 				entity(mu)->name, mu->email);
 		sfree(newpass);
 		return;
+	}
+
+	if (!(mu->flags & MU_HIDEMAIL)                    // doesn't have HIDEMAIL
+		&& config_options.defuflags & MU_HIDEMAIL // HIDEMAIL is in default uflags
+		&& strcmp(oldmail, newmail))              // new email is different
+	{
+		mu->flags |= MU_HIDEMAIL;
+		force_hidemail = true;
 	}
 
 	set_password(mu, newpass);
@@ -85,12 +94,19 @@ ns_cmd_return(struct sourceinfo *si, int parc, char *parv[])
 	mu->flags |= MU_NOBURSTLOGIN;
 	authcookie_destroy_all(mu);
 
-	wallops("%s returned the account \2%s\2 to \2%s\2", get_oper_name(si), target, newmail);
-	logcommand(si, CMDLOG_ADMIN | LG_REGISTER, "RETURN: \2%s\2 to \2%s\2", target, newmail);
+	wallops("\2%s\2 returned the account \2%s\2 to \2%s\2 from \2%s\2%s",
+						get_oper_name(si), target, newmail, oldmail,
+						force_hidemail ? " (and set HIDEMAIL)" : "");
+	logcommand(si, CMDLOG_ADMIN | LG_REGISTER, "RETURN: \2%s\2 to \2%s\2 from \2%s\2%s",
+						target, newmail, oldmail,
+						force_hidemail ? " (HIDEMAIL)" : "");
 	command_success_nodata(si, _("The e-mail address for \2%s\2 has been set to \2%s\2"),
 						target, newmail);
 	command_success_nodata(si, _("A random password has been set; it has been sent to \2%s\2."),
 						newmail);
+	if (force_hidemail)
+		command_success_nodata(si, _("The HIDEMAIL flag has been set for \2%s\2 due to the email change."),
+						target);
 }
 
 static struct command ns_return = {

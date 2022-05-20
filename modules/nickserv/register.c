@@ -77,18 +77,21 @@ ns_cmd_register(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
-	if (nicksvs.no_nick_ownership || si->su == NULL)
-	{
-		if (strchr(account, ' ') || strchr(account, '\n') || strchr(account, '\r') || account[0] == '=' || account[0] == '#' || account[0] == '@' || account[0] == '+' || account[0] == '%' || account[0] == '!' || strchr(account, ','))
-		{
-			command_fail(si, fault_badparams, _("The account name \2%s\2 is invalid."), account);
-			return;
-		}
-	}
-
-	if (strlen(account) > NICKLEN)
+	if (! is_valid_nick(account))
 	{
 		command_fail(si, fault_badparams, _("The account name \2%s\2 is invalid."), account);
+		return;
+	}
+
+	if (!validemail(email))
+	{
+		command_fail(si, fault_badparams, _("\2%s\2 is not a valid e-mail address."), email);
+		return;
+	}
+
+	if (!email_within_limits(email))
+	{
+		command_fail(si, fault_toomany, _("\2%s\2 has too many accounts registered."), email);
 		return;
 	}
 
@@ -136,18 +139,6 @@ ns_cmd_register(struct sourceinfo *si, int parc, char *parv[])
 		hook_call_nick_can_register(&hdata);
 		if (hdata.approved != 0)
 			return;
-	}
-
-	if (!validemail(email))
-	{
-		command_fail(si, fault_badparams, _("\2%s\2 is not a valid e-mail address."), email);
-		return;
-	}
-
-	if (!email_within_limits(email))
-	{
-		command_fail(si, fault_toomany, _("\2%s\2 has too many accounts registered."), email);
-		return;
 	}
 
 	if (si->su && !auth_module_loaded && !crypt_get_default_provider())
@@ -219,7 +210,7 @@ ns_cmd_register(struct sourceinfo *si, int parc, char *parv[])
 
 	if (is_soper(mu))
 	{
-		wallops("%s registered the nick \2%s\2 and gained services operator privileges.", get_oper_name(si), entity(mu)->name);
+		wallops("\2%s\2 registered the nick \2%s\2 and gained services operator privileges.", get_oper_name(si), entity(mu)->name);
 		logcommand(si, CMDLOG_ADMIN, "SOPER: \2%s\2 as \2%s\2", get_oper_name(si), entity(mu)->name);
 	}
 

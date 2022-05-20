@@ -3,7 +3,7 @@
  * SPDX-URL: https://spdx.org/licenses/ISC.html
  *
  * Copyright (C) 2014 Mantas Mikulėnas <grawity@gmail.com>
- * Copyright (C) 2017-2019 Aaron M. D. Jones <aaronmdjones@gmail.com>
+ * Copyright (C) 2017-2019 Aaron M. D. Jones <me@aaronmdjones.net>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -706,6 +706,7 @@ scram_step_success(struct sasl_session *const restrict p)
 	(void) smemzero(s->mu->pass, sizeof s->mu->pass);
 	(void) memcpy(s->mu->pass, buf, (size_t) ret);
 	(void) smemzero(buf, sizeof buf);
+	(void) hook_call_myuser_changed_password_or_hash(s->mu);
 
 end:
 	(void) smemzero(csk64, sizeof csk64);

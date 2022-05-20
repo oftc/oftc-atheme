@@ -132,6 +132,12 @@ cs_cmd_unban(struct sourceinfo *si, int parc, char *parv[])
 		return;
 	}
 
+	if (metadata_find(mc, "private:close:closer"))
+	{
+		command_fail(si, fault_noprivs, STR_CHANNEL_IS_CLOSED, channel);
+		return;
+	}
+
 	if ((tu = user_find_named(target)))
 	{
 		mowgli_node_t *n, *tn;
@@ -201,6 +207,7 @@ static struct command cs_unban = {
 static void
 mod_init(struct module *const restrict m)
 {
+	MODULE_CONFLICT(m, "chanserv/unban_self")
 	MODULE_TRY_REQUEST_DEPENDENCY(m, "chanserv/main")
 
         service_named_bind_command("chanserv", &cs_ban);
