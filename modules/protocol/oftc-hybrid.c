@@ -121,7 +121,7 @@ oftc_hybrid_introduce_nick(struct user *u)
 {
 	const char *umode = user_get_umodestr(u);
 
-	sts(":%s UID %s 1 %lu %s %s %s 0 %s :%s", me.numeric, u->nick, (unsigned long)u->ts, umode, u->user, u->host, u->uid, u->gecos);
+	sts(":%s UID %s 1 %lu %s %s %s %s %s :%s", me.numeric, u->nick, (unsigned long)u->ts, umode, u->user, u->host, (u->ip && u->ip[0] != '\0') ? u->ip : "0", u->uid, u->gecos);
 }
 
 /* WALLOPS wrapper */
